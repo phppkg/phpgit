@@ -1,3 +1,5 @@
 /vendor/
 /build/
 composer.phar
+*.cache
+.DS_Store

@@ -2,8 +2,10 @@
 
 namespace PhpGit\Command;
 
+use Iterator;
 use PhpGit\AbstractCommand;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\Options;
+use Traversable;
 
 /**
  * Move or rename a file, a directory, or a symlink - `git mv`
@@ -26,9 +28,9 @@ class Mv extends AbstractCommand
      *
      * - **force** (_boolean_) Force renaming or moving of a file even if the target exists
      *
-     * @param string|array|\Iterator $source      The files to move
-     * @param string                 $destination The destination
-     * @param array                  $options     [optional] An array of options {@see Mv::setDefaultOptions}
+     * @param string|array|Iterator $source      The files to move
+     * @param string                $destination The destination
+     * @param array                 $options     [optional] An array of options {@see Mv::setDefaultOptions}
      *
      * @return bool
      */
@@ -40,7 +42,7 @@ class Mv extends AbstractCommand
 
         $this->addFlags($builder, $options, array('force'));
 
-        if (!is_array($source) && !($source instanceof \Traversable)) {
+        if (!is_array($source) && !($source instanceof Traversable)) {
             $source = array($source);
         }
 
@@ -60,7 +62,7 @@ class Mv extends AbstractCommand
      *
      * - **force** (_boolean_) Force renaming or moving of a file even if the target exists
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function setDefaultOptions(Options $resolver): void
     {
         $resolver->setDefaults(array(
             'force' => false

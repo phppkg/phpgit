@@ -4,7 +4,7 @@ namespace PhpGit\Command;
 
 use PhpGit\AbstractCommand;
 use PhpGit\Exception\GitException;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\Options;
 
 /**
  * Get and set repository or global options - `git config`
@@ -70,7 +70,7 @@ class Config extends AbstractCommand
      * @return bool
      *@throws GitException
      */
-    public function set($name, $value, array $options = array())
+    public function set($name, $value, array $options = array()): bool
     {
         $options = $this->resolve($options);
         $builder = $this->git->getProcessBuilder()
@@ -100,7 +100,7 @@ class Config extends AbstractCommand
      * @return bool
      *@throws GitException
      */
-    public function add($name, $value, array $options = array())
+    public function add($name, $value, array $options = array()): bool
     {
         $options = $this->resolve($options);
         $builder = $this->git->getProcessBuilder()
@@ -121,7 +121,7 @@ class Config extends AbstractCommand
      * - **global** (_boolean_) Read or write configuration options for the current user
      * - **system** (_boolean_) Read or write configuration options for all users on the current machine
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function setDefaultOptions(Options $resolver): void
     {
         $resolver->setDefaults(array(
             'global' => false,

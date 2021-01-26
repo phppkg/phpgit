@@ -47,7 +47,7 @@ class SetBranches extends AbstractCommand
      *
      * @return bool
      */
-    public function set($name, array $branches)
+    public function set($name, array $branches): bool
     {
         $builder = $this->git->getProcessBuilder()
             ->add('remote')
@@ -78,7 +78,7 @@ class SetBranches extends AbstractCommand
      *
      * @return bool
      */
-    public function add($name, array $branches)
+    public function add($name, array $branches): bool
     {
         $builder = $this->git->getProcessBuilder()
             ->add('remote')

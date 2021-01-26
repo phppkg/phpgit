@@ -27,7 +27,7 @@ class Cat extends AbstractCommand
      * @throws GitException
      * @return string
      */
-    public function blob($object)
+    public function blob($object): string
     {
         $process = $this->git->getProcessBuilder()
             ->add('cat-file')
@@ -52,7 +52,7 @@ class Cat extends AbstractCommand
      * @throws GitException
      * @return string
      */
-    public function type($object)
+    public function type($object): string
     {
         $process = $this->git->getProcessBuilder()
             ->add('cat-file')
@@ -77,7 +77,7 @@ class Cat extends AbstractCommand
      * @throws GitException
      * @return string
      */
-    public function size($object)
+    public function size($object): string
     {
         $process = $this->git->getProcessBuilder()
             ->add('cat-file')

@@ -2,7 +2,9 @@
 
 namespace PhpGit\Command;
 
+use DateTime;
 use PhpGit\AbstractCommand;
+use Traversable;
 
 /**
  * Summarize 'git log' output - `git shortlog`
@@ -32,7 +34,8 @@ class Shortlog extends AbstractCommand
      *     //...
      * ]
      * ```
-     * @param string|array|\Traversable $commits [optional] Defaults to HEAD
+     *
+     * @param string|array|Traversable $commits [optional] Defaults to HEAD
      *
      * @return array
      */
@@ -45,7 +48,7 @@ class Shortlog extends AbstractCommand
             ->add('-w256,2,2')
             ->add('-e');
 
-        if (!is_array($commits) && !($commits instanceof \Traversable)) {
+        if (!is_array($commits) && !($commits instanceof Traversable)) {
             $commits = array($commits);
         }
 
@@ -62,7 +65,7 @@ class Shortlog extends AbstractCommand
         $author = null;
 
         foreach ($lines as $line) {
-            if (substr($line, 0, 1) != ' ') {
+            if (substr($line, 0, 1) !== ' ') {
                 if (preg_match('/([^<>]*? <[^<>]+>)/', $line, $matches)) {
                     $author = $matches[1];
                     $result[$author] = array();
@@ -73,7 +76,7 @@ class Shortlog extends AbstractCommand
             [$commit, $date, $subject] = explode('|', trim($line), 3);
             $result[$author][] = array(
                 'commit'  => $commit,
-                'date'    => new \DateTime($date),
+                'date'    => new DateTime($date),
                 'subject' => $subject
             );
         }
@@ -103,7 +106,7 @@ class Shortlog extends AbstractCommand
      *
      * @return array
      */
-    public function summary($commits = 'HEAD')
+    public function summary($commits = 'HEAD'): array
     {
         $builder = $this->git->getProcessBuilder()
             ->add('shortlog')
@@ -111,7 +114,7 @@ class Shortlog extends AbstractCommand
             ->add('--summary')
             ->add('-e');
 
-        if (!is_array($commits) && !($commits instanceof \Traversable)) {
+        if (!is_array($commits) && !($commits instanceof Traversable)) {
             $commits = array($commits);
         }
 

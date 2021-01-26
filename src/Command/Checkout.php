@@ -4,7 +4,7 @@ namespace PhpGit\Command;
 
 use PhpGit\AbstractCommand;
 use PhpGit\Exception\GitException;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\Options;
 
 /**
  * Checkout a branch or paths to the working tree - `git checkout`
@@ -63,13 +63,12 @@ class Checkout extends AbstractCommand
      * - **force** (_boolean_) Proceed even if the index or the working tree differs from HEAD
      *
      * @param string $branch     Branch to checkout
-     * @param string $startPoint The name of a commit at which to start the new branch
+     * @param null   $startPoint The name of a commit at which to start the new branch
      * @param array  $options    [optional] An array of options {@see Checkout::setDefaultOptions}
      *
      * @return bool
-     *@throws GitException
      */
-    public function create($branch, $startPoint = null, array $options = array())
+    public function create($branch, $startPoint = null, array $options = array()): bool
     {
         $options = $this->resolve($options);
         $builder = $this->git->getProcessBuilder()
@@ -103,13 +102,12 @@ class Checkout extends AbstractCommand
      * - **force** (_boolean_) Proceed even if the index or the working tree differs from HEAD
      *
      * @param string $branch     Branch to checkout
-     * @param string $startPoint [optional] The name of a commit at which to start the new branch
+     * @param null   $startPoint [optional] The name of a commit at which to start the new branch
      * @param array  $options    [optional] An array of options {@see Checkout::setDefaultOptions}
      *
      * @return bool
-     *@throws GitException
      */
-    public function orphan($branch, $startPoint = null, array $options = array())
+    public function orphan($branch, $startPoint = null, array $options = array()): bool
     {
         $options = $this->resolve($options);
         $builder = $this->git->getProcessBuilder()
@@ -134,7 +132,7 @@ class Checkout extends AbstractCommand
      * - **force** (_boolean_) Proceed even if the index or the working tree differs from HEAD
      * - **merge** (_boolean_) Merges local modification
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function setDefaultOptions(Options $resolver): void
     {
         $resolver->setDefaults(array(
             'force' => false,

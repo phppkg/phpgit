@@ -4,7 +4,8 @@ namespace PhpGit\Command;
 
 use PhpGit\AbstractCommand;
 use PhpGit\Exception\GitException;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\Options;
+use Traversable;
 
 /**
  * Add file contents to the index - `git add`
@@ -29,8 +30,8 @@ class Add extends AbstractCommand
      * - **force**          (_boolean_) Allow adding otherwise ignored files
      * - **ignore-errors**  (_boolean_) Do not abort the operation
      *
-     * @param string|array|\Traversable $file    Files to add content from
-     * @param array                     $options [optional] An array of options {@see Add::setDefaultOptions}
+     * @param string|array|Traversable $file    Files to add content from
+     * @param array                    $options [optional] An array of options {@see Add::setDefaultOptions}
      *
      * @return bool
      *@throws GitException
@@ -43,7 +44,7 @@ class Add extends AbstractCommand
 
         $this->addFlags($builder, $options);
 
-        if (!is_array($file) && !($file instanceof \Traversable)) {
+        if (!is_array($file) && !($file instanceof Traversable)) {
             $file = array($file);
         }
 
@@ -62,7 +63,7 @@ class Add extends AbstractCommand
      * - **force**          (_boolean_) Allow adding otherwise ignored files
      * - **ignore-errors**  (_boolean_) Do not abort the operation
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function setDefaultOptions(Options $resolver): void
     {
         $resolver->setDefaults(array(
             //'dry-run'        => false,

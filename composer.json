@@ -21,7 +21,7 @@
         "symfony/options-resolver": "~4.0"
     },
     "require-dev": {
-        "symfony/filesystem": ">=2.3"
+        "symfony/filesystem": "~4.0"
     },
     "autoload": {
         "psr-4": {

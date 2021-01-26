@@ -3,7 +3,8 @@
 namespace PhpGit\Command;
 
 use PhpGit\AbstractCommand;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\Options;
+use Traversable;
 
 /**
  * Remove files from the working tree and from the index - `git rm`
@@ -28,8 +29,8 @@ class Rm extends AbstractCommand
      * - **cached**    (_boolean_) Unstage and remove paths only from the index
      * - **recursive** (_boolean_) Allow recursive removal when a leading directory name is given
      *
-     * @param string|array|\Traversable $file    Files to remove. Fileglobs (e.g.  *.c) can be given to remove all matching files.
-     * @param array                     $options [optional] An array of options {@see Rm::setDefaultOptions}
+     * @param string|array|Traversable $file    Files to remove. Fileglobs (e.g.  *.c) can be given to remove all matching files.
+     * @param array                    $options [optional] An array of options {@see Rm::setDefaultOptions}
      *
      * @return bool
      */
@@ -45,7 +46,7 @@ class Rm extends AbstractCommand
             $builder->add('-r');
         }
 
-        if (!is_array($file) && !($file instanceof \Traversable)) {
+        if (!is_array($file) && !($file instanceof Traversable)) {
             $file = array($file);
         }
 
@@ -66,12 +67,12 @@ class Rm extends AbstractCommand
      * - **force**     (_boolean_) Override the up-to-date check
      * - **recursive** (_boolean_) Allow recursive removal when a leading directory name is given
      *
-     * @param string|array|\Traversable $file    Files to remove. Fileglobs (e.g.  *.c) can be given to remove all matching files.
-     * @param array                     $options [optional] An array of options {@see Rm::setDefaultOptions}
+     * @param string|array|Traversable $file    Files to remove. Fileglobs (e.g.  *.c) can be given to remove all matching files.
+     * @param array                    $options [optional] An array of options {@see Rm::setDefaultOptions}
      *
      * @return bool
      */
-    public function cached($file, array $options = array())
+    public function cached($file, array $options = array()): bool
     {
         $options['cached'] = true;
 
@@ -85,7 +86,7 @@ class Rm extends AbstractCommand
      * - **cached**    (_boolean_) Unstage and remove paths only from the index
      * - **recursive** (_boolean_) Allow recursive removal when a leading directory name is given
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function setDefaultOptions(Options $resolver): void
     {
         $resolver->setDefaults(array(
             'force'     => false,

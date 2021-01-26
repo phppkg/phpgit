@@ -4,7 +4,8 @@ namespace PhpGit\Command;
 
 use PhpGit\AbstractCommand;
 use PhpGit\Exception\GitException;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\Options;
+use Traversable;
 
 /**
  * Create, list, delete or verify a tag object signed with GPG - `git tag`
@@ -59,13 +60,12 @@ class Tag extends AbstractCommand
      * - **force**    (_boolean_) Replace an existing tag with the given name (instead of failing)
      *
      * @param string $tag     The name of the tag to create
-     * @param string $commit  The SHA1 object name of the commit object
+     * @param null   $commit  The SHA1 object name of the commit object
      * @param array  $options [optional] An array of options {@see Tag::setDefaultOptions}
      *
      * @return bool
-     *@throws GitException
      */
-    public function create($tag, $commit = null, array $options = array())
+    public function create($tag, $commit = null, array $options = array()): bool
     {
         $options = $this->resolve($options);
         $builder = $this->git->getProcessBuilder()
@@ -86,18 +86,18 @@ class Tag extends AbstractCommand
     /**
      * Delete existing tags with the given names
      *
-     * @param string|array|\Traversable $tag The name of the tag to create
+     * @param string|array|Traversable $tag The name of the tag to create
      *
-     * @throws GitException
      * @return bool
+     *@throws GitException
      */
-    public function delete($tag)
+    public function delete($tag): bool
     {
         $builder = $this->git->getProcessBuilder()
             ->add('tag')
             ->add('-d');
 
-        if (!is_array($tag) && !($tag instanceof \Traversable)) {
+        if (!is_array($tag) && !($tag instanceof Traversable)) {
             $tag = array($tag);
         }
 
@@ -113,18 +113,18 @@ class Tag extends AbstractCommand
     /**
      * Verify the gpg signature of the given tag names
      *
-     * @param string|array|\Traversable $tag The name of the tag to create
+     * @param string|array|Traversable $tag The name of the tag to create
      *
-     * @throws GitException
      * @return bool
+     *@throws GitException
      */
-    public function verify($tag)
+    public function verify($tag): bool
     {
         $builder = $this->git->getProcessBuilder()
             ->add('tag')
             ->add('-v');
 
-        if (!is_array($tag) && !($tag instanceof \Traversable)) {
+        if (!is_array($tag) && !($tag instanceof Traversable)) {
             $tag = array($tag);
         }
 
@@ -144,7 +144,7 @@ class Tag extends AbstractCommand
      * - **sign**     (_boolean_) Make a GPG-signed tag, using the default e-mail address’s key
      * - **force**    (_boolean_) Replace an existing tag with the given name (instead of failing)
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function setDefaultOptions(Options $resolver): void
     {
         $resolver->setDefaults(array(
             'annotate' => false,

@@ -3,7 +3,7 @@
 namespace PhpGit\Command;
 
 use PhpGit\AbstractCommand;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\Options;
 
 /**
  * Forward-port local commits to the updated upstream head - `git rebase`
@@ -29,9 +29,9 @@ class Rebase extends AbstractCommand
      * - **no-verify**     (_boolean_) Bypasses the pre-rebase hook
      * - **force-rebase**  (_boolean_) Force the rebase even if the current branch is a descendant of the commit you are rebasing onto
      *
-     * @param string $upstream [optional] Upstream branch to compare against
-     * @param string $branch   [optional] Working branch; defaults to HEAD
-     * @param array  $options  [optional] An array of options {@see Rebase::setDefaultOptions}
+     * @param null  $upstream [optional] Upstream branch to compare against
+     * @param null  $branch   [optional] Working branch; defaults to HEAD
+     * @param array $options  [optional] An array of options {@see Rebase::setDefaultOptions}
      *
      * @return bool
      */
@@ -63,7 +63,7 @@ class Rebase extends AbstractCommand
      *
      * @return bool
      */
-    public function continues()
+    public function continues(): bool
     {
         $builder = $this->git->getProcessBuilder()
             ->add('rebase')
@@ -79,7 +79,7 @@ class Rebase extends AbstractCommand
      *
      * @return bool
      */
-    public function abort()
+    public function abort(): bool
     {
         $builder = $this->git->getProcessBuilder()
             ->add('rebase')
@@ -95,7 +95,7 @@ class Rebase extends AbstractCommand
      *
      * @return bool
      */
-    public function skip()
+    public function skip(): bool
     {
         $builder = $this->git->getProcessBuilder()
             ->add('rebase')
@@ -113,7 +113,7 @@ class Rebase extends AbstractCommand
      * - **no-verify**     (_boolean_) Bypasses the pre-rebase hook
      * - **force-rebase**  (_boolean_) Force the rebase even if the current branch is a descendant of the commit you are rebasing onto
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function setDefaultOptions(Options $resolver): void
     {
         $resolver->setDefaults(array(
             'onto'         => null,

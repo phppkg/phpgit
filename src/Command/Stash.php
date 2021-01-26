@@ -42,12 +42,12 @@ class Stash extends AbstractCommand
      * $git->stash->save('My stash');
      * ```
      *
-     * @param string $message [optional] The description along with the stashed state
-     * @param array  $options [optional] An array of options {@see Stash::setDefaultOptions}
+     * @param null  $message [optional] The description along with the stashed state
+     * @param array $options [optional] An array of options {@see Stash::setDefaultOptions}
      *
      * @return bool
      */
-    public function save($message = null, array $options = array())
+    public function save($message = null, array $options = array()): bool
     {
         $options = $this->resolve($options);
         $builder = $this->git->getProcessBuilder()
@@ -83,7 +83,7 @@ class Stash extends AbstractCommand
      *
      * @return array
      */
-    public function lists(array $options = array())
+    public function lists(array $options = array()): array
     {
         $builder = $this->git->getProcessBuilder()
             ->add('stash')
@@ -121,11 +121,11 @@ class Stash extends AbstractCommand
      *  1 files changed, 1 insertions(+), 1 deletions(-)
      * ```
      *
-     * @param string $stash The stash to show
+     * @param null $stash The stash to show
      *
      * @return string
      */
-    public function show($stash = null)
+    public function show($stash = null): string
     {
         $builder = $this->git->getProcessBuilder()
             ->add('stash')
@@ -147,7 +147,7 @@ class Stash extends AbstractCommand
      * $git->stash->drop('stash@{0}');
      * ```
      *
-     * @param string $stash The stash to drop
+     * @param null $stash The stash to drop
      *
      * @return mixed
      */
@@ -173,12 +173,12 @@ class Stash extends AbstractCommand
      * $git->stash->pop('stash@{0}');
      * ```
      *
-     * @param string $stash   The stash to pop
-     * @param array  $options [optional] An array of options {@see Stash::setDefaultOptions}
+     * @param null  $stash   The stash to pop
+     * @param array $options [optional] An array of options {@see Stash::setDefaultOptions}
      *
      * @return bool
      */
-    public function pop($stash = null, array $options = array())
+    public function pop($stash = null, array $options = array()): bool
     {
         $options = $this->resolve($options);
         $builder = $this->git->getProcessBuilder()
@@ -205,12 +205,12 @@ class Stash extends AbstractCommand
      * $git->stash->apply('stash@{0}');
      * ```
      *
-     * @param string $stash   The stash to apply
-     * @param array  $options [optional] An array of options {@see Stash::setDefaultOptions}
+     * @param null  $stash   The stash to apply
+     * @param array $options [optional] An array of options {@see Stash::setDefaultOptions}
      *
      * @return bool
      */
-    public function apply($stash = null, array $options = array())
+    public function apply($stash = null, array $options = array()): bool
     {
         $options = $this->resolve($options);
         $builder = $this->git->getProcessBuilder()
@@ -238,11 +238,11 @@ class Stash extends AbstractCommand
      * ```
      *
      * @param string $name  The name of the branch
-     * @param string $stash The stash
+     * @param null   $stash The stash
      *
      * @return bool
      */
-    public function branch($name, $stash = null)
+    public function branch($name, $stash = null): bool
     {
         $builder = $this->git->getProcessBuilder()
             ->add('stash')
@@ -269,7 +269,7 @@ class Stash extends AbstractCommand
      *
      * @return bool
      */
-    public function clear()
+    public function clear(): bool
     {
         $builder = $this->git->getProcessBuilder()
             ->add('stash')
@@ -297,7 +297,7 @@ class Stash extends AbstractCommand
      *
      * @return string
      */
-    public function create()
+    public function create(): string
     {
         $builder = $this->git->getProcessBuilder()
             ->add('stash')

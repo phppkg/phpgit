@@ -3,7 +3,7 @@
 namespace PhpGit\Command;
 
 use PhpGit\AbstractCommand;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\Options;
 
 /**
  * Fetch from and merge with another repository or a local branch - `git pull`
@@ -22,10 +22,10 @@ class Pull extends AbstractCommand
      * $git->pull('origin', 'master');
      * ```
      *
-     * @param string $repository  The "remote" repository that is the source of a fetch or pull operation
-     * @param string $refspec     The format of a <refspec> parameter is an optional plus +,
+     * @param null  $repository   The "remote" repository that is the source of a fetch or pull operation
+     * @param null  $refspec      The format of a <refspec> parameter is an optional plus +,
      *                            followed by the source ref <src>, followed by a colon :, followed by the destination ref <dst>
-     * @param array  $options     [optional] An array of options {@see Pull::setDefaultOptions}
+     * @param array $options      [optional] An array of options {@see Pull::setDefaultOptions}
      *
      * @return bool
      */
@@ -51,7 +51,7 @@ class Pull extends AbstractCommand
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function setDefaultOptions(Options $resolver): void
     {
 
     }

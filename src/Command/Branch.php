@@ -4,7 +4,7 @@ namespace PhpGit\Command;
 
 use PhpGit\AbstractCommand;
 use PhpGit\Exception\GitException;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\Options;
 
 /**
  * List, create, or delete branches - `git branch`
@@ -46,8 +46,7 @@ class Branch extends AbstractCommand
     {
         $options  = $this->resolve($options);
         $branches = array();
-        $builder  = $this->getProcessBuilder()
-            ->add('-v')->add('--abbrev=7');
+        $builder  = $this->getProcessBuilder()->add('-v')->add('--abbrev=7');
 
         if ($options['remotes']) {
             $builder->add('--remotes');
@@ -66,7 +65,7 @@ class Branch extends AbstractCommand
             $branch = array();
             preg_match('/(?<current>\*| ) (?<name>[^\s]+) +((?:->) (?<alias>[^\s]+)|(?<hash>[0-9a-z]{7}) (?<title>.*))/', $line, $matches);
 
-            $branch['current'] = ($matches['current'] == '*');
+            $branch['current'] = ($matches['current'] === '*');
             $branch['name']    = $matches['name'];
 
             if (isset($matches['hash'])) {
@@ -97,16 +96,15 @@ class Branch extends AbstractCommand
      *
      * - **force**   (_boolean_) Reset **$branch**  to **$startPoint** if **$branch** exists already
      *
-     * @param string $branch     The name of the branch to create
-     * @param string $startPoint [optional] The new branch head will point to this commit.
+     * @param string $branch      The name of the branch to create
+     * @param null   $startPoint  [optional] The new branch head will point to this commit.
      *                            It may be given as a branch name, a commit-id, or a tag.
      *                            If this option is omitted, the current HEAD will be used instead.
-     * @param array  $options    [optional] An array of options {@see Branch::setDefaultOptions}
+     * @param array  $options     [optional] An array of options {@see Branch::setDefaultOptions}
      *
      * @return bool
-     *@throws GitException
      */
-    public function create($branch, $startPoint = null, array $options = array())
+    public function create($branch, $startPoint = null, array $options = array()): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getProcessBuilder();
@@ -146,7 +144,7 @@ class Branch extends AbstractCommand
      * @return bool
      *@throws GitException
      */
-    public function move($branch, $newBranch, array $options = array())
+    public function move($branch, $newBranch, array $options = array()): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getProcessBuilder();
@@ -184,7 +182,7 @@ class Branch extends AbstractCommand
      * @return bool
      *@throws GitException
      */
-    public function delete($branch, array $options = array())
+    public function delete($branch, array $options = array()): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getProcessBuilder();
@@ -208,22 +206,13 @@ class Branch extends AbstractCommand
      * - **all**     (_boolean_) List both remote-tracking branches and local branches
      * - **remotes** (_boolean_) List or delete (if used with delete()) the remote-tracking branches
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function setDefaultOptions(Options $resolver): void
     {
         $resolver->setDefaults(array(
             'force'   => false,
             'all'     => false,
             'remotes' => false,
         ));
-    }
-
-    /**
-     * @return \Symfony\Component\Process\ProcessBuilder
-     */
-    protected function getProcessBuilder()
-    {
-        return $this->git->getProcessBuilder()
-            ->add('branch');
     }
 
 }

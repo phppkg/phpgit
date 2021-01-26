@@ -23,7 +23,7 @@ class SetHead extends AbstractCommand
      * ```
      *
      * @param string $name   The remote name
-     * @param string $branch [optional] The symbolic-ref to set
+     * @param null   $branch [optional] The symbolic-ref to set
      *
      * @return bool
      */
@@ -47,7 +47,7 @@ class SetHead extends AbstractCommand
      *
      * @return bool
      */
-    public function set($name, $branch)
+    public function set($name, $branch): bool
     {
         $builder = $this->git->getProcessBuilder()
             ->add('remote')
@@ -77,7 +77,7 @@ class SetHead extends AbstractCommand
      *
      * @return bool
      */
-    public function delete($name)
+    public function delete($name): bool
     {
         $builder = $this->git->getProcessBuilder()
             ->add('remote')
@@ -104,7 +104,7 @@ class SetHead extends AbstractCommand
      *
      * @return bool
      */
-    public function remote($name)
+    public function remote($name): bool
     {
         $builder = $this->git->getProcessBuilder()
             ->add('remote')

@@ -4,7 +4,8 @@ namespace PhpGit\Command;
 
 use PhpGit\AbstractCommand;
 use PhpGit\Exception\GitException;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\Options;
+use Traversable;
 
 /**
  * Join two or more development histories together - `git merge`
@@ -32,12 +33,11 @@ class Merge extends AbstractCommand
      * - **strategy**            (_string_)  Use the given merge strategy
      * - **strategy-option**     (_string_)  Pass merge strategy specific option through to the merge strategy
      *
-     * @param string|array|\Traversable $commit  Commits to merge into our branch
-     * @param string                    $message [optional] Commit message to be used for the merge commit
-     * @param array                     $options [optional] An array of options {@see Merge::setDefaultOptions}
+     * @param string|array|Traversable $commit  Commits to merge into our branch
+     * @param null                     $message [optional] Commit message to be used for the merge commit
+     * @param array                    $options [optional] An array of options {@see Merge::setDefaultOptions}
      *
      * @return bool
-     *@throws GitException
      */
     public function __invoke($commit, $message = null, array $options = array())
     {
@@ -47,7 +47,7 @@ class Merge extends AbstractCommand
 
         $this->addFlags($builder, $options, array('no-ff', 'rerere-autoupdate', 'squash'));
 
-        if (!is_array($commit) && !($commit instanceof \Traversable)) {
+        if (!is_array($commit) && !($commit instanceof Traversable)) {
             $commit = array($commit);
         }
         foreach ($commit as $value) {
@@ -75,7 +75,7 @@ class Merge extends AbstractCommand
      * @throws GitException
      * @return bool
      */
-    public function abort()
+    public function abort(): bool
     {
         $builder = $this->git->getProcessBuilder()
             ->add('merge')
@@ -95,7 +95,7 @@ class Merge extends AbstractCommand
      * - **strategy**            (_string_)  Use the given merge strategy
      * - **strategy-option**     (_string_)  Pass merge strategy specific option through to the merge strategy
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function setDefaultOptions(Options $resolver): void
     {
         $resolver->setDefaults(array(
             'no-ff'             => false,

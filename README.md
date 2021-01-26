@@ -1,15 +1,15 @@
-PhpGit - A Git wrapper for PHP5.3+
-==================================
+# PhpGit
 
-[![Latest Unstable Version](https://poser.pugx.org/kzykhys/git/v/unstable.png)](https://packagist.org/packages/kzykhys/git)
-[![Build Status](https://travis-ci.org/kzykhys/PhpGit.png?branch=master)](https://travis-ci.org/kzykhys/PhpGit)
-[![Coverage Status](https://coveralls.io/repos/kzykhys/PhpGit/badge.png)](https://coveralls.io/r/kzykhys/PhpGit)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/04f10b57-a113-47ad-8dda-9a6dacbb079f/mini.png)](https://insight.sensiolabs.com/projects/04f10b57-a113-47ad-8dda-9a6dacbb079f)
+[![Latest Unstable Version](https://poser.pugx.org/ulue/phpgit/v/unstable.png)](https://packagist.org/packages/ulue/phpgit)
+[![Github Actions Status](https://github.com/ulue/phpgit/workflows/Unit-tests/badge.svg)](https://github.com/ulue/phpgit/actions)
+
+PhpGit - A Git wrapper for PHP 7.1+
+
 
 Requirements
 ------------
 
-* PHP5.3
+* PHP7.1+
 * Git
 
 Installation
@@ -25,15 +25,14 @@ Update your composer.json and run `composer update`
 }
 ```
 
-Basic Usage
------------
+## Basic Usage
 
 ``` php
 <?php
 
 require __DIR__ . '/vendor/autoload.php';
 
-$git = new PhpGit\Git();
+$git = PhpGit\Git::new();
 $git->clone('https://github.com/kzykhys/PhpGit.git', '/path/to/repo');
 $git->setRepository('/path/to/repo');
 $git->remote->add('production', 'git://example.com/your/repo.git');
@@ -52,8 +51,7 @@ foreach ($git->tree('release') as $object) {
 }
 ```
 
-API
----
+## API
 
 ### Git commands
 
@@ -165,7 +163,9 @@ API
 
 ### git add
 
-#### $git->add(_string|array|\Traversable_ $file, _array_ $options = [])
+```php
+$git->add(string|array|\Traversable $file, array $options = [])
+```
 
 Add file contents to the index
 

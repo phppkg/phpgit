@@ -3,7 +3,7 @@
 namespace PhpGit\Command;
 
 use PhpGit\AbstractCommand;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\Options;
 
 /**
  * Show the working tree status - `git status`
@@ -45,15 +45,15 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class Status extends AbstractCommand
 {
 
-    const UNMODIFIED           = ' ';
-    const MODIFIED             = 'M';
-    const ADDED                = 'A';
-    const DELETED              = 'D';
-    const RENAMED              = 'R';
-    const COPIED               = 'C';
-    const UPDATED_BUT_UNMERGED = 'U';
-    const UNTRACKED            = '?';
-    const IGNORED              = '!';
+    public const UNMODIFIED           = ' ';
+    public const MODIFIED             = 'M';
+    public const ADDED                = 'A';
+    public const DELETED              = 'D';
+    public const RENAMED              = 'R';
+    public const COPIED               = 'C';
+    public const UPDATED_BUT_UNMERGED = 'U';
+    public const UNTRACKED            = '?';
+    public const IGNORED              = '!';
 
     /**
      * Returns the working tree status
@@ -113,7 +113,7 @@ class Status extends AbstractCommand
         [$branch, $changes] = preg_split('/(\0|\n)/', $output, 2);
         $lines = $this->split($changes, true);
 
-        if (substr($branch, -11) == '(no branch)') {
+        if (substr($branch, -11) === '(no branch)') {
             $result['branch'] = null;
         } elseif (preg_match('/([^ ]*)\.\.\..*?\[.*?\]$/', $branch, $matches)) {
             $result['branch'] = $matches[1];
@@ -137,7 +137,7 @@ class Status extends AbstractCommand
      *
      * - **ignored** (_boolean_) Show ignored files as well
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function setDefaultOptions(Options $resolver): void
     {
         $resolver->setDefaults(array(
             'ignored' => false

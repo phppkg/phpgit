@@ -4,7 +4,7 @@ namespace PhpGit\Command;
 
 use PhpGit\AbstractCommand;
 use PhpGit\Exception\GitException;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\Options;
 
 /**
  * Download objects and refs from another repository - `git fetch`
@@ -30,13 +30,12 @@ class Fetch extends AbstractCommand
      * - **keep**   (_boolean_) Keep downloaded pack
      * - **prune**  (_boolean_) After fetching, remove any remote-tracking branches which no longer exist on the remote
      *
-     * @param string $repository The "remote" repository that is the source of a fetch or pull operation
-     * @param string $refspec    The format of a <refspec> parameter is an optional plus +, followed by the source ref <src>,
+     * @param string $repository  The "remote" repository that is the source of a fetch or pull operation
+     * @param null   $refspec     The format of a <refspec> parameter is an optional plus +, followed by the source ref <src>,
      *                            followed by a colon :, followed by the destination ref <dst>
-     * @param array  $options    [optional] An array of options {@see Fetch::setDefaultOptions}
+     * @param array  $options     [optional] An array of options {@see Fetch::setDefaultOptions}
      *
      * @return bool
-     *@throws GitException
      */
     public function __invoke($repository, $refspec = null, array $options = array())
     {
@@ -78,7 +77,7 @@ class Fetch extends AbstractCommand
      * @return bool
      *@throws GitException
      */
-    public function all(array $options = array())
+    public function all(array $options = array()): bool
     {
         $options = $this->resolve($options);
         $builder = $this->git->getProcessBuilder()
@@ -99,7 +98,7 @@ class Fetch extends AbstractCommand
      * - **keep**   (_boolean_) Keep downloaded pack
      * - **prune**  (_boolean_) After fetching, remove any remote-tracking branches which no longer exist on the remote
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function setDefaultOptions(Options $resolver): void
     {
         $resolver->setDefaults(array(
             'append' => false,

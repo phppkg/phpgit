@@ -3,7 +3,7 @@
 namespace PhpGit\Command;
 
 use PhpGit\AbstractCommand;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\Options;
 
 /**
  * Show the most recent tag that is reachable from a commit - `git describe`
@@ -36,8 +36,8 @@ class Describe extends AbstractCommand
      * - **tags**   (_boolean_) Enables matching a lightweight (non-annotated) tag
      * - **always** (_boolean_) Show uniquely abbreviated commit object as fallback
      *
-     * @param string $committish [optional] Committish object names to describe.
-     * @param array  $options    [optional] An array of options {@see Describe::setDefaultOptions}
+     * @param null  $committish [optional] Committish object names to describe.
+     * @param array $options    [optional] An array of options {@see Describe::setDefaultOptions}
      *
      * @return string
      */
@@ -59,12 +59,12 @@ class Describe extends AbstractCommand
     /**
      * Equivalent to $git->describe($committish, ['tags' => true]);
      *
-     * @param string $committish [optional] Committish object names to describe.
-     * @param array  $options    [optional] An array of options {@see Describe::setDefaultOptions}
+     * @param null  $committish [optional] Committish object names to describe.
+     * @param array $options    [optional] An array of options {@see Describe::setDefaultOptions}
      *
      * @return string
      */
-    public function tags($committish = null, array $options = array())
+    public function tags($committish = null, array $options = array()): string
     {
         $options['tags'] = true;
 
@@ -78,7 +78,7 @@ class Describe extends AbstractCommand
      * - **tags**   (_boolean_) Enables matching a lightweight (non-annotated) tag
      * - **always** (_boolean_) Show uniquely abbreviated commit object as fallback
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function setDefaultOptions(Options $resolver): void
     {
         $resolver->setDefaults(array(
             'all'    => false,

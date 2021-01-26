@@ -2,9 +2,10 @@
 
 namespace PhpGit\Command;
 
+use BadMethodCallException;
 use PhpGit\AbstractCommand;
 use PhpGit\Git;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\Options;
 
 /**
  * Manage set of tracked repositories - `git remote`
@@ -45,7 +46,7 @@ class Remote extends AbstractCommand
      * @param string $name      The name of a property
      * @param array  $arguments An array of arguments
      *
-     * @throws \BadMethodCallException
+     * @throws BadMethodCallException
      * @return mixed
      */
     public function __call($name, $arguments)
@@ -54,7 +55,7 @@ class Remote extends AbstractCommand
             return call_user_func_array($this->{$name}, $arguments);
         }
 
-        throw new \BadMethodCallException(sprintf('Call to undefined method %s::%s()', __CLASS__, $name));
+        throw new BadMethodCallException(sprintf('Call to undefined method %s::%s()', __CLASS__, $name));
     }
 
     /**
@@ -124,7 +125,7 @@ class Remote extends AbstractCommand
      *
      * @return bool
      */
-    public function add($name, $url, array $options = array())
+    public function add($name, $url, array $options = array()): bool
     {
         $options = $this->resolve($options);
         $builder = $this->git->getProcessBuilder()
@@ -155,7 +156,7 @@ class Remote extends AbstractCommand
      *
      * @return bool
      */
-    public function rename($name, $newName)
+    public function rename($name, $newName): bool
     {
         $builder = $this->git->getProcessBuilder()
             ->add('remote')
@@ -182,7 +183,7 @@ class Remote extends AbstractCommand
      *
      * @return bool
      */
-    public function rm($name)
+    public function rm($name): bool
     {
         $builder = $this->git->getProcessBuilder()
             ->add('remote')
@@ -223,7 +224,7 @@ class Remote extends AbstractCommand
      *
      * @return string
      */
-    public function show($name)
+    public function show($name): string
     {
         $builder = $this->git->getProcessBuilder()
             ->add('remote')
@@ -242,11 +243,11 @@ class Remote extends AbstractCommand
      * $git->remote->prune('origin');
      * ```
      *
-     * @param string $name The remote name
+     * @param null $name The remote name
      *
      * @return bool
      */
-    public function prune($name = null)
+    public function prune($name = null): bool
     {
         $builder = $this->git->getProcessBuilder()
             ->add('remote')
@@ -267,7 +268,7 @@ class Remote extends AbstractCommand
      * - **tags**    (_boolean_) With this option, `git fetch <name>` imports every tag from the remote repository
      * - **no-tags** (_boolean_) With this option, `git fetch <name>` does not import tags from the remote repository
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function setDefaultOptions(Options $resolver): void
     {
         $resolver->setDefaults(array(
             'tags'    => false,

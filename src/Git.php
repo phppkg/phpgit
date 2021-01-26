@@ -2,6 +2,7 @@
 
 namespace PhpGit;
 
+use BadMethodCallException;
 use PhpGit\Exception\GitException;
 use Symfony\Component\Process\Process;
 use function array_merge;
@@ -243,7 +244,7 @@ class Git
      * @param string $name      The name of a property
      * @param array  $arguments An array of arguments
      *
-     * @throws \BadMethodCallException
+     * @throws BadMethodCallException
      * @return mixed
      */
     public function __call($name, $arguments)
@@ -252,7 +253,7 @@ class Git
             return call_user_func_array($this->{$name}, $arguments);
         }
 
-        throw new \BadMethodCallException(sprintf('Call to undefined method PhpGit\Git::%s()', $name));
+        throw new BadMethodCallException(sprintf('Call to undefined method PhpGit\Git::%s()', $name));
     }
 
     /**

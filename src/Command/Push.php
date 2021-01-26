@@ -3,7 +3,7 @@
 namespace PhpGit\Command;
 
 use PhpGit\AbstractCommand;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\Options;
 
 /**
  * Update remote refs along with associated objects - `git push`
@@ -22,9 +22,9 @@ class Push extends AbstractCommand
      * $git->push('origin', 'master');
      * ```
      *
-     * @param string $repository The "remote" repository that is destination of a push operation
-     * @param string $refspec    Specify what destination ref to update with what source object
-     * @param array  $options    [optional] An array of options {@see Push::setDefaultOptions}
+     * @param null  $repository The "remote" repository that is destination of a push operation
+     * @param null  $refspec    Specify what destination ref to update with what source object
+     * @param array $options    [optional] An array of options {@see Push::setDefaultOptions}
      *
      * @return bool
      */
@@ -52,7 +52,7 @@ class Push extends AbstractCommand
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function setDefaultOptions(Options $resolver): void
     {
         $resolver->setDefaults(array(
             'all'    => false,

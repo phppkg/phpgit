@@ -29,7 +29,7 @@ class SetUrl extends AbstractCommand
      *
      * @param string $name    The name of remote
      * @param string $newUrl  The new URL
-     * @param string $oldUrl  [optional] The old URL
+     * @param null   $oldUrl  [optional] The old URL
      * @param array  $options [optional] An array of options {@see SetUrl::setDefaultOptions}
      *
      * @return bool
@@ -55,12 +55,12 @@ class SetUrl extends AbstractCommand
      *
      * @param string $name    The name of remote
      * @param string $newUrl  The new URL
-     * @param string $oldUrl  [optional] The old URL
+     * @param null   $oldUrl  [optional] The old URL
      * @param array  $options [optional] An array of options {@see SetUrl::setDefaultOptions}
      *
      * @return bool
      */
-    public function set($name, $newUrl, $oldUrl = null, array $options = array())
+    public function set($name, $newUrl, $oldUrl = null, array $options = array()): bool
     {
         $options = $this->resolve($options);
         $builder = $this->git->getProcessBuilder()
@@ -102,7 +102,7 @@ class SetUrl extends AbstractCommand
      *
      * @return bool
      */
-    public function add($name, $newUrl, array $options = array())
+    public function add($name, $newUrl, array $options = array()): bool
     {
         $options = $this->resolve($options);
         $builder = $this->git->getProcessBuilder()
@@ -141,7 +141,7 @@ class SetUrl extends AbstractCommand
      *
      * @return bool
      */
-    public function delete($name, $url, array $options = array())
+    public function delete($name, $url, array $options = array()): bool
     {
         $options = $this->resolve($options);
         $builder = $this->git->getProcessBuilder()
@@ -165,7 +165,7 @@ class SetUrl extends AbstractCommand
      *
      * - **push** (_boolean_) Push URLs are manipulated instead of fetch URLs
      */
-    public function setDefaultOptions(Options $resolver)
+    public function setDefaultOptions(Options $resolver): void
     {
         $resolver->setDefaults(array(
             'push' => false

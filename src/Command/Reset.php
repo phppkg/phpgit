@@ -2,8 +2,10 @@
 
 namespace PhpGit\Command;
 
+use InvalidArgumentException;
 use PhpGit\AbstractCommand;
 use PhpGit\Exception\GitException;
+use Traversable;
 
 /**
  * Reset current HEAD to the specified state - `git reset`
@@ -22,8 +24,8 @@ class Reset extends AbstractCommand
      * $git->reset();
      * ```
      *
-     * @param string|array|\Traversable $paths  The paths to reset
-     * @param string                    $commit The commit
+     * @param string|array|Traversable $paths  The paths to reset
+     * @param null                     $commit The commit
      *
      * @return bool
      */
@@ -36,7 +38,7 @@ class Reset extends AbstractCommand
             $builder->add($commit)->add('--');
         }
 
-        if (!is_array($paths) && !($paths instanceof \Traversable)) {
+        if (!is_array($paths) && !($paths instanceof Traversable)) {
             $paths = array($paths);
         }
 
@@ -66,11 +68,11 @@ class Reset extends AbstractCommand
      * $git->reset->soft();
      * ```
      *
-     * @param string $commit The commit
+     * @param null $commit The commit
      *
      * @return bool
      */
-    public function soft($commit = null)
+    public function soft($commit = null): bool
     {
         return $this->mode('soft', $commit);
     }
@@ -87,11 +89,11 @@ class Reset extends AbstractCommand
      * $git->reset->mixed();
      * ```
      *
-     * @param string $commit The commit
+     * @param null $commit The commit
      *
      * @return bool
      */
-    public function mixed($commit = null)
+    public function mixed($commit = null): bool
     {
         return $this->mode('mixed', $commit);
     }
@@ -107,11 +109,11 @@ class Reset extends AbstractCommand
      * $git->reset->hard();
      * ```
      *
-     * @param string $commit The commit
+     * @param null $commit The commit
      *
      * @return bool
      */
-    public function hard($commit = null)
+    public function hard($commit = null): bool
     {
         return $this->mode('hard', $commit);
     }
@@ -130,11 +132,11 @@ class Reset extends AbstractCommand
      * $git->reset->merge();
      * ```
      *
-     * @param string $commit The commit
+     * @param null $commit The commit
      *
      * @return bool
      */
-    public function merge($commit = null)
+    public function merge($commit = null): bool
     {
         return $this->mode('merge', $commit);
     }
@@ -151,11 +153,11 @@ class Reset extends AbstractCommand
      * $git->reset->keep();
      * ```
      *
-     * @param string $commit The commit
+     * @param null $commit The commit
      *
      * @return bool
      */
-    public function keep($commit = null)
+    public function keep($commit = null): bool
     {
         return $this->mode('keep', $commit);
     }
@@ -172,15 +174,14 @@ class Reset extends AbstractCommand
      * ```
      *
      * @param string $mode   --<mode>
-     * @param string $commit The commit
+     * @param null   $commit The commit
      *
-     * @throws \InvalidArgumentException
      * @return bool
      */
-    public function mode($mode, $commit = null)
+    public function mode($mode, $commit = null): bool
     {
         if (!in_array($mode, array('soft', 'mixed', 'hard', 'merge', 'keep'))) {
-            throw new \InvalidArgumentException('$mode must be one of the following: soft, mixed, hard, merge, keep');
+            throw new InvalidArgumentException('$mode must be one of the following: soft, mixed, hard, merge, keep');
         }
 
         $builder = $this->git->getProcessBuilder()

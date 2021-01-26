@@ -4,7 +4,7 @@ namespace PhpGit\Command;
 
 use PhpGit\AbstractCommand;
 use PhpGit\Exception\GitException;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\Options;
 
 /**
  * Show commit logs - `git log`
@@ -46,11 +46,10 @@ class Log extends AbstractCommand
      * - **skip**  (_integer_) Skip number commits before starting to show the commit output
      *
      * @param string $revRange [optional] Show only commits in the specified revision range
-     * @param string $path     [optional] Show only commits that are enough to explain how the files that match the specified paths came to be
+     * @param null   $path     [optional] Show only commits that are enough to explain how the files that match the specified paths came to be
      * @param array  $options  [optional] An array of options {@see Log::setDefaultOptions}
      *
      * @return array
-     *@throws GitException
      */
     public function __invoke($revRange = '', $path = null, array $options = array())
     {
@@ -94,7 +93,7 @@ class Log extends AbstractCommand
      * - **limit** (_integer_) Limits the number of commits to show
      * - **skip**  (_integer_) Skip number commits before starting to show the commit output
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function setDefaultOptions(Options $resolver): void
     {
         $resolver->setDefaults(array(
             'limit' => 10,
