@@ -1,6 +1,6 @@
 <?php
 
-use PHPGit\Git;
+use PhpGit\Git;
 
 require_once __DIR__ . '/../../BaseTestCase.php';
 
@@ -25,4 +25,4 @@ class SetBranchesCommandTest extends BaseTestCase
         $git->remote->branches->add('origin', array('gh-pages'));
     }
 
-} 
+}

@@ -1,7 +1,7 @@
 <?php
 
-use PHPGit\Exception\GitException;
-use PHPGit\Git;
+use PhpGit\Exception\GitException;
+use PhpGit\Git;
 
 class GitExceptionTest extends PHPUnit_Framework_TestCase
 {
@@ -20,4 +20,4 @@ class GitExceptionTest extends PHPUnit_Framework_TestCase
         }
     }
 
-} 
+}

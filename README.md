@@ -1,9 +1,9 @@
-PHPGit - A Git wrapper for PHP5.3+
+PhpGit - A Git wrapper for PHP5.3+
 ==================================
 
 [![Latest Unstable Version](https://poser.pugx.org/kzykhys/git/v/unstable.png)](https://packagist.org/packages/kzykhys/git)
-[![Build Status](https://travis-ci.org/kzykhys/PHPGit.png?branch=master)](https://travis-ci.org/kzykhys/PHPGit)
-[![Coverage Status](https://coveralls.io/repos/kzykhys/PHPGit/badge.png)](https://coveralls.io/r/kzykhys/PHPGit)
+[![Build Status](https://travis-ci.org/kzykhys/PhpGit.png?branch=master)](https://travis-ci.org/kzykhys/PhpGit)
+[![Coverage Status](https://coveralls.io/repos/kzykhys/PhpGit/badge.png)](https://coveralls.io/r/kzykhys/PhpGit)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/04f10b57-a113-47ad-8dda-9a6dacbb079f/mini.png)](https://insight.sensiolabs.com/projects/04f10b57-a113-47ad-8dda-9a6dacbb079f)
 
 Requirements
@@ -33,8 +33,8 @@ Basic Usage
 
 require __DIR__ . '/vendor/autoload.php';
 
-$git = new PHPGit\Git();
-$git->clone('https://github.com/kzykhys/PHPGit.git', '/path/to/repo');
+$git = new PhpGit\Git();
+$git->clone('https://github.com/kzykhys/PhpGit.git', '/path/to/repo');
 $git->setRepository('/path/to/repo');
 $git->remote->add('production', 'git://example.com/your/repo.git');
 $git->add('README.md');
@@ -170,7 +170,7 @@ API
 Add file contents to the index
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->add('file.txt');
 $git->add('file.txt', ['force' => false, 'ignore-errors' => false);
@@ -190,7 +190,7 @@ $git->add('file.txt', ['force' => false, 'ignore-errors' => false);
 Create an archive of files from a named tree
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->archive('repo.zip', 'master', null, ['format' => 'zip']);
 ```
@@ -209,7 +209,7 @@ $git->archive('repo.zip', 'master', null, ['format' => 'zip']);
 Returns an array of both remote-tracking branches and local branches
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $branches = $git->branch();
 ```
@@ -233,7 +233,7 @@ $branches = $git->branch();
 Creates a new branch head named **$branch** which points to the current HEAD, or **$startPoint** if given
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->branch->create('bugfix');              // from current HEAD
 $git->branch->create('patch-1', 'a092bf7s'); // from commit
@@ -249,7 +249,7 @@ $git->branch->create('1.0.x-fix', 'v1.0.2'); // from tag
 Move/rename a branch and the corresponding reflog
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->branch->move('bugfix', '2.0');
 ```
@@ -263,7 +263,7 @@ $git->branch->move('bugfix', '2.0');
 Delete a branch
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->branch->delete('2.0');
 ```
@@ -283,7 +283,7 @@ The branch must be fully merged in its upstream branch, or in HEAD if no upstrea
 Returns the contents of blob object
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $contents = $git->cat->blob('e69de29bb2d1d6434b8b29ae775ad8');
 ```
@@ -293,7 +293,7 @@ $contents = $git->cat->blob('e69de29bb2d1d6434b8b29ae775ad8');
 Returns the object type identified by **$object**
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $type = $git->cat->type('e69de29bb2d1d6434b8b29ae775ad8');
 ```
@@ -303,7 +303,7 @@ $type = $git->cat->type('e69de29bb2d1d6434b8b29ae775ad8');
 Returns the object size identified by **$object**
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $type = $git->cat->size('e69de29bb2d1d6434b8b29ae775ad8');
 ```
@@ -317,7 +317,7 @@ $type = $git->cat->size('e69de29bb2d1d6434b8b29ae775ad8');
 Switches branches by updating the index, working tree, and HEAD to reflect the specified branch or commit
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->checkout('develop');
 ```
@@ -332,7 +332,7 @@ $git->checkout('develop');
 Create a new branch and checkout
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->checkout->create('patch-1');
 $git->checkout->create('patch-2', 'develop');
@@ -347,7 +347,7 @@ $git->checkout->create('patch-2', 'develop');
 Create a new orphan branch, named <new_branch>, started from <start_point> and switch to it
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->checkout->orphan('gh-pages');
 ```
@@ -365,8 +365,8 @@ $git->checkout->orphan('gh-pages');
 Clone a repository into a new directory
 
 ``` php
-$git = new PHPGit\Git();
-$git->clone('https://github.com/kzykhys/PHPGit.git', '/path/to/repo');
+$git = new PhpGit\Git();
+$git->clone('https://github.com/kzykhys/PhpGit.git', '/path/to/repo');
 ```
 
 ##### Options
@@ -383,8 +383,8 @@ $git->clone('https://github.com/kzykhys/PHPGit.git', '/path/to/repo');
 Record changes to the repository
 
 ``` php
-$git = new PHPGit\Git();
-$git->clone('https://github.com/kzykhys/PHPGit.git', '/path/to/repo');
+$git = new PhpGit\Git();
+$git->clone('https://github.com/kzykhys/PhpGit.git', '/path/to/repo');
 $git->setRepository('/path/to/repo');
 $git->add('README.md');
 $git->commit('Fixes README.md');
@@ -441,7 +441,7 @@ Adds a new line to the option without altering any existing values
 Returns the most recent tag that is reachable from a commit
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->tag->create('v1.0.0');
 $git->commit('Fixes #14');
@@ -473,7 +473,7 @@ Equivalent to $git->describe($committish, ['tags' => true]);
 Fetches named heads or tags from one or more other repositories, along with the objects necessary to complete them
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->remote->add('origin', 'git://your/repo.git');
 $git->fetch('origin');
@@ -490,7 +490,7 @@ $git->fetch('origin');
 Fetch all remotes
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->remote->add('origin', 'git://your/repo.git');
 $git->remote->add('release', 'git://your/another_repo.git');
@@ -512,7 +512,7 @@ $git->fetch->all();
 Create an empty git repository or reinitialize an existing one
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->init('/path/to/repo1');
 $git->init('/path/to/repo2', array('shared' => true, 'bare' => true));
 ```
@@ -531,7 +531,7 @@ $git->init('/path/to/repo2', array('shared' => true, 'bare' => true));
 Returns the commit logs
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $logs = $git->log(array('limit' => 10));
 ```
@@ -567,7 +567,7 @@ $logs = $git->log(array('limit' => 10));
 Incorporates changes from the named commits into the current branch
 
 ```php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->merge('1.0');
 $git->merge('1.1', 'Merge message', ['strategy' => 'ours']);
@@ -586,11 +586,11 @@ $git->merge('1.1', 'Merge message', ['strategy' => 'ours']);
 Abort the merge process and try to reconstruct the pre-merge state
 
 ```php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 try {
     $git->merge('dev');
-} catch (PHPGit\Exception\GitException $e) {
+} catch (PhpGit\Exception\GitException $e) {
     $git->merge->abort();
 }
 ```
@@ -604,7 +604,7 @@ try {
 Move or rename a file, a directory, or a symlink
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->mv('UPGRADE-1.0.md', 'UPGRADE-1.1.md');
 ```
@@ -622,7 +622,7 @@ $git->mv('UPGRADE-1.0.md', 'UPGRADE-1.1.md');
 Fetch from and merge with another repository or a local branch
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->pull('origin', 'master');
 ```
@@ -636,7 +636,7 @@ $git->pull('origin', 'master');
 Update remote refs along with associated objects
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->push('origin', 'master');
 ```
@@ -650,7 +650,7 @@ $git->push('origin', 'master');
 Forward-port local commits to the updated upstream head
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->fetch('origin');
 $git->rebase('origin/master');
@@ -683,7 +683,7 @@ Restart the rebasing process by skipping the current patch
 Returns an array of existing remotes
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->clone('https://github.com/kzykhys/Text.git', '/path/to/repo');
 $git->setRepository('/path/to/repo');
 $remotes = $git->remote();
@@ -705,7 +705,7 @@ $remotes = $git->remote();
 Adds a remote named **$name** for the repository at **$url**
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->remote->add('origin', 'https://github.com/kzykhys/Text.git');
 $git->fetch('origin');
@@ -721,7 +721,7 @@ $git->fetch('origin');
 Rename the remote named **$name** to **$newName**
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->remote->add('origin', 'https://github.com/kzykhys/Text.git');
 $git->remote->rename('origin', 'upstream');
@@ -732,7 +732,7 @@ $git->remote->rename('origin', 'upstream');
 Remove the remote named **$name**
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->remote->add('origin', 'https://github.com/kzykhys/Text.git');
 $git->remote->rm('origin');
@@ -743,7 +743,7 @@ $git->remote->rm('origin');
 Gives some information about the remote **$name**
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->clone('https://github.com/kzykhys/Text.git', '/path/to/repo');
 $git->setRepository('/path/to/repo');
 echo $git->remote->show('origin');
@@ -769,7 +769,7 @@ echo $git->remote->show('origin');
 Deletes all stale remote-tracking branches under **$name**
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->remote->prune('origin');
 ```
@@ -779,7 +779,7 @@ $git->remote->prune('origin');
 Alias of set()
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->remote->add('origin', 'https://github.com/kzykhys/Text.git');
 $git->remote->head('origin');
@@ -790,7 +790,7 @@ $git->remote->head('origin');
 Sets the default branch for the named remote
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->remote->add('origin', 'https://github.com/kzykhys/Text.git');
 $git->remote->head->set('origin');
@@ -801,7 +801,7 @@ $git->remote->head->set('origin');
 Deletes the default branch for the named remote
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->remote->add('origin', 'https://github.com/kzykhys/Text.git');
 $git->remote->head->delete('origin');
@@ -812,7 +812,7 @@ $git->remote->head->delete('origin');
 Determine the default branch by querying remote
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->remote->add('origin', 'https://github.com/kzykhys/Text.git');
 $git->remote->head->remote('origin');
@@ -823,7 +823,7 @@ $git->remote->head->remote('origin');
 Alias of set()
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->remote->add('origin', 'https://github.com/kzykhys/Text.git');
 $git->remote->branches('origin', array('master', 'develop'));
@@ -834,7 +834,7 @@ $git->remote->branches('origin', array('master', 'develop'));
 Changes the list of branches tracked by the named remote
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->remote->add('origin', 'https://github.com/kzykhys/Text.git');
 $git->remote->branches->set('origin', array('master', 'develop'));
@@ -845,7 +845,7 @@ $git->remote->branches->set('origin', array('master', 'develop'));
 Adds to the list of branches tracked by the named remote
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->remote->add('origin', 'https://github.com/kzykhys/Text.git');
 $git->remote->branches->add('origin', array('master', 'develop'));
@@ -856,7 +856,7 @@ $git->remote->branches->add('origin', array('master', 'develop'));
 Alias of set()
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->remote->add('origin', 'https://github.com/kzykhys/Text.git');
 $git->remote->url('origin', 'https://github.com/text/Text.git');
@@ -871,7 +871,7 @@ $git->remote->url('origin', 'https://github.com/text/Text.git');
 Sets the URL remote to $newUrl
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->remote->add('origin', 'https://github.com/kzykhys/Text.git');
 $git->remote->url->set('origin', 'https://github.com/text/Text.git');
@@ -886,7 +886,7 @@ $git->remote->url->set('origin', 'https://github.com/text/Text.git');
 Adds new URL to remote
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->remote->add('origin', 'https://github.com/kzykhys/Text.git');
 $git->remote->url->add('origin', 'https://github.com/text/Text.git');
@@ -901,7 +901,7 @@ $git->remote->url->add('origin', 'https://github.com/text/Text.git');
 Deletes all URLs matching regex $url
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->remote->add('origin', 'https://github.com/kzykhys/Text.git');
 $git->remote->url->delete('origin', 'https://github.com');
@@ -920,7 +920,7 @@ $git->remote->url->delete('origin', 'https://github.com');
 Resets the index entries for all **$paths** to their state at **$commit**
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->reset();
 ```
@@ -934,7 +934,7 @@ just like all modes do).
 This leaves all your changed files "Changes to be committed", as git status would put it.
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->reset->soft();
 ```
@@ -947,7 +947,7 @@ Resets the index but not the working tree (i.e., the changed files are preserved
 and reports what has not been updated. This is the default action.
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->reset->mixed();
 ```
@@ -959,7 +959,7 @@ Resets the current branch head to **$commit**
 Resets the index and working tree. Any changes to tracked files in the working tree since **$commit** are discarded
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->reset->hard();
 ```
@@ -974,7 +974,7 @@ but keeps those which are different between the index and working tree
 the index has unstaged changes, reset is aborted
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->reset->merge();
 ```
@@ -987,7 +987,7 @@ Resets index entries and updates files in the working tree that are different be
 If a file that is different between **$commit** and HEAD has local changes, reset is aborted.
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->reset->keep();
 ```
@@ -999,7 +999,7 @@ Resets the current branch head to **$commit**
 Possibly updates the index (resetting it to the tree of **$commit**) and the working tree depending on **$mode**
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->reset->mode('hard');
 ```
@@ -1013,7 +1013,7 @@ $git->reset->mode('hard');
 Remove files from the working tree and from the index
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->rm('CHANGELOG-1.0-1.1.txt', ['force' => true]);
 ```
@@ -1042,7 +1042,7 @@ Equivalent to $git->rm($file, ['cached' => true]);
 Summarize 'git log' output
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $shortlog = $git->shortlog();
 ```
@@ -1064,7 +1064,7 @@ $shortlog = $git->shortlog();
 Suppress commit description and provide a commit count summary only
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $shortlog = $git->shortlog->summary();
 ```
@@ -1087,7 +1087,7 @@ $shortlog = $git->shortlog->summary();
 Shows one or more objects (blobs, trees, tags and commits)
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 echo $git->show('3ddee587e209661c8265d5bfd0df999836f6dfa2');
 ```
@@ -1106,7 +1106,7 @@ echo $git->show('3ddee587e209661c8265d5bfd0df999836f6dfa2');
 Save your local modifications to a new stash, and run git reset --hard to revert them
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->stash();
 ```
@@ -1116,7 +1116,7 @@ $git->stash();
 Save your local modifications to a new stash, and run git reset --hard to revert them.
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->stash->save('My stash');
 ```
@@ -1126,7 +1126,7 @@ $git->stash->save('My stash');
 Returns the stashes that you currently have
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $stashes = $git->stash->lists();
 ```
@@ -1145,7 +1145,7 @@ $stashes = $git->stash->lists();
 Show the changes recorded in the stash as a diff between the stashed state and its original parent
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 echo $git->stash->show('stash@{0}');
 ```
@@ -1162,7 +1162,7 @@ echo $git->stash->show('stash@{0}');
 Remove a single stashed state from the stash list
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->stash->drop('stash@{0}');
 ```
@@ -1172,7 +1172,7 @@ $git->stash->drop('stash@{0}');
 Remove a single stashed state from the stash list and apply it on top of the current working tree state
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->stash->pop('stash@{0}');
 ```
@@ -1182,7 +1182,7 @@ $git->stash->pop('stash@{0}');
 Like pop, but do not remove the state from the stash list
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->stash->apply('stash@{0}');
 ```
@@ -1192,7 +1192,7 @@ $git->stash->apply('stash@{0}');
 Creates and checks out a new branch named <branchname> starting from the commit at which the <stash> was originally created, applies the changes recorded in <stash> to the new working tree and index
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->stash->branch('hotfix', 'stash@{0}');
 ```
@@ -1202,7 +1202,7 @@ $git->stash->branch('hotfix', 'stash@{0}');
 Remove all the stashed states
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->stash->clear();
 ```
@@ -1212,7 +1212,7 @@ $git->stash->clear();
 Create a stash (which is a regular commit object) and return its object name, without storing it anywhere in the ref namespace
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $commit = $git->stash->create();
 ```
@@ -1232,7 +1232,7 @@ $commit = $git->stash->create();
 Returns the working tree status
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $status = $git->status();
 ```
@@ -1275,8 +1275,8 @@ $status = $git->status();
 Returns an array of tags
 
 ``` php
-$git = new PHPGit\Git();
-$git->clone('https://github.com/kzykhys/PHPGit.git', '/path/to/repo');
+$git = new PhpGit\Git();
+$git->clone('https://github.com/kzykhys/PhpGit.git', '/path/to/repo');
 $git->setRepository('/path/to/repo');
 $tags = $git->tag();
 ```
@@ -1292,7 +1292,7 @@ $tags = $git->tag();
 Creates a tag object
 
 ``` php
-$git = new PHPGit\Git();
+$git = new PhpGit\Git();
 $git->setRepository('/path/to/repo');
 $git->tag->create('v1.0.0');
 ```
@@ -1320,8 +1320,8 @@ Verify the gpg signature of the given tag names
 Returns the contents of a tree object
 
 ``` php
-$git = new PHPGit\Git();
-$git->clone('https://github.com/kzykhys/PHPGit.git', '/path/to/repo');
+$git = new PhpGit\Git();
+$git->clone('https://github.com/kzykhys/PhpGit.git', '/path/to/repo');
 $git->setRepository('/path/to/repo');
 $tree = $git->tree('master');
 ```

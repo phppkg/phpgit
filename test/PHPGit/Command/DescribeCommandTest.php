@@ -1,6 +1,6 @@
 <?php
 
-use PHPGit\Git;
+use PhpGit\Git;
 use Symfony\Component\Filesystem\Filesystem;
 
 require_once __DIR__ . '/../BaseTestCase.php';
@@ -33,4 +33,4 @@ class DescribeCommandTest extends BaseTestCase
         $this->assertStringEndsNotWith('v1.0.0', $version);
     }
 
-} 
+}

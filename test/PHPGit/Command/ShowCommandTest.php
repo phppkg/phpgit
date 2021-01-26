@@ -1,6 +1,6 @@
 <?php
 
-use PHPGit\Git;
+use PhpGit\Git;
 use Symfony\Component\Filesystem\Filesystem;
 
 require_once __DIR__ . '/../BaseTestCase.php';
@@ -23,4 +23,4 @@ class ShowCommandTest extends BaseTestCase
         $git->show('master', array('format' => 'oneline'));
     }
 
-} 
+}

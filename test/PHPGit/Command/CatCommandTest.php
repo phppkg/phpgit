@@ -1,6 +1,6 @@
 <?php
 
-use PHPGit\Git;
+use PhpGit\Git;
 use Symfony\Component\Filesystem\Filesystem;
 
 require_once __DIR__ . '/../BaseTestCase.php';
@@ -62,4 +62,4 @@ class CatCommandTest extends BaseTestCase
         $this->assertEquals(3, $git->cat->size($tree[0]['hash']));
     }
 
-} 
+}

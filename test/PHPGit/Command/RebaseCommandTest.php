@@ -1,6 +1,6 @@
 <?php
 
-use PHPGit\Git;
+use PhpGit\Git;
 use Symfony\Component\Filesystem\Filesystem;
 
 require_once __DIR__ . '/../BaseTestCase.php';
@@ -81,7 +81,7 @@ class RebaseCommandTest extends BaseTestCase
         try {
             $git->rebase('next');
             $this->fail('GitException should be thrown');
-        } catch (\PHPGit\Exception\GitException $e) {
+        } catch (\PhpGit\Exception\GitException $e) {
         }
 
         $filesystem->dumpFile($this->directory . '/test.txt', 'foobar');
@@ -114,7 +114,7 @@ class RebaseCommandTest extends BaseTestCase
         try {
             $git->rebase('next');
             $this->fail('GitException should be thrown');
-        } catch (\PHPGit\Exception\GitException $e) {
+        } catch (\PhpGit\Exception\GitException $e) {
         }
 
         $git->rebase->abort();
@@ -145,10 +145,10 @@ class RebaseCommandTest extends BaseTestCase
         try {
             $git->rebase('next');
             $this->fail('GitException should be thrown');
-        } catch (\PHPGit\Exception\GitException $e) {
+        } catch (\PhpGit\Exception\GitException $e) {
         }
 
         $git->rebase->skip();
     }
 
-} 
+}

@@ -1,6 +1,6 @@
 <?php
 
-use PHPGit\Git;
+use PhpGit\Git;
 use Symfony\Component\Filesystem\Filesystem;
 
 require_once __DIR__ . '/../BaseTestCase.php';
@@ -28,7 +28,7 @@ class AddCommandTest extends BaseTestCase
     }
 
     /**
-     * @expectedException \PHPGit\Exception\GitException
+     * @expectedException \PhpGit\Exception\GitException
      * @expectedExceptionCode 128
      */
     public function testException()

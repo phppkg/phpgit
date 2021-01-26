@@ -1,6 +1,6 @@
 <?php
 
-use PHPGit\Git;
+use PhpGit\Git;
 
 require_once __DIR__ . '/../BaseTestCase.php';
 
@@ -33,4 +33,4 @@ class FetchCommandTest extends BaseTestCase
         $this->assertContains('v1.0.0', $tags);
     }
 
-} 
+}

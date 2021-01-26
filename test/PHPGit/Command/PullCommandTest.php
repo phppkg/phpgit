@@ -1,6 +1,6 @@
 <?php
 
-use PHPGit\Git;
+use PhpGit\Git;
 
 require_once __DIR__ . '/../BaseTestCase.php';
 
@@ -19,4 +19,4 @@ class PullCommandTest extends BaseTestCase
         $this->assertFileExists($this->directory . '/README.md');
     }
 
-} 
+}

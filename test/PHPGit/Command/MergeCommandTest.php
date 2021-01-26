@@ -1,6 +1,6 @@
 <?php
 
-use PHPGit\Git;
+use PhpGit\Git;
 use Symfony\Component\Filesystem\Filesystem;
 
 require_once __DIR__ . '/../BaseTestCase.php';
@@ -35,7 +35,7 @@ class MergeCommandTest extends BaseTestCase
     }
 
     /**
-     * @expectedException \PHPGit\Exception\GitException
+     * @expectedException \PhpGit\Exception\GitException
      */
     public function testMergeFail()
     {
@@ -98,4 +98,4 @@ class MergeCommandTest extends BaseTestCase
         $this->assertEquals('baz', file_get_contents($this->directory . '/test.txt'));
     }
 
-} 
+}

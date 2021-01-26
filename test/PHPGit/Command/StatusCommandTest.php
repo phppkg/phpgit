@@ -1,7 +1,7 @@
 <?php
 
-use PHPGit\Command\StatusCommand;
-use PHPGit\Git;
+use PhpGit\Command\Status;
+use PhpGit\Git;
 use Symfony\Component\Filesystem\Filesystem;
 
 require_once __DIR__ . '/../BaseTestCase.php';
@@ -31,9 +31,9 @@ class StatusCommandTest extends BaseTestCase
         $this->assertEquals(array(
             'branch' => 'master',
             'changes' => array(
-                array('file' => 'item1.txt', 'index' => StatusCommand::ADDED, 'work_tree' => StatusCommand::MODIFIED),
-                array('file' => 'item2.txt', 'index' => StatusCommand::ADDED, 'work_tree' => StatusCommand::UNMODIFIED),
-                array('file' => 'item3.txt', 'index' => StatusCommand::UNTRACKED, 'work_tree' => StatusCommand::UNTRACKED),
+                array('file' => 'item1.txt', 'index' => Status::ADDED, 'work_tree' => Status::MODIFIED),
+                array('file' => 'item2.txt', 'index' => Status::ADDED, 'work_tree' => Status::UNMODIFIED),
+                array('file' => 'item3.txt', 'index' => Status::UNTRACKED, 'work_tree' => Status::UNTRACKED),
             )
         ), $status);
     }
@@ -73,4 +73,4 @@ class StatusCommandTest extends BaseTestCase
         $this->assertEquals('master', $status['branch']);
     }
 
-} 
+}

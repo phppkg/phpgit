@@ -1,6 +1,6 @@
 <?php
 
-use PHPGit\Git;
+use PhpGit\Git;
 
 class GitTest extends PHPUnit_Framework_TestCase
 {
@@ -12,7 +12,7 @@ class GitTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \PHPGit\Exception\GitException
+     * @expectedException \PhpGit\Exception\GitException
      */
     public function testInvalidGitBinary()
     {
@@ -30,4 +30,4 @@ class GitTest extends PHPUnit_Framework_TestCase
         $git->foo();
     }
 
-} 
+}

@@ -1,6 +1,6 @@
 <?php
 
-use PHPGit\Git;
+use PhpGit\Git;
 use Symfony\Component\Filesystem\Filesystem;
 
 require_once __DIR__ . '/../BaseTestCase.php';
@@ -29,4 +29,4 @@ class ArchiveCommandTest extends BaseTestCase
         $this->assertFileExists($this->directory . '/test.zip');
     }
 
-} 
+}

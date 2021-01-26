@@ -1,6 +1,6 @@
 <?php
 
-use PHPGit\Git;
+use PhpGit\Git;
 use Symfony\Component\Filesystem\Filesystem;
 
 require_once __DIR__ . '/../BaseTestCase.php';
@@ -31,4 +31,4 @@ class PushCommandTest extends BaseTestCase
         $filesystem->remove($this->directory.'3');
     }
 
-} 
+}

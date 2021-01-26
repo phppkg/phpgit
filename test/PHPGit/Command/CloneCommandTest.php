@@ -1,6 +1,6 @@
 <?php
 
-use PHPGit\Git;
+use PhpGit\Git;
 use Symfony\Component\Filesystem\Filesystem;
 
 require_once __DIR__ . '/../BaseTestCase.php';
@@ -25,4 +25,4 @@ class CloneCommandTest extends BaseTestCase
         $this->assertFileExists($this->directory . '/.git');
     }
 
-} 
+}

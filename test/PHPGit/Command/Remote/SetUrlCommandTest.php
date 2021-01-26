@@ -1,6 +1,6 @@
 <?php
 
-use PHPGit\Git;
+use PhpGit\Git;
 
 require_once __DIR__ . '/../../BaseTestCase.php';
 
@@ -43,4 +43,4 @@ class SetUrlCommandTest extends BaseTestCase
         $this->assertEquals('http://example.com/test.git', $remotes['origin']['fetch']);
     }
 
-} 
+}
