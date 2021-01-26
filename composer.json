@@ -1,5 +1,5 @@
 {
-    "name": "ulue/gitwrap",
+    "name": "ulue/phpgit",
     "type": "library",
     "description": "A Git wrapper for PHP 7.1+",
     "homepage": "https://github/ulue/phpgit.git",
