@@ -66,6 +66,17 @@ abstract class AbstractCommand
     }
 
     /**
+     * @param Options $resolver
+     * @param array   $options
+     */
+    public function batchSetAllowedTypes(Options $resolver, array $options): void
+    {
+        foreach ($options as $option => $allowedTypes) {
+            $resolver->setAllowedTypes($option, $allowedTypes);
+        }
+    }
+
+    /**
      * Sets the default options
      *
      * @param Options $resolver The resolver for the options
@@ -74,6 +85,7 @@ abstract class AbstractCommand
      */
     public function setDefaultOptions(Options $resolver): void
     {
+        // nothing ...
     }
 
     /**

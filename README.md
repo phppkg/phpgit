@@ -1,13 +1,13 @@
 # PhpGit
 
-[![Latest Unstable Version](https://poser.pugx.org/ulue/phpgit/v/unstable.png)](https://packagist.org/packages/ulue/phpgit)
+[![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/ulue/phpgit)](https://github.com/ulue/phpgit)
 [![Github Actions Status](https://github.com/ulue/phpgit/workflows/Unit-tests/badge.svg)](https://github.com/ulue/phpgit/actions)
 
 PhpGit - A Git wrapper for PHP 7.1+
 
 ## Requirements
 
-* PHP7.1+
+* PHP 7.1+
 * Git
 
 ## Installation
