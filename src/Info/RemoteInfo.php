@@ -12,6 +12,7 @@ namespace PhpGit\Info;
 use PhpGit\Concern\AbstractInfo;
 use PhpGit\Git;
 use PhpGit\GitUtil;
+use function sprintf;
 
 /**
  * Class RemoteMeta
@@ -20,11 +21,6 @@ use PhpGit\GitUtil;
  */
 class RemoteInfo extends AbstractInfo
 {
-    /**
-     * @var string
-     */
-    public $type = Git::TYPE_GIT;
-
     /**
      * The remote name
      *
@@ -43,6 +39,11 @@ class RemoteInfo extends AbstractInfo
     public $url;
 
     // ----------- parts of the url
+
+    /**
+     * @var string
+     */
+    public $type = Git::URL_GIT;
 
     /**
      * The url scheme. eg: git, http, https
@@ -82,8 +83,8 @@ class RemoteInfo extends AbstractInfo
     /**
      * @param string $name
      * @param string $url
-     *  - http: "https://github.com/ulue/swoft-component.git"
-     *  - git: "git@github.com:ulue/swoft-component.git"
+     *  - http: "https://github.com/ulue/phpgit.git"
+     *  - git: "git@github.com:ulue/phpgit.git"
      *
      * @return RemoteInfo
      */
@@ -94,5 +95,38 @@ class RemoteInfo extends AbstractInfo
         $info['name'] = $name;
 
         return new self($info);
+    }
+
+    /**
+     * @return string
+     */
+    public function getPath(): string
+    {
+        if ($this->path) {
+            $this->path = $this->group . '/' . $this->repo;
+        }
+
+        return $this->path;
+    }
+
+    /**
+     * @return string "git@github.com:ulue/swoft-component.git"
+     */
+    public function getGitUrl(): string
+    {
+        return sprintf('%s@%s:%s.git', Git::URL_GIT, $this->host, $this->getPath());
+    }
+
+    /**
+     * @return string "https://github.com/ulue/phpgit.git"
+     */
+    public function getHttpUrl(): string
+    {
+        return sprintf('%s://%s/%s.git', Git::URL_HTTP, $this->host, $this->getPath());
+    }
+
+    public function __toString(): string
+    {
+        return sprintf('%s %s', $this->name, $this->url);
     }
 }

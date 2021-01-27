@@ -10,14 +10,11 @@
 namespace PhpGit\Concern;
 
 use PhpGit\CommandBuilder;
-use PhpGit\Exception\GitException;
 use PhpGit\Git;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Process\Process;
 use function basename;
 use function preg_split;
-use function printf;
 use function rtrim;
 use function str_replace;
 use function strtolower;
@@ -168,5 +165,13 @@ abstract class AbstractCommand
                 }
             }
         }
+    }
+
+    /**
+     * @return Git
+     */
+    public function getGit(): Git
+    {
+        return $this->git;
     }
 }

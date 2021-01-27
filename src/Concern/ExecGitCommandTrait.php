@@ -3,6 +3,7 @@
 namespace PhpGit\Concern;
 
 use BadMethodCallException;
+use PhpGit\Git;
 use RuntimeException;
 
 /**
@@ -18,6 +19,11 @@ trait ExecGitCommandTrait
      * @var AbstractCommand[]
      */
     private $commands = [];
+
+    /**
+     * @return Git
+     */
+    abstract public function getGit(): Git;
 
     /**
      * @param string $name
@@ -37,7 +43,8 @@ trait ExecGitCommandTrait
             }
         }
 
-        throw new BadMethodCallException(sprintf('Call to undefined git command %s', $name));
+        return $this->getGit()->newCmd($name, ...$args)->run();
+        // throw new BadMethodCallException(sprintf('Call to undefined git command: %s', $name));
     }
 
     /**
@@ -51,7 +58,7 @@ trait ExecGitCommandTrait
         if (!isset($this->commands[$name])) {
             $class = self::COMMANDS[$name];
             // save
-            $this->commands[$name] = new $class($this);
+            $this->commands[$name] = new $class($this->getGit());
         }
 
         return $this->commands[$name];

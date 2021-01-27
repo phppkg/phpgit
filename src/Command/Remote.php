@@ -31,6 +31,9 @@ class Remote extends AbstractCommand
 {
     use ExecGitCommandTrait;
 
+    public const TYPE_FETCH = 'fetch';
+    public const TYPE_PUSH  = 'push';
+
     public const COMMANDS = [
         'url'      => Remote\SetUrl::class,
         'head'     => Remote\SetHead::class,

@@ -11,6 +11,8 @@ namespace PhpGit;
 
 use PhpGit\Exception\GitException;
 use Symfony\Component\Process\Process;
+use Toolkit\Cli\Cli;
+use Toolkit\Cli\Color;
 use function array_merge;
 use function defined;
 use function getenv;
@@ -60,7 +62,18 @@ class CommandBuilder
      *
      * @return static
      */
-    public static function create(string $command = '', ...$args): self
+    public static function new(string $command = '', string ...$args): self
+    {
+        return new self($command, ...$args);
+    }
+
+    /**
+     * @param string $command
+     * @param mixed  ...$args
+     *
+     * @return static
+     */
+    public static function create(string $command = '', string ...$args): self
     {
         return new self($command, ...$args);
     }
@@ -71,7 +84,7 @@ class CommandBuilder
      * @param string $command
      * @param mixed  ...$args
      */
-    public function __construct(string $command = '', ...$args)
+    public function __construct(string $command = '', string ...$args)
     {
         $this->command = $command;
         $this->add(...$args);
@@ -82,7 +95,7 @@ class CommandBuilder
      */
     public function run(): string
     {
-        printf("> %s\n", $this->getCommandLine());
+        Color::println("> " . $this->getCommandLine(), 'ylw');
 
         $process = $this->getProcess();
         $process->run();

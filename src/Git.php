@@ -11,18 +11,16 @@ namespace PhpGit;
 
 use PhpGit\Concern\ExecGitCommandTrait;
 use PhpGit\Exception\GitException;
-use Symfony\Component\Process\Process;
 
 /**
  * # PhpGit
  *
  * [![Latest Unstable Version](https://poser.pugx.org/ulue/phpgit/v/unstable.png)](https://packagist.org/packages/ulue/phpgit)
- * [![Coverage Status](https://coveralls.io/repos/ulue/phpgit/badge.png)](https://coveralls.io/r/ulue/phpgit)
+ * [![Github Actions Status](https://github.com/ulue/phpgit/workflows/Unit-tests/badge.svg)](https://github.com/ulue/phpgit/actions)
  *
  * PhpGit - A Git wrapper for PHP7.1+
  *
  * ## Requirements
- * ------------
  *
  * * PHP5.3
  * * Git
@@ -125,8 +123,8 @@ class Git
 {
     use ExecGitCommandTrait;
 
-    public const TYPE_GIT  = 'git';
-    public const TYPE_HTTP = 'http';
+    public const URL_GIT  = 'git';
+    public const URL_HTTP = 'http';
 
     public const DEFAULT_REMOTE = 'origin';
 
@@ -198,6 +196,42 @@ class Git
     }
 
     /**
+     * @param string $cmd
+     * @param mixed  ...$args
+     *
+     * @return CommandBuilder
+     */
+    public function newCmd(string $cmd, string ...$args): CommandBuilder
+    {
+        return CommandBuilder::create($cmd, ...$args)
+            ->setBin($this->bin)
+            ->setWorkDir($this->directory);
+    }
+
+    /**
+     * Returns an instance of ProcessBuilder
+     *
+     * @param string   $command
+     * @param string[] ...$args
+     *
+     * @return CommandBuilder
+     */
+    public function getCommandBuilder(string $command = '', ...$args): CommandBuilder
+    {
+        return CommandBuilder::create($command, ...$args)
+            ->setBin($this->bin)
+            ->setWorkDir($this->directory);
+    }
+
+    /**
+     * @return $this
+     */
+    public function getGit(): Git
+    {
+        return $this;
+    }
+
+    /**
      * Sets the Git binary path
      *
      * @param string $bin
@@ -250,47 +284,6 @@ class Git
         $builder = $this->getCommandBuilder()->add('--version');
 
         return $builder->run();
-    }
-
-    /**
-     * Returns an instance of ProcessBuilder
-     *
-     * @param string   $command
-     *
-     * @param string[] ...$args
-     *
-     * @return CommandBuilder
-     */
-    public function getCommandBuilder(string $command = '', ...$args): CommandBuilder
-    {
-        $builder = CommandBuilder::create($command)
-            ->setBin($this->bin)
-            ->setWorkDir($this->directory);
-
-        if ($args) {
-            $builder->add(...$args);
-        }
-
-        return $builder;
-    }
-
-    /**
-     * Executes a process
-     *
-     * @param Process $process The process to run
-     *
-     * @return mixed
-     * @throws Exception\GitException
-     */
-    public function run(Process $process)
-    {
-        $process->run();
-
-        if (!$process->isSuccessful()) {
-            throw new GitException($process->getErrorOutput(), $process->getExitCode(), $process->getCommandLine());
-        }
-
-        return $process->getOutput();
     }
 
     /**

@@ -12,6 +12,7 @@ namespace PhpGit;
 use InvalidArgumentException;
 use PhpGit\Info\BranchInfo;
 use PhpGit\Info\RemoteInfo;
+use Toolkit\Cli\Cli;
 
 /**
  * Class Repo
@@ -97,6 +98,29 @@ class Repo
      * @param string $cmd
      * @param mixed  ...$args
      *
+     * @return CommandBuilder
+     */
+    public function newCmd(string $cmd, string ...$args): CommandBuilder
+    {
+        return $this->ensureGit()->newCmd($cmd, ...$args);
+    }
+
+    /**
+     * @param string $cmd
+     * @param mixed  ...$args
+     */
+    public function execAndOutput(string $cmd, ...$args): void
+    {
+        $git = $this->ensureGit();
+        $out = $git->exec($cmd, ...$args);
+
+        Cli::println($out);
+    }
+
+    /**
+     * @param string $cmd
+     * @param mixed  ...$args
+     *
      * @return string
      */
     public function exec(string $cmd, ...$args): string
@@ -126,7 +150,7 @@ class Repo
         }
 
         // create
-        $this->remoteInfos[$key] = Info::getRemote($name, $url);
+        $this->remoteInfos[$key] = RemoteInfo::newByUrl($name, $url);
 
         return $this->remoteInfos[$key];
     }
@@ -209,7 +233,7 @@ class Repo
      */
     public function getGit(): Git
     {
-        return $this->git;
+        return $this->ensureGit();
     }
 
     /**

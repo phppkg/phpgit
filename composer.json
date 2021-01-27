@@ -17,6 +17,7 @@
     ],
     "require": {
         "php": ">7.1.0",
+        "toolkit/cli-utils":"~1.0",
         "toolkit/stdlib":"~1.0",
         "symfony/process":"~4.0",
         "symfony/options-resolver": "~4.0"

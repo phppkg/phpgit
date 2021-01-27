@@ -20,20 +20,6 @@ use PhpGit\Info\RemoteInfo;
 class Info
 {
     /**
-     * @var BranchInfo[]
-     */
-    private $branches = [];
-
-    /**
-     * @var RemoteInfo[]
-     */
-    private $remotes = [];
-
-    public function __construct()
-    {
-    }
-
-    /**
      * @param string $name
      * @param string $url
      *
