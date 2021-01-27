@@ -12,7 +12,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 require_once __DIR__ . '/../BaseTestCase.php';
 
-class ResetCommandTest extends BaseTestCase
+class ResetTest extends BaseTestCase
 {
     public function testReset(): void
     {

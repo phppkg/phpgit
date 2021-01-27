@@ -16,7 +16,7 @@ require_once __DIR__ . '/../BaseTestCase.php';
 /**
  * @author Kazuyuki Hayashi <hayashi@valnur.net>
  */
-class AddCommandTest extends BaseTestCase
+class AddTest extends BaseTestCase
 {
     public function testAdd(): void
     {

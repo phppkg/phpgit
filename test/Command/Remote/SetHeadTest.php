@@ -11,7 +11,7 @@ use PhpGit\Git;
 
 require_once __DIR__ . '/../../BaseTestCase.php';
 
-class SetHeadCommandTest extends BaseTestCase
+class SetHeadTest extends BaseTestCase
 {
     public function testSetHead(): void
     {

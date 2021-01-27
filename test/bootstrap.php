@@ -10,12 +10,14 @@
 error_reporting(E_ALL | E_STRICT);
 date_default_timezone_set('Asia/Shanghai');
 
-spl_autoload_register(function ($class): void {
-    $file = null;
+require __DIR__ . '/BaseTestCase.php';
 
-    if (0 === strpos($class, 'PhpGit\Examples\\')) {
-        $path = str_replace('\\', '/', substr($class, strlen('PhpGit\Examples\\')));
-        $file = dirname(__DIR__) . "/examples/{$path}.php";
+spl_autoload_register(static function ($class): void {
+    $file = '';
+
+    if (0 === strpos($class, 'PhpGit\Example\\')) {
+        $path = str_replace('\\', '/', substr($class, strlen('PhpGit\Example\\')));
+        $file = dirname(__DIR__) . "/example/{$path}.php";
     } elseif (0 === strpos($class, 'PhpGitTest\\')) {
         $path = str_replace('\\', '/', substr($class, strlen('PhpGitTest\\')));
         $file = __DIR__ . "/{$path}.php";

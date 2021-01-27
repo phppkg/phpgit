@@ -12,7 +12,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 require_once __DIR__ . '/../BaseTestCase.php';
 
-class ShortlogCommandTest extends BaseTestCase
+class ShortlogTest extends BaseTestCase
 {
     public function testShortlog(): void
     {

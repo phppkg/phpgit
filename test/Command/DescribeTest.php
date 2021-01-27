@@ -12,7 +12,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 require_once __DIR__ . '/../BaseTestCase.php';
 
-class DescribeCommandTest extends BaseTestCase
+class DescribeTest extends BaseTestCase
 {
     public function testDescribeTags(): void
     {

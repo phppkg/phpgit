@@ -12,7 +12,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 require_once __DIR__ . '/../BaseTestCase.php';
 
-class CloneCommandTest extends BaseTestCase
+class CloneTest extends BaseTestCase
 {
     public function testClone(): void
     {

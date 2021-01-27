@@ -11,7 +11,7 @@ use PhpGit\Git;
 
 require_once __DIR__ . '/../../BaseTestCase.php';
 
-class SetBranchesCommandTest extends BaseTestCase
+class SetBranchesTest extends BaseTestCase
 {
     public function testSetBranches(): void
     {

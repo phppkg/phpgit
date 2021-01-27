@@ -13,7 +13,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 require_once __DIR__ . '/../BaseTestCase.php';
 
-class RebaseCommandTest extends BaseTestCase
+class RebaseTest extends BaseTestCase
 {
     public function testRebase(): void
     {

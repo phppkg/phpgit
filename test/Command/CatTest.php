@@ -12,7 +12,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 require_once __DIR__ . '/../BaseTestCase.php';
 
-class CatCommandTest extends BaseTestCase
+class CatTest extends BaseTestCase
 {
     public function testCatBlob(): void
     {

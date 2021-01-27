@@ -13,7 +13,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 require_once __DIR__ . '/../BaseTestCase.php';
 
-class MergeCommandTest extends BaseTestCase
+class MergeTest extends BaseTestCase
 {
     public function testMerge(): void
     {

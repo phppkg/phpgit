@@ -13,7 +13,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 require_once __DIR__ . '/../BaseTestCase.php';
 
-class TagCommandTest extends BaseTestCase
+class TagTest extends BaseTestCase
 {
     public function testTagDelete(): void
     {

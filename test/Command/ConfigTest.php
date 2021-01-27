@@ -11,7 +11,7 @@ use PhpGit\Git;
 
 require_once __DIR__ . '/../BaseTestCase.php';
 
-class ConfigCommandTest extends BaseTestCase
+class ConfigTest extends BaseTestCase
 {
     public function testConfigSetAndList(): void
     {

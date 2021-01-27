@@ -11,7 +11,7 @@ use PhpGit\Git;
 
 require_once __DIR__ . '/../BaseTestCase.php';
 
-class PullCommandTest extends BaseTestCase
+class PullTest extends BaseTestCase
 {
     public function testPull(): void
     {

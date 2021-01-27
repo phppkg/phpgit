@@ -13,7 +13,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 require_once __DIR__ . '/../BaseTestCase.php';
 
-class StatusCommandTest extends BaseTestCase
+class StatusTest extends BaseTestCase
 {
     public function testStatus(): void
     {

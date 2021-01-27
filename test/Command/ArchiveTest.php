@@ -12,20 +12,26 @@ use Symfony\Component\Filesystem\Filesystem;
 
 require_once __DIR__ . '/../BaseTestCase.php';
 
-class CommitCommandTest extends BaseTestCase
+/**
+ * @author Kazuyuki Hayashi <hayashi@valnur.net>
+ */
+class ArchiveTest extends BaseTestCase
 {
-    public function testCommit(): void
+    public function testArchive(): void
     {
+        $filesystem = new Filesystem();
+        $filesystem->mkdir($this->directory);
+
         $git = new Git();
         $git->init($this->directory);
         $git->setRepository($this->directory);
 
-        $filesystem = new Filesystem();
-        $filesystem->dumpFile($this->directory . '/test.txt', '');
+        $filesystem->dumpFile($this->directory . '/test.txt', 'hello');
         $git->add('test.txt');
         $git->commit('Initial commit');
-        $logs = $git->log('test.txt');
 
-        $this->assertCount(1, $logs);
+        $git->archive($this->directory . '/test.zip', 'master', null, ['format' => 'zip', 'prefix' => 'test/']);
+
+        $this->assertFileExists($this->directory . '/test.zip');
     }
 }

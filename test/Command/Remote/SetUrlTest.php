@@ -11,7 +11,7 @@ use PhpGit\Git;
 
 require_once __DIR__ . '/../../BaseTestCase.php';
 
-class SetUrlCommandTest extends BaseTestCase
+class SetUrlTest extends BaseTestCase
 {
     public function testSetUrl(): void
     {

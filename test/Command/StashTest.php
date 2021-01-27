@@ -12,7 +12,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 require_once __DIR__ . '/../BaseTestCase.php';
 
-class StashCommandTest extends BaseTestCase
+class StashTest extends BaseTestCase
 {
     public function testStash(): void
     {
