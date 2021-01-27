@@ -85,8 +85,8 @@ class Commit extends AbstractCommand
             'amend'         => false
         ]);
 
-        $resolver->setAllowedValues([
-            'cleanup' => [null, 'default', 'verbatim', 'whitespace', 'strip']
+        $resolver->setAllowedValues('cleanup', [
+            null, 'default', 'verbatim', 'whitespace', 'strip'
         ]);
     }
 }

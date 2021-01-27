@@ -54,6 +54,10 @@ class Archive extends AbstractCommand
             $builder->add('--prefix=' . $options['prefix']);
         }
 
+        if ($options['remote']) {
+            $builder->add('--remote=' . $options['remote']);
+        }
+
         $builder->add('-o')->add($file);
 
         if ($tree) {
@@ -86,13 +90,17 @@ class Archive extends AbstractCommand
             'prefix' => null
         ]);
 
-        $resolver->setAllowedTypes([
+        $this->batchSetAllowedTypes($resolver, [
             'format' => ['null', 'string'],
-            'prefix' => ['null', 'string']
+            'prefix' => ['null', 'string'],
+            'remote' => ['null', 'string']
         ]);
+        // $resolver->setAllowedTypes([
+        //     'format' => ['null', 'string'],
+        //     'prefix' => ['null', 'string'],
+        //     'remote' => ['null', 'string']
+        // ]);
 
-        $resolver->setAllowedValues([
-            'format' => ['tar', 'zip']
-        ]);
+        $resolver->setAllowedValues('format', ['tar', 'zip']);
     }
 }
