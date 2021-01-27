@@ -48,6 +48,34 @@ foreach ($git->tree('release') as $object) {
 }
 ```
 
+## Git Info
+
+```php
+$repo = PhpGit\Repo::new('/path/to/repo');
+
+$remotes = $repo->getRemotes();
+
+$url  = $repo->getRemoteUrl('origin');
+$info = $repo->getRemoteInfo('origin');
+
+var_dump($info);
+```
+
+**Output:**
+
+```text
+object(PhpGit\Info\RemoteInfo)#35 (8) {
+  ["type"]=> string(4) "http"
+  ["name"]=> string(6) "origin"
+  ["url"]=> string(34) "https://github.com/ulue/phpgit.git"
+  ["scheme"]=> string(5) "https"
+  ["host"]=> string(10) "github.com"
+  ["path"]=> string(11) "ulue/phpgit"
+  ["group"]=> string(4) "ulue"
+  ["repo"]=> string(6) "phpgit"
+}
+```
+
 ## API
 
 ### Git commands
