@@ -64,19 +64,38 @@ class Branch extends AbstractCommand
 
         // $process = $builder->getProcess();
         $output = $this->run($builder);
-        $lines = preg_split('/\r?\n/', rtrim($output), -1, PREG_SPLIT_NO_EMPTY);
+        $lines  = preg_split('/\r?\n/', rtrim($output), -1, PREG_SPLIT_NO_EMPTY);
 
+        $pattern = '/(?<current>\*| ) (?<name>[^\s]+) +((?:->) (?<alias>[^\s]+)|(?<hash>[0-9a-z]{7}) (?<title>.*))/';
         foreach ($lines as $line) {
-            $branch = [];
-            preg_match('/(?<current>\*| ) (?<name>[^\s]+) +((?:->) (?<alias>[^\s]+)|(?<hash>[0-9a-z]{7}) (?<title>.*))/', $line, $matches);
+            $branch = [
+                'current' => '',
+                'name'    => '',
+                'title'   => '',
+                'alias'   => '',
+                'hash'    => ''
+            ];
 
-            $branch['current'] = ($matches['current'] === '*');
-            $branch['name']    = $matches['name'];
+            preg_match($pattern, $line, $matches);
+
+            // up from: https://github.com/kzykhys/PHPGit/pull/15/files
+            if (isset($matches['current'])) {
+                $branch['current'] = $matches['current'] === '*';
+            }
+
+            if (isset($matches['name'])) {
+                $branch['name'] = $matches['name'];
+            } else {
+                $matches['name'] = '';
+            }
 
             if (isset($matches['hash'])) {
-                $branch['hash']  = $matches['hash'];
+                $branch['hash'] = $matches['hash'];
+            }
+            if (isset($matches['title'])) {
                 $branch['title'] = $matches['title'];
-            } else {
+            }
+            if (isset($matches['alias'])) {
                 $branch['alias'] = $matches['alias'];
             }
 

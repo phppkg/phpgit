@@ -1369,4 +1369,4 @@ The MIT License
 Author
 ------
 
-Kazuyuki Hayashi (@kzykhys)
+Developed by Kazuyuki Hayashi (@kzykhys), Maintained by @inhere
