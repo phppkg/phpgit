@@ -9,7 +9,7 @@
 
 namespace PhpGit\Command;
 
-use PhpGit\AbstractCommand;
+use PhpGit\Concern\AbstractCommand;
 use Symfony\Component\OptionsResolver\Options;
 
 /**
@@ -51,7 +51,7 @@ class Show extends AbstractCommand
 
         $builder->add($object);
 
-        return $this->run($builder->getProcess());
+        return $this->run($builder);
     }
 
     /**

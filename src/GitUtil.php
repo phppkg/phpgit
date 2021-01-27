@@ -9,6 +9,7 @@
 
 namespace PhpGit;
 
+use Symfony\Component\Process\Process;
 use function explode;
 use function parse_url;
 use function strpos;
@@ -22,6 +23,35 @@ use function substr;
 class GitUtil
 {
     /**
+     * This method is used to create a process object.
+     *
+     * @param string $command
+     * @param array  $args
+     * @param array  $options
+     *
+     * @return Process
+     */
+    public static function newProcess(string $command, array $args = [], array $options = []): Process
+    {
+        $isWindows = defined('PHP_WINDOWS_VERSION_BUILD');
+        $options   = array_merge([
+            'env_vars' => $isWindows ? ['PATH' => getenv('PATH')] : [],
+            'command'  => 'git',
+            'work_dir' => null,
+            'timeout'  => 3600,
+        ], $options);
+
+        $cmdWithArgs = array_merge([$options['command'], $command], $args);
+
+        $process = new Process($cmdWithArgs, $options['work_dir']);
+        $process->setEnv($options['env_vars']);
+        $process->setTimeout($options['timeout']);
+        $process->setIdleTimeout($options['timeout']);
+
+        return $process;
+    }
+
+    /**
      * @param string $url
      *
      * @return array
@@ -32,41 +62,46 @@ class GitUtil
         if (strpos($url, 'git@') === 0) {
             $type = 'git';
 
+            // remove suffix
             if (substr($url, -4) === '.git') {
-                $url = substr($url, 4, -4);
+                $str = substr($url, 4, -4);
             } else {
-                $url = substr($url, 4);
+                $str = substr($url, 4);
             }
 
             // $url = gitlab.my.com:group/some-lib
-            [$host, $path] = explode(':', $url, 2);
+            [$host, $path] = explode(':', $str, 2);
             [$group, $repo] = explode('/', $path, 2);
-        } else {
-            $type = 'http';
 
-            // eg: "https://github.com/ulue/swoft-component.git"
-            $info = parse_url($url);
-            // add
-            $info['url']  = $url;
-
-            $uriPath = $info['path'];
-            if (substr($uriPath, -4) === '.git') {
-                $uriPath = substr($uriPath, 0, -4);
-            }
-
-            $info['path'] = trim($uriPath, '/');
-
-            [$group, $repo] = explode('/', $info['path'], 2);
-            $info['group']  = $group;
+            return [
+                'url'    => $url,
+                'type'   => $type,
+                'scheme' => $type,
+                'host'   => $host,
+                'path'   => $path,
+                'group'  => $group,
+                'repo'   => $repo,
+            ];
         }
 
-        return  [
-            'url'   => $url,
-            'type'   => $type,
-            'host'  => $host,
-            'path'  => $path,
-            'group' => $group,
-            'repo'  => $repo,
-        ];
+        // eg: "https://github.com/ulue/swoft-component.git"
+        $info = parse_url($url);
+        // add
+        $info['url']  = $url;
+        $info['type'] = 'http';
+
+        $uriPath = $info['path'];
+        if (substr($uriPath, -4) === '.git') {
+            $uriPath = substr($uriPath, 0, -4);
+        }
+
+        $info['path'] = trim($uriPath, '/');
+
+        [$group, $repo] = explode('/', $info['path'], 2);
+
+        $info['group'] = $group;
+        $info['repo']  = $repo;
+
+        return $info;
     }
 }

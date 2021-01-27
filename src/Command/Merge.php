@@ -9,7 +9,7 @@
 
 namespace PhpGit\Command;
 
-use PhpGit\AbstractCommand;
+use PhpGit\Concern\AbstractCommand;
 use PhpGit\Exception\GitException;
 use Symfony\Component\OptionsResolver\Options;
 use Traversable;
@@ -59,7 +59,7 @@ class Merge extends AbstractCommand
             $builder->add($value);
         }
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }
@@ -84,7 +84,7 @@ class Merge extends AbstractCommand
     {
         $builder = $this->getCommandBuilder()->add('--abort');
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }

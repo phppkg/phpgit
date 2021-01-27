@@ -9,7 +9,7 @@
 
 namespace PhpGit\Command;
 
-use PhpGit\AbstractCommand;
+use PhpGit\Concern\AbstractCommand;
 use Symfony\Component\OptionsResolver\Options;
 use Traversable;
 
@@ -59,7 +59,7 @@ class Rm extends AbstractCommand
             $builder->add($value);
         }
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }

@@ -9,7 +9,7 @@
 
 namespace PhpGit\Command;
 
-use PhpGit\AbstractCommand;
+use PhpGit\Concern\AbstractCommand;
 use PhpGit\Exception\GitException;
 use Symfony\Component\OptionsResolver\Options;
 use Traversable;
@@ -44,7 +44,7 @@ class Tag extends AbstractCommand
     {
         $builder = $this->getCommandBuilder();
 
-        $output = $this->run($builder->getProcess());
+        $output = $this->run($builder);
 
         return $this->split($output);
     }
@@ -81,7 +81,7 @@ class Tag extends AbstractCommand
             $builder->add($commit);
         }
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }
@@ -106,7 +106,7 @@ class Tag extends AbstractCommand
             $builder->add($value);
         }
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }
@@ -132,7 +132,7 @@ class Tag extends AbstractCommand
             $builder->add($value);
         }
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }

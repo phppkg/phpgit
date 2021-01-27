@@ -16,15 +16,15 @@ class RemoteTest extends BaseTestCase
     public function testRemote(): void
     {
         $git = new Git();
-        $git->clone('https://github.com/kzykhys/Text.git', $this->directory);
+        $git->clone('https://github.com/ulue/phpgit.git', $this->directory);
         $git->setRepository($this->directory);
 
         $remotes = $git->remote();
 
         $this->assertEquals([
             'origin' => [
-                'fetch' => 'https://github.com/kzykhys/Text.git',
-                'push'  => 'https://github.com/kzykhys/Text.git'
+                'fetch' => 'https://github.com/ulue/phpgit.git',
+                'push'  => 'https://github.com/ulue/phpgit.git'
             ]
         ], $remotes);
     }
@@ -34,14 +34,14 @@ class RemoteTest extends BaseTestCase
         $git = new Git();
         $git->init($this->directory);
         $git->setRepository($this->directory);
-        $git->remote->add('origin', 'https://github.com/kzykhys/Text.git');
+        $git->remote->add('origin', 'https://github.com/ulue/phpgit.git');
 
         $remotes = $git->remote();
 
         $this->assertEquals([
             'origin' => [
-                'fetch' => 'https://github.com/kzykhys/Text.git',
-                'push'  => 'https://github.com/kzykhys/Text.git'
+                'fetch' => 'https://github.com/ulue/phpgit.git',
+                'push'  => 'https://github.com/ulue/phpgit.git'
             ]
         ], $remotes);
     }
@@ -51,14 +51,14 @@ class RemoteTest extends BaseTestCase
         $git = new Git();
         $git->init($this->directory);
         $git->setRepository($this->directory);
-        $git->remote->add('origin', 'https://github.com/kzykhys/Text.git');
+        $git->remote->add('origin', 'https://github.com/ulue/phpgit.git');
         $git->remote->rename('origin', 'upstream');
 
         $remotes = $git->remote();
         $this->assertEquals([
             'upstream' => [
-                'fetch' => 'https://github.com/kzykhys/Text.git',
-                'push'  => 'https://github.com/kzykhys/Text.git'
+                'fetch' => 'https://github.com/ulue/phpgit.git',
+                'push'  => 'https://github.com/ulue/phpgit.git'
             ]
         ], $remotes);
     }
@@ -68,7 +68,7 @@ class RemoteTest extends BaseTestCase
         $git = new Git();
         $git->init($this->directory);
         $git->setRepository($this->directory);
-        $git->remote->add('origin', 'https://github.com/kzykhys/Text.git');
+        $git->remote->add('origin', 'https://github.com/ulue/phpgit.git');
         $git->remote->rm('origin');
 
         $remotes = $git->remote();
@@ -80,7 +80,7 @@ class RemoteTest extends BaseTestCase
         $git = new Git();
         $git->init($this->directory);
         $git->setRepository($this->directory);
-        $git->remote->add('origin', 'https://github.com/kzykhys/Text.git');
+        $git->remote->add('origin', 'https://github.com/ulue/phpgit.git');
 
         $this->assertNotEmpty($git->remote->show('origin'));
     }
@@ -90,7 +90,7 @@ class RemoteTest extends BaseTestCase
         $git = new Git();
         $git->init($this->directory);
         $git->setRepository($this->directory);
-        $git->remote->add('origin', 'https://github.com/kzykhys/Text.git');
+        $git->remote->add('origin', 'https://github.com/ulue/phpgit.git');
         $git->remote->prune('origin');
     }
 

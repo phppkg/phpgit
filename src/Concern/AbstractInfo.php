@@ -7,15 +7,15 @@
  * @license  MIT
  */
 
-namespace PhpGit\Meta;
+namespace PhpGit\Concern;
 
-use PhpGit\AbstractMeta;
+use Toolkit\Stdlib\Obj\AbstractMap;
 
 /**
- * Class TagMeta
+ * Class AbstractInfo
  *
- * @package PhpGit\Meta
+ * @package PhpGit\Concern
  */
-class TagMeta extends AbstractMeta
+abstract class AbstractInfo extends AbstractMap
 {
 }

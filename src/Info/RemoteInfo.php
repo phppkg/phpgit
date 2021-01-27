@@ -7,24 +7,33 @@
  * @license  MIT
  */
 
-namespace PhpGit\Meta;
+namespace PhpGit\Info;
 
-use PhpGit\AbstractMeta;
+use PhpGit\Concern\AbstractInfo;
+use PhpGit\Git;
+use PhpGit\GitUtil;
 
 /**
  * Class RemoteMeta
  *
- * @package PhpGit\Meta
+ * @package PhpGit\Info
  */
-class RemoteMeta extends AbstractMeta
+class RemoteInfo extends AbstractInfo
 {
     /**
+     * @var string
+     */
+    public $type = Git::TYPE_GIT;
+
+    /**
+     * The remote name
+     *
      * @var string
      */
     public $name;
 
     /**
-     * remote URL address
+     * The repo remote URL address
      *
      *  - http: "https://github.com/ulue/swoft-component.git"
      *  - git: "git@github.com:ulue/swoft-component.git"
@@ -33,14 +42,24 @@ class RemoteMeta extends AbstractMeta
      */
     public $url;
 
+    // ----------- parts of the url
+
     /**
+     * The url scheme. eg: git, http, https
+     *
+     * @var string
+     */
+    public $scheme;
+
+    /**
+     * repo host. eg: github.com
+     *
      * @var string
      */
     public $host;
 
     /**
-     * repo path.
-     * path = group + repo
+     * repo path. `path = group/repo`
      *
      * @var string
      */
@@ -66,14 +85,13 @@ class RemoteMeta extends AbstractMeta
      *  - http: "https://github.com/ulue/swoft-component.git"
      *  - git: "git@github.com:ulue/swoft-component.git"
      *
-     * @return RemoteMeta
+     * @return RemoteInfo
      */
-    public static function newByParse(string $name, string $url): RemoteMeta
+    public static function newByUrl(string $name, string $url): RemoteInfo
     {
-        $info = [
-            'name' => $name,
-            'url'  => $url,
-        ];
+        $info = GitUtil::parseRemoteUrl($url);
+        // set name
+        $info['name'] = $name;
 
         return new self($info);
     }

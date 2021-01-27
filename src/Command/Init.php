@@ -9,7 +9,7 @@
 
 namespace PhpGit\Command;
 
-use PhpGit\AbstractCommand;
+use PhpGit\Concern\AbstractCommand;
 use PhpGit\Exception\GitException;
 use Symfony\Component\OptionsResolver\Options;
 
@@ -47,8 +47,9 @@ class Init extends AbstractCommand
 
         $this->addFlags($builder, $options, ['shared', 'bare']);
 
-        $process = $builder->add($path)->getProcess();
-        $this->run($process);
+        $builder->add($path);
+
+        $this->run($builder);
 
         return true;
     }

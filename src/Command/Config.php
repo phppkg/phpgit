@@ -9,7 +9,7 @@
 
 namespace PhpGit\Command;
 
-use PhpGit\AbstractCommand;
+use PhpGit\Concern\AbstractCommand;
 use PhpGit\Exception\GitException;
 use Symfony\Component\OptionsResolver\Options;
 
@@ -42,7 +42,7 @@ class Config extends AbstractCommand
         $this->addFlags($builder, $options, ['global', 'system']);
 
         $config = [];
-        $output = $this->run($builder->getProcess());
+        $output = $this->run($builder);
         $lines  = $this->split($output, true);
 
         foreach ($lines as $line) {
@@ -82,8 +82,7 @@ class Config extends AbstractCommand
 
         $builder->add($name)->add($value);
 
-        $process = $builder->getProcess();
-        $this->run($process);
+        $this->run($builder);
 
         return true;
     }
@@ -111,8 +110,8 @@ class Config extends AbstractCommand
         $this->addFlags($builder, $options, ['global', 'system']);
 
         $builder->add('--add')->add($name)->add($value);
-        $process = $builder->getProcess();
-        $this->run($process);
+
+        $this->run($builder);
 
         return true;
     }

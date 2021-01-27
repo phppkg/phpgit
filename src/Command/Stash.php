@@ -9,7 +9,7 @@
 
 namespace PhpGit\Command;
 
-use PhpGit\AbstractCommand;
+use PhpGit\Concern\AbstractCommand;
 
 /**
  * Stash the changes in a dirty working directory away - `git stash`
@@ -33,7 +33,7 @@ class Stash extends AbstractCommand
     {
         $builder = $this->getCommandBuilder();
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }
@@ -59,7 +59,7 @@ class Stash extends AbstractCommand
 
         $builder->add($message);
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }
@@ -90,7 +90,7 @@ class Stash extends AbstractCommand
     {
         $builder = $this->getCommandBuilder()->add('list');
 
-        $output = $this->run($builder->getProcess());
+        $output = $this->run($builder);
         $lines  = $this->split($output);
         $list   = [];
 
@@ -134,7 +134,7 @@ class Stash extends AbstractCommand
             $builder->add($stash);
         }
 
-        return $this->run($builder->getProcess());
+        return $this->run($builder);
     }
 
     /**
@@ -158,7 +158,7 @@ class Stash extends AbstractCommand
             $builder->add($stash);
         }
 
-        return $this->run($builder->getProcess());
+        return $this->run($builder);
     }
 
     /**
@@ -186,7 +186,7 @@ class Stash extends AbstractCommand
             $builder->add($stash);
         }
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }
@@ -216,7 +216,7 @@ class Stash extends AbstractCommand
             $builder->add($stash);
         }
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }
@@ -245,7 +245,7 @@ class Stash extends AbstractCommand
             $builder->add($stash);
         }
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }
@@ -266,7 +266,7 @@ class Stash extends AbstractCommand
         $builder = $this->getCommandBuilder()
             ->add('clear');
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }
@@ -292,6 +292,6 @@ class Stash extends AbstractCommand
     {
         $builder = $this->getCommandBuilder()->add('create');
 
-        return $this->run($builder->getProcess());
+        return $this->run($builder);
     }
 }

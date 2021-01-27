@@ -10,7 +10,7 @@
 namespace PhpGit\Command;
 
 use Iterator;
-use PhpGit\AbstractCommand;
+use PhpGit\Concern\AbstractCommand;
 use Symfony\Component\OptionsResolver\Options;
 use Traversable;
 
@@ -57,7 +57,7 @@ class Mv extends AbstractCommand
 
         $builder->add($destination);
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }

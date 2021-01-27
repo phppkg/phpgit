@@ -9,7 +9,7 @@
 
 namespace PhpGit\Command\Remote;
 
-use PhpGit\AbstractCommand;
+use PhpGit\Concern\AbstractCommand;
 
 /**
  * Sets or deletes the default branch (i.e. the target of the symbolic-ref refs/remotes/<name>/HEAD) for the named remote
@@ -29,7 +29,7 @@ class SetHead extends AbstractCommand
      * ``` php
      * $git = new PhpGit\Git();
      * $git->setRepository('/path/to/repo');
-     * $git->remote->add('origin', 'https://github.com/kzykhys/Text.git');
+     * $git->remote->add('origin', 'https://github.com/ulue/phpgit.git');
      * $git->remote->head('origin');
      * ```
      *
@@ -49,7 +49,7 @@ class SetHead extends AbstractCommand
      * ``` php
      * $git = new PhpGit\Git();
      * $git->setRepository('/path/to/repo');
-     * $git->remote->add('origin', 'https://github.com/kzykhys/Text.git');
+     * $git->remote->add('origin', 'https://github.com/ulue/phpgit.git');
      * $git->remote->head->set('origin');
      * ```
      *
@@ -68,7 +68,7 @@ class SetHead extends AbstractCommand
             $builder->add($branch);
         }
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }
@@ -79,7 +79,7 @@ class SetHead extends AbstractCommand
      * ``` php
      * $git = new PhpGit\Git();
      * $git->setRepository('/path/to/repo');
-     * $git->remote->add('origin', 'https://github.com/kzykhys/Text.git');
+     * $git->remote->add('origin', 'https://github.com/ulue/phpgit.git');
      * $git->remote->head->delete('origin');
      * ```
      *
@@ -94,7 +94,7 @@ class SetHead extends AbstractCommand
             ->add($name)
             ->add('-d');
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }
@@ -105,7 +105,7 @@ class SetHead extends AbstractCommand
      * ``` php
      * $git = new PhpGit\Git();
      * $git->setRepository('/path/to/repo');
-     * $git->remote->add('origin', 'https://github.com/kzykhys/Text.git');
+     * $git->remote->add('origin', 'https://github.com/ulue/phpgit.git');
      * $git->remote->head->remote('origin');
      * ```
      *
@@ -120,7 +120,7 @@ class SetHead extends AbstractCommand
             ->add($name)
             ->add('-a');
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }

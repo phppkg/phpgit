@@ -9,7 +9,7 @@
 
 namespace PhpGit\Command;
 
-use PhpGit\AbstractCommand;
+use PhpGit\Concern\AbstractCommand;
 use PhpGit\Exception\GitException;
 use Symfony\Component\OptionsResolver\Options;
 
@@ -48,7 +48,7 @@ class Checkout extends AbstractCommand
         $this->addFlags($builder, $options, ['force', 'merge']);
 
         $builder->add($branch);
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }
@@ -86,7 +86,7 @@ class Checkout extends AbstractCommand
             $builder->add($startPoint);
         }
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }
@@ -123,7 +123,7 @@ class Checkout extends AbstractCommand
             $builder->add($startPoint);
         }
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }

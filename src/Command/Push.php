@@ -9,7 +9,7 @@
 
 namespace PhpGit\Command;
 
-use PhpGit\AbstractCommand;
+use PhpGit\Concern\AbstractCommand;
 use Symfony\Component\OptionsResolver\Options;
 
 /**
@@ -49,7 +49,7 @@ class Push extends AbstractCommand
             }
         }
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }

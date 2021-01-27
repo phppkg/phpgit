@@ -7,15 +7,15 @@
  * @license  MIT
  */
 
-namespace PhpGit;
+namespace PhpGit\Info;
 
-use Toolkit\Stdlib\Obj\AbstractMap;
+use PhpGit\Concern\AbstractInfo;
 
 /**
- * Class AbstractMeta
+ * Class BranchMeta
  *
- * @package PhpGit
+ * @package PhpGit\Info
  */
-abstract class AbstractMeta extends AbstractMap
+class BranchInfo extends AbstractInfo
 {
 }

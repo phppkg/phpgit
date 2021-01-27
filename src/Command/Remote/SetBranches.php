@@ -9,7 +9,7 @@
 
 namespace PhpGit\Command\Remote;
 
-use PhpGit\AbstractCommand;
+use PhpGit\Concern\AbstractCommand;
 
 /**
  * Changes the list of branches tracked by the named remote
@@ -29,7 +29,7 @@ class SetBranches extends AbstractCommand
      * ``` php
      * $git = new PhpGit\Git();
      * $git->setRepository('/path/to/repo');
-     * $git->remote->add('origin', 'https://github.com/kzykhys/Text.git');
+     * $git->remote->add('origin', 'https://github.com/ulue/phpgit.git');
      * $git->remote->branches('origin', array('master', 'develop'));
      * ```
      *
@@ -49,7 +49,7 @@ class SetBranches extends AbstractCommand
      * ``` php
      * $git = new PhpGit\Git();
      * $git->setRepository('/path/to/repo');
-     * $git->remote->add('origin', 'https://github.com/kzykhys/Text.git');
+     * $git->remote->add('origin', 'https://github.com/ulue/phpgit.git');
      * $git->remote->branches->set('origin', array('master', 'develop'));
      * ```
      *
@@ -68,7 +68,7 @@ class SetBranches extends AbstractCommand
             $builder->add($branch);
         }
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }
@@ -79,7 +79,7 @@ class SetBranches extends AbstractCommand
      * ``` php
      * $git = new PhpGit\Git();
      * $git->setRepository('/path/to/repo');
-     * $git->remote->add('origin', 'https://github.com/kzykhys/Text.git');
+     * $git->remote->add('origin', 'https://github.com/ulue/phpgit.git');
      * $git->remote->branches->add('origin', array('master', 'develop'));
      * ```
      *
@@ -99,7 +99,7 @@ class SetBranches extends AbstractCommand
             $builder->add($branch);
         }
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }

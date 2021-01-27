@@ -9,7 +9,7 @@
 
 namespace PhpGit\Command;
 
-use PhpGit\AbstractCommand;
+use PhpGit\Concern\AbstractCommand;
 use PhpGit\Exception\GitException;
 use Symfony\Component\OptionsResolver\Options;
 
@@ -56,7 +56,7 @@ class Commit extends AbstractCommand
         $this->addFlags($builder, $options, ['all', 'amend']);
         $this->addValues($builder, $options, ['reuse-message', 'squash', 'author', 'date', 'cleanup']);
 
-        // $this->run($builder->getProcess());
+        // $this->run($builder);
         $builder->run();
 
         return true;

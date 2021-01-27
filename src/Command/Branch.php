@@ -9,7 +9,7 @@
 
 namespace PhpGit\Command;
 
-use PhpGit\AbstractCommand;
+use PhpGit\Concern\AbstractCommand;
 use PhpGit\Exception\GitException;
 use Symfony\Component\OptionsResolver\Options;
 
@@ -52,7 +52,7 @@ class Branch extends AbstractCommand
     {
         $options  = $this->resolve($options);
         $branches = [];
-        $builder  = $this->getCommandBuilder()->add('-v')->add('--abbrev=7');
+        $builder  = $this->getCommandBuilder()->add('-v', '--abbrev=7');
 
         if ($options['remotes']) {
             $builder->add('--remotes');
@@ -62,10 +62,9 @@ class Branch extends AbstractCommand
             $builder->add('--all');
         }
 
-        $process = $builder->getProcess();
-        $this->run($process);
-
-        $lines = preg_split('/\r?\n/', rtrim($process->getOutput()), -1, PREG_SPLIT_NO_EMPTY);
+        // $process = $builder->getProcess();
+        $output = $this->run($builder);
+        $lines = preg_split('/\r?\n/', rtrim($output), -1, PREG_SPLIT_NO_EMPTY);
 
         foreach ($lines as $line) {
             $branch = [];
@@ -125,7 +124,7 @@ class Branch extends AbstractCommand
             $builder->add($startPoint);
         }
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }
@@ -162,7 +161,7 @@ class Branch extends AbstractCommand
         }
 
         $builder->add($branch)->add($newBranch);
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }
@@ -200,7 +199,7 @@ class Branch extends AbstractCommand
         }
 
         $builder->add($branch);
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }

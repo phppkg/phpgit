@@ -10,7 +10,7 @@
 namespace PhpGit\Command;
 
 use InvalidArgumentException;
-use PhpGit\AbstractCommand;
+use PhpGit\Concern\AbstractCommand;
 use PhpGit\Exception\GitException;
 use Traversable;
 
@@ -52,7 +52,7 @@ class Reset extends AbstractCommand
         }
 
         try {
-            $this->run($builder->getProcess());
+            $this->run($builder);
         } catch (GitException $e) {
             // Confirm exit code
         }
@@ -195,7 +195,7 @@ class Reset extends AbstractCommand
             $builder->add($commit);
         }
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }

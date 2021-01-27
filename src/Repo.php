@@ -9,7 +9,9 @@
 
 namespace PhpGit;
 
-use PhpGit\Command\Remote;
+use InvalidArgumentException;
+use PhpGit\Info\BranchInfo;
+use PhpGit\Info\RemoteInfo;
 
 /**
  * Class Repo
@@ -24,16 +26,46 @@ class Repo
     private $git;
 
     /**
+     * @var Info
+     */
+    private $info;
+
+    /**
      * @var string
      */
     private $repoDir;
+
+    /**
+     * @var string
+     */
+    private $defaultRemote = Git::DEFAULT_REMOTE;
+
+    /**
+     * @var string[]
+     */
+    private $branchNames = [];
+
+    /**
+     * @var BranchInfo[]
+     */
+    private $branchInfos = [];
+
+    /**
+     * @var string[]
+     */
+    private $remotes = [];
+
+    /**
+     * @var RemoteInfo[]
+     */
+    private $remoteInfos = [];
 
     /**
      * @param string $repoDir
      *
      * @return static
      */
-    public static function new(string $repoDir): self
+    public static function new(string $repoDir = ''): self
     {
         return new self($repoDir);
     }
@@ -51,17 +83,94 @@ class Repo
         return $self;
     }
 
-    public function __construct(string $repoDir)
+    /**
+     * Class constructor.
+     *
+     * @param string $repoDir
+     */
+    public function __construct(string $repoDir = '')
     {
         $this->repoDir = $repoDir;
     }
 
-    public function getRemote(string $name): Remote
+    /**
+     * @param string $cmd
+     * @param mixed  ...$args
+     *
+     * @return string
+     */
+    public function exec(string $cmd, ...$args): string
     {
+        $git = $this->ensureGit();
+
+        return $git->exec($cmd, ...$args);
     }
 
-    public function getRemotes(): array
+    /**
+     * @param string $name
+     * @param string $type allow: fetch, push
+     *
+     * @return RemoteInfo
+     */
+    public function getRemoteInfo(string $name = '', string $type = 'fetch'): RemoteInfo
     {
+        $name = $name ?: $this->defaultRemote;
+        $key = $name . '.' . $type;
+        if (isset($this->remoteInfos[$key])) {
+            return $this->remoteInfos[$key];
+        }
+
+        $url = $this->getRemoteUrl($name, $type);
+        if (!$url) {
+            throw new InvalidArgumentException("The remote '$name' is not exists");
+        }
+
+        // create
+        $this->remoteInfos[$key] = Info::getRemote($name, $url);
+
+        return $this->remoteInfos[$key];
+    }
+
+    /**
+     * @param string $name
+     * @param string $type allow: fetch, push
+     *
+     * @return string
+     */
+    public function getRemoteUrl(string $name = '', string $type = 'fetch'): string
+    {
+        $remotes = $this->getRemotes();
+
+        $name = $name ?: $this->defaultRemote;
+        if (!isset($remotes[$name])) {
+            return '';
+        }
+
+        // 'origin' => array (
+        //     'fetch' => 'https://github.com/ulue/phpgit.git',
+        //     'push' => 'git@github.com:ulue/phpgit.git',
+        //  ),
+        if ($type === 'fetch') {
+            return $remotes[$name]['fetch'] ?? '';
+        }
+
+        return $remotes[$name]['push'] ?? '';
+    }
+
+    /**
+     * @param bool $refresh
+     *
+     * @return array
+     */
+    public function getRemotes(bool $refresh = false): array
+    {
+        if (false === $refresh && $this->remotes) {
+            return $this->remotes;
+        }
+
+        $this->remotes = $this->ensureGit()->remote->getList();
+
+        return $this->remotes;
     }
 
     /**
@@ -101,5 +210,21 @@ class Repo
     public function getGit(): Git
     {
         return $this->git;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultRemote(): string
+    {
+        return $this->defaultRemote;
+    }
+
+    /**
+     * @param string $defaultRemote
+     */
+    public function setDefaultRemote(string $defaultRemote): void
+    {
+        $this->defaultRemote = $defaultRemote;
     }
 }

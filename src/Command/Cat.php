@@ -9,7 +9,7 @@
 
 namespace PhpGit\Command;
 
-use PhpGit\AbstractCommand;
+use PhpGit\Concern\AbstractCommand;
 use PhpGit\Exception\GitException;
 use function trim;
 
@@ -41,12 +41,11 @@ class Cat extends AbstractCommand
      */
     public function blob($object): string
     {
-        $process = $this->getCommandBuilder()
+        $builder = $this->getCommandBuilder()
             ->add('blob')
-            ->add($object)
-            ->getProcess();
+            ->add($object);
 
-        return $this->run($process);
+        return $this->run($builder);
     }
 
     /**
@@ -65,12 +64,11 @@ class Cat extends AbstractCommand
      */
     public function type($object): string
     {
-        $process = $this->getCommandBuilder()
+        $builder = $this->getCommandBuilder()
             ->add('-t')
-            ->add($object)
-            ->getProcess();
+            ->add($object);
 
-        return trim($this->run($process));
+        return trim($this->run($builder));
     }
 
     /**
@@ -89,11 +87,10 @@ class Cat extends AbstractCommand
      */
     public function size($object): string
     {
-        $process = $this->getCommandBuilder()
+        $builder = $this->getCommandBuilder()
             ->add('-s')
-            ->add($object)
-            ->getProcess();
+            ->add($object);
 
-        return trim($this->run($process));
+        return trim($this->run($builder));
     }
 }

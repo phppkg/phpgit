@@ -17,7 +17,7 @@ class FetchTest extends BaseTestCase
         $git->init($this->directory);
         $git->setRepository($this->directory);
 
-        $git->remote->add('origin', 'https://github.com/kzykhys/Text.git');
+        $git->remote->add('origin', 'https://github.com/ulue/phpgit.git');
         $git->fetch('origin', '+refs/heads/*:refs/remotes/origin/*');
 
         $tags = $git->tag();
@@ -30,7 +30,7 @@ class FetchTest extends BaseTestCase
         $git->init($this->directory);
         $git->setRepository($this->directory);
 
-        $git->remote->add('origin', 'https://github.com/kzykhys/Text.git');
+        $git->remote->add('origin', 'https://github.com/ulue/phpgit.git');
         $git->fetch->all();
 
         $tags = $git->tag();

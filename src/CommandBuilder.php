@@ -14,6 +14,9 @@ use Symfony\Component\Process\Process;
 use function array_merge;
 use function defined;
 use function getenv;
+use function implode;
+use function printf;
+use function sprintf;
 
 /**
  * Class CommandBuilder
@@ -71,7 +74,7 @@ class CommandBuilder
     public function __construct(string $command = '', ...$args)
     {
         $this->command = $command;
-        $this->addArgs(...$args);
+        $this->add(...$args);
     }
 
     /**
@@ -79,6 +82,8 @@ class CommandBuilder
      */
     public function run(): string
     {
+        printf("> %s\n", $this->getCommandLine());
+
         $process = $this->getProcess();
         $process->run();
 
@@ -111,33 +116,46 @@ class CommandBuilder
     }
 
     /**
-     * @param string $arg add option or argument
+     * @param string ...$args add options or arguments
      *
      * @return $this
      */
-    public function add(string $arg): self
+    public function add(string ...$args): self
     {
-        if ($this->command) {
-            $this->args[] = $arg;
-        } else { // first arg is command
-            $this->command = $arg;
+        foreach ($args as $arg) {
+            if ($this->command) {
+                $this->args[] = $arg;
+            } else { // first arg is command
+                $this->command = $arg;
+            }
         }
 
         return $this;
     }
 
     /**
+     * Alias of add()
+     *
      * @param array $args
      *
      * @return $this
      */
     public function addArgs(...$args): self
     {
-        foreach ($args as $arg) {
-            $this->add((string)$arg);
-        }
+        return $this->add(...$args);
+    }
 
-        return $this;
+    /**
+     * @return string
+     */
+    public function getCommandLine(): string
+    {
+        $argStr = implode(' ', $this->args);
+        // foreach ($this->args as $arg) {
+        //
+        // }
+
+        return sprintf('%s %s %s', $this->bin, $this->command, $argStr);
     }
 
     /**

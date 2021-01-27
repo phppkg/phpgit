@@ -9,7 +9,7 @@
 
 namespace PhpGit\Command;
 
-use PhpGit\AbstractCommand;
+use PhpGit\Concern\AbstractCommand;
 use Symfony\Component\OptionsResolver\Options;
 
 /**
@@ -58,7 +58,7 @@ class Rebase extends AbstractCommand
             $builder->add($branch);
         }
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }
@@ -72,7 +72,7 @@ class Rebase extends AbstractCommand
     {
         $builder = $this->getCommandBuilder()->add('--continue');
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }
@@ -86,7 +86,7 @@ class Rebase extends AbstractCommand
     {
         $builder = $this->getCommandBuilder()->add('--abort');
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }
@@ -100,7 +100,7 @@ class Rebase extends AbstractCommand
     {
         $builder = $this->getCommandBuilder()->add('--skip');
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }

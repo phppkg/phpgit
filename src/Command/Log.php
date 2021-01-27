@@ -9,7 +9,7 @@
 
 namespace PhpGit\Command;
 
-use PhpGit\AbstractCommand;
+use PhpGit\Concern\AbstractCommand;
 use Symfony\Component\OptionsResolver\Options;
 
 /**
@@ -74,7 +74,7 @@ class Log extends AbstractCommand
             $builder->add('--')->add($path);
         }
 
-        $output = $this->run($builder->getProcess());
+        $output = $this->run($builder);
         $lines  = $this->split($output);
 
         foreach ($lines as $line) {

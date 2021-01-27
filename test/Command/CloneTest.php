@@ -15,7 +15,7 @@ class CloneTest extends BaseTestCase
     public function testClone(): void
     {
         $git = new Git();
-        $git->clone('https://github.com/kzykhys/Text.git', $this->directory);
+        $git->clone('https://github.com/ulue/phpgit.git', $this->directory);
         $git->setRepository($this->directory);
 
         $this->assertFileExists($this->directory . '/.git');
@@ -24,7 +24,7 @@ class CloneTest extends BaseTestCase
         $filesystem->remove($this->directory);
 
         $git->setRepository('.');
-        $git->clone('https://github.com/kzykhys/Text.git', $this->directory, ['shared' => true]);
+        $git->clone('https://github.com/ulue/phpgit.git', $this->directory, ['shared' => true]);
 
         $this->assertFileExists($this->directory . '/.git');
     }

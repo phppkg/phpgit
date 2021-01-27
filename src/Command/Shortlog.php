@@ -10,8 +10,10 @@
 namespace PhpGit\Command;
 
 use DateTime;
-use PhpGit\AbstractCommand;
+use Exception;
+use PhpGit\Concern\AbstractCommand;
 use Traversable;
+use function strpos;
 
 /**
  * Summarize 'git log' output - `git shortlog`
@@ -44,12 +46,13 @@ class Shortlog extends AbstractCommand
      * @param string|array|Traversable $commits [optional] Defaults to HEAD
      *
      * @return array
+     * @throws Exception
      */
     public function __invoke($commits = 'HEAD')
     {
         $builder = $this->getCommandBuilder()
             ->add('--numbered')
-            ->add('--format=')
+            ->add('--format=%h|%ci|%s')
             ->add('-w256,2,2')
             ->add('-e');
 
@@ -61,16 +64,16 @@ class Shortlog extends AbstractCommand
             $builder->add($commit);
         }
 
-        $process = $builder->getProcess();
-        $process->setCommandLine(str_replace('--format=', '--format=%h|%ci|%s', $process->getCommandLine()));
+        // $process = $builder->getProcess();
+        // $process->setCommandLine(str_replace('--format=', '--format=%h|%ci|%s', $process->getCommandLine()));
 
-        $output = $this->run($process);
+        $output = $this->run($builder);
         $lines  = $this->split($output);
         $result = [];
         $author = null;
 
         foreach ($lines as $line) {
-            if (substr($line, 0, 1) !== ' ') {
+            if (strpos($line, ' ') !== 0) {
                 if (preg_match('/([^<>]*? <[^<>]+>)/', $line, $matches)) {
                     $author          = $matches[1];
                     $result[$author] = [];
@@ -126,7 +129,7 @@ class Shortlog extends AbstractCommand
             $builder->add($commit);
         }
 
-        $output = $this->run($builder->getProcess());
+        $output = $this->run($builder);
         $lines  = $this->split($output);
         $result = [];
 

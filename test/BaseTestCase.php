@@ -27,7 +27,7 @@ abstract class BaseTestCase extends TestCase
      */
     public function setUp(): void
     {
-        $this->directory = __DIR__ . '/../../build/' . strtolower(get_class($this));
+        $this->directory = __DIR__ . '/testdata/build/' . strtolower(get_class($this));
     }
 
     /**

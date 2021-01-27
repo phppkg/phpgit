@@ -7,16 +7,21 @@
  * @license  MIT
  */
 
-namespace PhpGit;
+namespace PhpGit\Concern;
 
+use PhpGit\CommandBuilder;
 use PhpGit\Exception\GitException;
+use PhpGit\Git;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Process\Process;
 use function basename;
 use function preg_split;
+use function printf;
 use function rtrim;
 use function str_replace;
+use function strtolower;
+use const PREG_SPLIT_NO_EMPTY;
 
 /**
  * Base class for git commands
@@ -45,7 +50,7 @@ abstract class AbstractCommand
     {
         $fullName = str_replace('\\', '/', static::class);
 
-        return basename($fullName);
+        return strtolower(basename($fullName));
     }
 
     /**
@@ -82,7 +87,7 @@ abstract class AbstractCommand
      *
      * @return array
      */
-    protected function split($input, $useNull = false): array
+    protected function split(string $input, $useNull = false): array
     {
         if ($useNull) {
             $pattern = '/\0/';
@@ -108,20 +113,13 @@ abstract class AbstractCommand
     /**
      * Executes a process
      *
-     * @param Process $process The process to run
+     * @param CommandBuilder $builder
      *
-     * @return mixed
-     * @throws Exception\GitException
+     * @return string
      */
-    public function run(Process $process)
+    public function run(CommandBuilder $builder): string
     {
-        $process->run();
-
-        if (!$process->isSuccessful()) {
-            throw new GitException($process->getErrorOutput(), $process->getExitCode(), $process->getCommandLine());
-        }
-
-        return $process->getOutput();
+        return $builder->run();
     }
 
     /**

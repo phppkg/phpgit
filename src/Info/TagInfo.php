@@ -7,15 +7,15 @@
  * @license  MIT
  */
 
-namespace PhpGit\Meta;
+namespace PhpGit\Info;
 
-use PhpGit\AbstractMeta;
+use PhpGit\Concern\AbstractInfo;
 
 /**
- * Class BranchMeta
+ * Class TagMeta
  *
- * @package PhpGit\Meta
+ * @package PhpGit\Info
  */
-class BranchMeta extends AbstractMeta
+class TagInfo extends AbstractInfo
 {
 }

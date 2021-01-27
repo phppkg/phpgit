@@ -9,7 +9,7 @@
 
 namespace PhpGit\Command;
 
-use PhpGit\AbstractCommand;
+use PhpGit\Concern\AbstractCommand;
 
 /**
  * List the contents of a tree object - `git ls-tree`
@@ -47,11 +47,11 @@ class Tree extends AbstractCommand
     {
         $objects = [];
         $builder = $this->getCommandBuilder();
-        $process = $builder->add('ls-tree')->add($branch . ':' . $path)->getProcess();
+        $builder->add('ls-tree')->add($branch . ':' . $path);
 
-        $output = $this->run($process);
-        $lines  = $this->split($output);
+        $output = $this->run($builder);
 
+        $lines = $this->split($output);
         $types = [
             'submodule' => 0,
             'tree'      => 1,

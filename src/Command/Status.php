@@ -9,7 +9,7 @@
 
 namespace PhpGit\Command;
 
-use PhpGit\AbstractCommand;
+use PhpGit\Concern\AbstractCommand;
 use Symfony\Component\OptionsResolver\Options;
 
 /**
@@ -119,9 +119,9 @@ class Status extends AbstractCommand
 
         $this->addFlags($builder, $options);
 
-        $process = $builder->getProcess();
+        // $process = $builder->getProcess();
         $result  = ['branch' => null, 'changes' => []];
-        $output  = $this->run($process);
+        $output  = $this->run($builder);
 
         [$branch, $changes] = preg_split('/(\0|\n)/', $output, 2);
         $lines = $this->split($changes, true);

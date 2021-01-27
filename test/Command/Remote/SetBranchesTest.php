@@ -16,7 +16,7 @@ class SetBranchesTest extends BaseTestCase
     public function testSetBranches(): void
     {
         $git = new Git();
-        $git->clone('https://github.com/kzykhys/Text.git', $this->directory);
+        $git->clone('https://github.com/ulue/phpgit.git', $this->directory);
         $git->setRepository($this->directory);
 
         $git->remote->branches('origin', ['master']);
@@ -25,7 +25,7 @@ class SetBranchesTest extends BaseTestCase
     public function testSetBranchesAdd(): void
     {
         $git = new Git();
-        $git->clone('https://github.com/kzykhys/Text.git', $this->directory);
+        $git->clone('https://github.com/ulue/phpgit.git', $this->directory);
         $git->setRepository($this->directory);
 
         $git->remote->branches->add('origin', ['gh-pages']);

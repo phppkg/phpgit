@@ -17,7 +17,7 @@ class PullTest extends BaseTestCase
         $git->init($this->directory);
         $git->setRepository($this->directory);
 
-        $git->remote->add('origin', 'https://github.com/kzykhys/Text.git');
+        $git->remote->add('origin', 'https://github.com/ulue/phpgit.git');
         $git->pull('origin', 'master');
 
         $this->assertFileExists($this->directory . '/README.md');

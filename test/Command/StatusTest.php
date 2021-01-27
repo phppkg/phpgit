@@ -68,7 +68,7 @@ class StatusTest extends BaseTestCase
         $filesystem = new Filesystem();
 
         $git = new Git();
-        $git->clone('https://github.com/kzykhys/Text.git', $this->directory);
+        $git->clone('https://github.com/ulue/phpgit.git', $this->directory);
         $git->setRepository($this->directory);
 
         $filesystem->dumpFile($this->directory . '/test.txt', '1');

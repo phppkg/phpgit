@@ -9,12 +9,9 @@
 
 namespace PhpGit;
 
-use BadMethodCallException;
+use PhpGit\Concern\ExecGitCommandTrait;
 use PhpGit\Exception\GitException;
-use RuntimeException;
 use Symfony\Component\Process\Process;
-use function array_merge;
-use function defined;
 
 /**
  * # PhpGit
@@ -98,7 +95,7 @@ use function defined;
  * @property-read Command\Tag      $tag
  * @property-read Command\Tree     $tree
  *
- * @method add(string $file, $options = [])                                 Add file contents to the index
+ * @method add(string|array $file, $options = [])                                 Add file contents to the index
  * @method archive(string $file, $tree = null, $path = null, $options = []) Create an archive of files from a named tree
  * @method branch($options = [])                                            List both remote-tracking branches and local branches
  * @method checkout(string $branch, $options = [])                          Checkout a branch or paths to the working tree
@@ -126,6 +123,13 @@ use function defined;
  */
 class Git
 {
+    use ExecGitCommandTrait;
+
+    public const TYPE_GIT  = 'git';
+    public const TYPE_HTTP = 'http';
+
+    public const DEFAULT_REMOTE = 'origin';
+
     // all supported git commands
     public const COMMANDS = [
         'add'      => Command\Add::class,
@@ -164,11 +168,6 @@ class Git
     private $directory;
 
     /**
-     * @var AbstractCommand[]
-     */
-    private $commands = [];
-
-    /**
      * @param string $repoDir
      *
      * @return static
@@ -189,35 +188,6 @@ class Git
     }
 
     /**
-     * This method is used to create a process object.
-     *
-     * @param string $command
-     * @param array  $args
-     * @param array  $options
-     *
-     * @return Process
-     */
-    public static function newProcess(string $command, array $args = [], array $options = []): Process
-    {
-        $isWindows = defined('PHP_WINDOWS_VERSION_BUILD');
-        $options   = array_merge([
-            'env_vars' => $isWindows ? ['PATH' => getenv('PATH')] : [],
-            'command'  => 'git',
-            'work_dir' => null,
-            'timeout'  => 3600,
-        ], $options);
-
-        $cmdWithArgs = array_merge([$options['command'], $command], $args);
-
-        $process = new Process($cmdWithArgs, $options['work_dir']);
-        $process->setEnv($options['env_vars']);
-        $process->setTimeout($options['timeout']);
-        $process->setIdleTimeout($options['timeout']);
-
-        return $process;
-    }
-
-    /**
      * Initializes sub-commands
      *
      * @param string $repoDir
@@ -225,81 +195,6 @@ class Git
     public function __construct(string $repoDir = '')
     {
         $this->directory = $repoDir;
-    }
-
-    /**
-     * @param string $name
-     * @param mixed  $value
-     */
-    public function __set(string $name, $value): void
-    {
-        throw new RuntimeException('unsupported set the property ' . $name);
-    }
-
-    /**
-     * @param string $name
-     *
-     * @return AbstractCommand
-     */
-    public function __get(string $name)
-    {
-        // lazy load command
-        if (isset(self::COMMANDS[$name])) {
-            return $this->initCommand($name);
-        }
-
-        throw new BadMethodCallException(sprintf('Access an undefined property PhpGit\Git->%s', $name));
-    }
-
-    /**
-     * @param string $name
-     *
-     * @return bool
-     */
-    public function __isset(string $name)
-    {
-        return isset(self::COMMANDS[$name]);
-    }
-
-    /**
-     * Quick calls sub-commands
-     *
-     * @param string $name      The name of a property
-     * @param array  $arguments An array of arguments
-     *
-     * @return mixed
-     * @throws BadMethodCallException
-     */
-    public function __call(string $name, array $arguments)
-    {
-        if (isset(self::COMMANDS[$name])) {
-            // lazy load command
-            $cmd = $this->initCommand($name);
-
-            // has __invoke() method
-            if (is_callable($cmd)) {
-                return $cmd(...$arguments);
-            }
-        }
-
-        throw new BadMethodCallException(sprintf('Call to undefined method PhpGit\Git::%s()', $name));
-    }
-
-    /**
-     * @param string $name
-     *
-     * @return AbstractCommand
-     */
-    private function initCommand(string $name): AbstractCommand
-    {
-        // lazy load command
-        if (!isset($this->commands[$name])) {
-            $class = self::COMMANDS[$name];
-            // save
-            $this->commands[$name] = new $class($this);
-        }
-
-        return $this->commands[$name];
     }
 
     /**
@@ -360,7 +255,7 @@ class Git
     /**
      * Returns an instance of ProcessBuilder
      *
-     * @param string $command
+     * @param string   $command
      *
      * @param string[] ...$args
      *
@@ -373,7 +268,7 @@ class Git
             ->setWorkDir($this->directory);
 
         if ($args) {
-            $builder->addArgs(...$args);
+            $builder->add(...$args);
         }
 
         return $builder;

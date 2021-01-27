@@ -9,7 +9,7 @@
 
 namespace PhpGit\Command;
 
-use PhpGit\AbstractCommand;
+use PhpGit\Concern\AbstractCommand;
 use PhpGit\Exception\GitException;
 use Symfony\Component\OptionsResolver\Options;
 use Traversable;
@@ -57,7 +57,7 @@ class Add extends AbstractCommand
             $builder->add($value);
         }
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }

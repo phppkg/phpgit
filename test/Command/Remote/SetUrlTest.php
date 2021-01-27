@@ -19,11 +19,11 @@ class SetUrlTest extends BaseTestCase
         $git->init($this->directory);
         $git->setRepository($this->directory);
         $git->remote->add('origin', 'http://example.com/test.git');
-        $git->remote->url('origin', 'https://github.com/kzykhys/Text.git', 'http://example.com/test.git');
+        $git->remote->url('origin', 'https://github.com/ulue/phpgit.git', 'http://example.com/test.git');
 
         $remotes = $git->remote();
 
-        $this->assertEquals('https://github.com/kzykhys/Text.git', $remotes['origin']['fetch']);
+        $this->assertEquals('https://github.com/ulue/phpgit.git', $remotes['origin']['fetch']);
     }
 
     public function testSetUrlAdd(): void
@@ -32,7 +32,7 @@ class SetUrlTest extends BaseTestCase
         $git->init($this->directory);
         $git->setRepository($this->directory);
         $git->remote->add('origin', 'http://example.com/test.git');
-        $git->remote->url->add('origin', 'https://github.com/kzykhys/Text.git');
+        $git->remote->url->add('origin', 'https://github.com/ulue/phpgit.git');
     }
 
     public function testSetUrlDelete(): void
@@ -41,7 +41,7 @@ class SetUrlTest extends BaseTestCase
         $git->init($this->directory);
         $git->setRepository($this->directory);
         $git->remote->add('origin', 'http://example.com/test.git');
-        $git->remote->url->add('origin', 'https://github.com/kzykhys/Text.git');
+        $git->remote->url->add('origin', 'https://github.com/ulue/phpgit.git');
         $git->remote->url->delete('origin', 'https://github.com');
 
         $remotes = $git->remote();

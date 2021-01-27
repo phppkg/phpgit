@@ -9,7 +9,7 @@
 
 namespace PhpGit\Command;
 
-use PhpGit\AbstractCommand;
+use PhpGit\Concern\AbstractCommand;
 use PhpGit\Exception\GitException;
 use Symfony\Component\OptionsResolver\Options;
 
@@ -55,7 +55,7 @@ class Fetch extends AbstractCommand
             $builder->add($refspec);
         }
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }
@@ -89,7 +89,7 @@ class Fetch extends AbstractCommand
 
         $this->addFlags($builder, $options);
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }

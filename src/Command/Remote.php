@@ -9,15 +9,19 @@
 
 namespace PhpGit\Command;
 
-use BadMethodCallException;
-use PhpGit\AbstractCommand;
-use PhpGit\Git;
+use PhpGit\Concern\AbstractCommand;
+use PhpGit\Concern\ExecGitCommandTrait;
 use Symfony\Component\OptionsResolver\Options;
+use function preg_match;
 
 /**
  * Manage set of tracked repositories - `git remote`
  *
  * @author Kazuyuki Hayashi <hayashi@valnur.net>
+ *
+ * @property-read Remote\SetUrl      $url
+ * @property-read Remote\SetHead     $head
+ * @property-read Remote\SetBranches $branches
  *
  * @method head($name, $branch)                                     Sets the default branch for the named remote
  * @method branches($name, $branches)                               Changes the list of branches tracked by the named remote
@@ -25,74 +29,25 @@ use Symfony\Component\OptionsResolver\Options;
  */
 class Remote extends AbstractCommand
 {
-    /** @var Remote\SetHead */
-    public $head;
+    use ExecGitCommandTrait;
 
-    /** @var Remote\SetBranches */
-    public $branches;
-
-    /** @var Remote\SetUrl */
-    public $url;
-
-    /**
-     * @param Git $git
-     */
-    public function __construct(Git $git)
-    {
-        parent::__construct($git);
-
-        $this->head     = new Remote\SetHead($git);
-        $this->branches = new Remote\SetBranches($git);
-        $this->url      = new Remote\SetUrl($git);
-    }
+    public const COMMANDS = [
+        'url'      => Remote\SetUrl::class,
+        'head'     => Remote\SetHead::class,
+        'branches' => Remote\SetBranches::class,
+    ];
 
     /**
-     * Calls sub-commands
-     *
-     * @param string $name      The name of a property
-     * @param array  $arguments An array of arguments
-     *
-     * @return mixed
-     * @throws BadMethodCallException
-     */
-    public function __call($name, $arguments)
-    {
-        if (isset($this->{$name}) && is_callable($this->{$name})) {
-            return call_user_func_array($this->{$name}, $arguments);
-        }
-
-        throw new BadMethodCallException(sprintf('Call to undefined method %s::%s()', __CLASS__, $name));
-    }
-
-    /**
-     * Returns an array of existing remotes
-     *
-     * ``` php
-     * $git = new PhpGit\Git();
-     * $git->clone('https://github.com/kzykhys/Text.git', '/path/to/repo');
-     * $git->setRepository('/path/to/repo');
-     * $remotes = $git->remote();
-     * ```
-     *
-     * ##### Output Example
-     *
-     * ``` php
-     * [
-     *     'origin' => [
-     *         'fetch' => 'https://github.com/kzykhys/Text.git',
-     *         'push'  => 'https://github.com/kzykhys/Text.git'
-     *     ]
-     * ]
-     * ```
+     * @param bool $refresh
      *
      * @return array
      */
-    public function __invoke()
+    public function getList(bool $refresh = false): array
     {
-        $builder = $this->getCommandBuilder()->add('-v');
+        $builder = $this->getCommandBuilder('-v');
 
         $remotes = [];
-        $output  = $this->run($builder->getProcess());
+        $output  = $this->run($builder);
         $lines   = $this->split($output);
 
         foreach ($lines as $line) {
@@ -109,12 +64,42 @@ class Remote extends AbstractCommand
     }
 
     /**
+     * Returns an array of existing remotes
+     *
+     * ``` php
+     * $git = new PhpGit\Git();
+     * $git->clone('https://github.com/ulue/phpgit.git', '/path/to/repo');
+     * $git->setRepository('/path/to/repo');
+     * $remotes = $git->remote();
+     * ```
+     *
+     * ##### Output Example
+     *
+     * ``` php
+     * [
+     *     'origin' => [
+     *         'fetch' => 'https://github.com/ulue/phpgit.git',
+     *         'push'  => 'https://github.com/ulue/phpgit.git'
+     *     ]
+     * ]
+     * ```
+     *
+     * @param bool $refresh
+     *
+     * @return array
+     */
+    public function __invoke(bool $refresh = false)
+    {
+        return $this->getList($refresh);
+    }
+
+    /**
      * Adds a remote named **$name** for the repository at **$url**
      *
      * ``` php
      * $git = new PhpGit\Git();
      * $git->setRepository('/path/to/repo');
-     * $git->remote->add('origin', 'https://github.com/kzykhys/Text.git');
+     * $git->remote->add('origin', 'https://github.com/ulue/phpgit.git');
      * $git->fetch('origin');
      * ```
      *
@@ -138,7 +123,7 @@ class Remote extends AbstractCommand
 
         $builder->add($name)->add($url);
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }
@@ -149,7 +134,7 @@ class Remote extends AbstractCommand
      * ``` php
      * $git = new PhpGit\Git();
      * $git->setRepository('/path/to/repo');
-     * $git->remote->add('origin', 'https://github.com/kzykhys/Text.git');
+     * $git->remote->add('origin', 'https://github.com/ulue/phpgit.git');
      * $git->remote->rename('origin', 'upstream');
      * ```
      *
@@ -165,7 +150,7 @@ class Remote extends AbstractCommand
             ->add($name)
             ->add($newName);
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }
@@ -176,7 +161,7 @@ class Remote extends AbstractCommand
      * ``` php
      * $git = new PhpGit\Git();
      * $git->setRepository('/path/to/repo');
-     * $git->remote->add('origin', 'https://github.com/kzykhys/Text.git');
+     * $git->remote->add('origin', 'https://github.com/ulue/phpgit.git');
      * $git->remote->rm('origin');
      * ```
      *
@@ -190,7 +175,7 @@ class Remote extends AbstractCommand
             ->add('rm')
             ->add($name);
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }
@@ -200,7 +185,7 @@ class Remote extends AbstractCommand
      *
      * ``` php
      * $git = new PhpGit\Git();
-     * $git->clone('https://github.com/kzykhys/Text.git', '/path/to/repo');
+     * $git->clone('https://github.com/ulue/phpgit.git', '/path/to/repo');
      * $git->setRepository('/path/to/repo');
      * echo $git->remote->show('origin');
      * ```
@@ -209,8 +194,8 @@ class Remote extends AbstractCommand
      *
      * ```
      * \* remote origin
-     *   Fetch URL: https://github.com/kzykhys/Text.git
-     *   Push  URL: https://github.com/kzykhys/Text.git
+     *   Fetch URL: https://github.com/ulue/phpgit.git
+     *   Push  URL: https://github.com/ulue/phpgit.git
      *   HEAD branch: master
      *   Remote branch:
      *     master tracked
@@ -230,7 +215,7 @@ class Remote extends AbstractCommand
             ->add('show')
             ->add($name);
 
-        return $this->run($builder->getProcess());
+        return $this->run($builder);
     }
 
     /**
@@ -255,7 +240,7 @@ class Remote extends AbstractCommand
             $builder->add($name);
         }
 
-        $this->run($builder->getProcess());
+        $this->run($builder);
 
         return true;
     }

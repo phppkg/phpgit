@@ -16,7 +16,7 @@ class SetHeadTest extends BaseTestCase
     public function testSetHead(): void
     {
         $git = new Git();
-        $git->clone('https://github.com/kzykhys/Text.git', $this->directory);
+        $git->clone('https://github.com/ulue/phpgit.git', $this->directory);
         $git->setRepository($this->directory);
 
         $before = $git->branch(['all' => true]);
@@ -31,7 +31,7 @@ class SetHeadTest extends BaseTestCase
     public function testSetHeadDelete(): void
     {
         $git = new Git();
-        $git->clone('https://github.com/kzykhys/Text.git', $this->directory);
+        $git->clone('https://github.com/ulue/phpgit.git', $this->directory);
         $git->setRepository($this->directory);
 
         $before = $git->branch(['all' => true]);
@@ -46,7 +46,7 @@ class SetHeadTest extends BaseTestCase
     public function testSetHeadRemote(): void
     {
         $git = new Git();
-        $git->clone('https://github.com/kzykhys/Text.git', $this->directory);
+        $git->clone('https://github.com/ulue/phpgit.git', $this->directory);
         $git->setRepository($this->directory);
 
         $before = $git->branch(['all' => true]);
