@@ -48,8 +48,7 @@ class Merge extends AbstractCommand
     public function __invoke($commit, $message = null, array $options = [])
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getCommandBuilder()
-            ->add('merge');
+        $builder = $this->getCommandBuilder();
 
         $this->addFlags($builder, $options, ['no-ff', 'rerere-autoupdate', 'squash']);
 
@@ -60,7 +59,7 @@ class Merge extends AbstractCommand
             $builder->add($value);
         }
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }
@@ -83,11 +82,9 @@ class Merge extends AbstractCommand
      */
     public function abort(): bool
     {
-        $builder = $this->git->getCommandBuilder()
-            ->add('merge')
-            ->add('--abort');
+        $builder = $this->getCommandBuilder()->add('--abort');
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }

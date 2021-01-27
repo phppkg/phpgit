@@ -45,8 +45,7 @@ class Add extends AbstractCommand
     public function __invoke($file, array $options = [])
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getCommandBuilder()
-            ->add('add');
+        $builder = $this->getCommandBuilder();
 
         $this->addFlags($builder, $options);
 
@@ -58,7 +57,7 @@ class Add extends AbstractCommand
             $builder->add($value);
         }
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }

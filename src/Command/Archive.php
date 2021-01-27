@@ -44,8 +44,7 @@ class Archive extends AbstractCommand
     public function __invoke($file, $tree = null, $path = null, array $options = [])
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getCommandBuilder()
-            ->add('archive');
+        $builder = $this->getCommandBuilder();
 
         if ($options['format']) {
             $builder->add('--format=' . $options['format']);
@@ -69,7 +68,7 @@ class Archive extends AbstractCommand
             $builder->add($value);
         }
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }

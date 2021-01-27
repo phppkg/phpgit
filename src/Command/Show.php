@@ -52,7 +52,7 @@ class Show extends AbstractCommand
 
         $builder->add($object);
 
-        return $this->git->run($builder->getProcess());
+        return $this->run($builder->getProcess());
     }
 
     /**

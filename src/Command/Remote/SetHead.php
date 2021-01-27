@@ -18,6 +18,11 @@ use PhpGit\AbstractCommand;
  */
 class SetHead extends AbstractCommand
 {
+    public function getCommandName(): string
+    {
+        return 'remote';
+    }
+
     /**
      * Alias of set()
      *
@@ -53,10 +58,9 @@ class SetHead extends AbstractCommand
      *
      * @return bool
      */
-    public function set($name, $branch): bool
+    public function set(string $name, string $branch = ''): bool
     {
-        $builder = $this->git->getCommandBuilder()
-            ->add('remote')
+        $builder = $this->getCommandBuilder()
             ->add('set-head')
             ->add($name);
 
@@ -64,7 +68,7 @@ class SetHead extends AbstractCommand
             $builder->add($branch);
         }
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }
@@ -83,15 +87,14 @@ class SetHead extends AbstractCommand
      *
      * @return bool
      */
-    public function delete($name): bool
+    public function delete(string $name): bool
     {
-        $builder = $this->git->getCommandBuilder()
-            ->add('remote')
+        $builder = $this->getCommandBuilder()
             ->add('set-head')
             ->add($name)
             ->add('-d');
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }
@@ -110,15 +113,14 @@ class SetHead extends AbstractCommand
      *
      * @return bool
      */
-    public function remote($name): bool
+    public function remote(string $name): bool
     {
-        $builder = $this->git->getCommandBuilder()
-            ->add('remote')
+        $builder = $this->getCommandBuilder()
             ->add('set-head')
             ->add($name)
             ->add('-a');
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }

@@ -48,7 +48,7 @@ class Checkout extends AbstractCommand
         $this->addFlags($builder, $options, ['force', 'merge']);
 
         $builder->add($branch);
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }
@@ -86,7 +86,7 @@ class Checkout extends AbstractCommand
             $builder->add($startPoint);
         }
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }
@@ -123,7 +123,7 @@ class Checkout extends AbstractCommand
             $builder->add($startPoint);
         }
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }

@@ -65,7 +65,7 @@ class Shortlog extends AbstractCommand
         $process = $builder->getProcess();
         $process->setCommandLine(str_replace('--format=', '--format=%h|%ci|%s', $process->getCommandLine()));
 
-        $output = $this->git->run($process);
+        $output = $this->run($process);
         $lines  = $this->split($output);
         $result = [];
         $author = null;
@@ -128,7 +128,7 @@ class Shortlog extends AbstractCommand
             $builder->add($commit);
         }
 
-        $output = $this->git->run($builder->getProcess());
+        $output = $this->run($builder->getProcess());
         $lines  = $this->split($output);
         $result = [];
 

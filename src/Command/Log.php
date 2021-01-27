@@ -61,8 +61,7 @@ class Log extends AbstractCommand
         $commits = [];
         $options = $this->resolve($options);
 
-        $builder = $this->git->getCommandBuilder()
-            ->add('log')
+        $builder = $this->getCommandBuilder()
             ->add('-n')->add($options['limit'])
             ->add('--skip=' . $options['skip'])
             ->add('--format=%H||%aN||%aE||%aD||%s');
@@ -75,7 +74,7 @@ class Log extends AbstractCommand
             $builder->add('--')->add($path);
         }
 
-        $output = $this->git->run($builder->getProcess());
+        $output = $this->run($builder->getProcess());
         $lines  = $this->split($output);
 
         foreach ($lines as $line) {

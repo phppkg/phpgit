@@ -89,12 +89,10 @@ class Remote extends AbstractCommand
      */
     public function __invoke()
     {
-        $builder = $this->git->getCommandBuilder()
-            ->add('remote')
-            ->add('-v');
+        $builder = $this->getCommandBuilder()->add('-v');
 
         $remotes = [];
-        $output  = $this->git->run($builder->getProcess());
+        $output  = $this->run($builder->getProcess());
         $lines   = $this->split($output);
 
         foreach ($lines as $line) {
@@ -134,15 +132,13 @@ class Remote extends AbstractCommand
     public function add($name, $url, array $options = []): bool
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getCommandBuilder()
-            ->add('remote')
-            ->add('add');
+        $builder = $this->getCommandBuilder()->add('add');
 
         $this->addFlags($builder, $options, ['tags', 'no-tags']);
 
         $builder->add($name)->add($url);
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }
@@ -164,13 +160,12 @@ class Remote extends AbstractCommand
      */
     public function rename($name, $newName): bool
     {
-        $builder = $this->git->getCommandBuilder()
-            ->add('remote')
+        $builder = $this->getCommandBuilder()
             ->add('rename')
             ->add($name)
             ->add($newName);
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }
@@ -191,12 +186,11 @@ class Remote extends AbstractCommand
      */
     public function rm($name): bool
     {
-        $builder = $this->git->getCommandBuilder()
-            ->add('remote')
+        $builder = $this->getCommandBuilder()
             ->add('rm')
             ->add($name);
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }
@@ -232,12 +226,11 @@ class Remote extends AbstractCommand
      */
     public function show($name): string
     {
-        $builder = $this->git->getCommandBuilder()
-            ->add('remote')
+        $builder = $this->getCommandBuilder()
             ->add('show')
             ->add($name);
 
-        return $this->git->run($builder->getProcess());
+        return $this->run($builder->getProcess());
     }
 
     /**
@@ -255,15 +248,14 @@ class Remote extends AbstractCommand
      */
     public function prune($name = null): bool
     {
-        $builder = $this->git->getCommandBuilder()
-            ->add('remote')
+        $builder = $this->getCommandBuilder()
             ->add('prune');
 
         if ($name) {
             $builder->add($name);
         }
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }

@@ -11,6 +11,7 @@ namespace PhpGit\Command;
 
 use PhpGit\AbstractCommand;
 use PhpGit\Exception\GitException;
+use function trim;
 
 /**
  * Provide content or type and size information for repository objects - `git cat-file`
@@ -19,6 +20,11 @@ use PhpGit\Exception\GitException;
  */
 class Cat extends AbstractCommand
 {
+    public function getCommandName(): string
+    {
+        return 'cat-file';
+    }
+
     /**
      * Returns the contents of blob object
      *
@@ -35,13 +41,12 @@ class Cat extends AbstractCommand
      */
     public function blob($object): string
     {
-        $process = $this->git->getCommandBuilder()
-            ->add('cat-file')
+        $process = $this->getCommandBuilder()
             ->add('blob')
             ->add($object)
             ->getProcess();
 
-        return $this->git->run($process);
+        return $this->run($process);
     }
 
     /**
@@ -60,13 +65,12 @@ class Cat extends AbstractCommand
      */
     public function type($object): string
     {
-        $process = $this->git->getCommandBuilder()
-            ->add('cat-file')
+        $process = $this->getCommandBuilder()
             ->add('-t')
             ->add($object)
             ->getProcess();
 
-        return trim($this->git->run($process));
+        return trim($this->run($process));
     }
 
     /**
@@ -85,12 +89,11 @@ class Cat extends AbstractCommand
      */
     public function size($object): string
     {
-        $process = $this->git->getCommandBuilder()
-            ->add('cat-file')
+        $process = $this->getCommandBuilder()
             ->add('-s')
             ->add($object)
             ->getProcess();
 
-        return trim($this->git->run($process));
+        return trim($this->run($process));
     }
 }

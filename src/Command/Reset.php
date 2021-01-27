@@ -53,7 +53,7 @@ class Reset extends AbstractCommand
         }
 
         try {
-            $this->git->run($builder->getProcess());
+            $this->run($builder->getProcess());
         } catch (GitException $e) {
             // Confirm exit code
         }
@@ -198,7 +198,7 @@ class Reset extends AbstractCommand
             $builder->add($commit);
         }
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }

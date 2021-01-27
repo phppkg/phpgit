@@ -125,7 +125,7 @@ class Branch extends AbstractCommand
             $builder->add($startPoint);
         }
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }
@@ -162,7 +162,7 @@ class Branch extends AbstractCommand
         }
 
         $builder->add($branch)->add($newBranch);
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }
@@ -200,7 +200,7 @@ class Branch extends AbstractCommand
         }
 
         $builder->add($branch);
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }

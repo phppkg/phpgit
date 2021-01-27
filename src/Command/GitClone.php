@@ -49,9 +49,7 @@ class GitClone extends AbstractCommand
     public function __invoke($repository, $path = null, array $options = [])
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getCommandBuilder()
-            ->add('clone')
-            ->add('--quiet');
+        $builder = $this->getCommandBuilder()->add('--quiet');
 
         $this->addFlags($builder, $options);
 
@@ -61,7 +59,7 @@ class GitClone extends AbstractCommand
             $builder->add($path);
         }
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }

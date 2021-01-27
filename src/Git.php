@@ -17,35 +17,32 @@ use function array_merge;
 use function defined;
 
 /**
- * PhpGit - A Git wrapper for PHP5.3+
- * ==================================
+ * # PhpGit
  *
- * [![Latest Unstable Version](https://poser.pugx.org/kzykhys/git/v/unstable.png)](https://packagist.org/packages/kzykhys/git)
- * [![Build Status](https://travis-ci.org/kzykhys/PhpGit.png?branch=master)](https://travis-ci.org/kzykhys/PhpGit)
- * [![Coverage Status](https://coveralls.io/repos/kzykhys/PhpGit/badge.png)](https://coveralls.io/r/kzykhys/PhpGit)
- * [![SensioLabsInsight](https://insight.sensiolabs.com/projects/04f10b57-a113-47ad-8dda-9a6dacbb079f/mini.png)](https://insight.sensiolabs.com/projects/04f10b57-a113-47ad-8dda-9a6dacbb079f)
+ * [![Latest Unstable Version](https://poser.pugx.org/ulue/phpgit/v/unstable.png)](https://packagist.org/packages/ulue/phpgit)
+ * [![Coverage Status](https://coveralls.io/repos/ulue/phpgit/badge.png)](https://coveralls.io/r/ulue/phpgit)
  *
- * Requirements
+ * PhpGit - A Git wrapper for PHP7.1+
+ *
+ * ## Requirements
  * ------------
  *
  * * PHP5.3
  * * Git
  *
- * Installation
- * ------------
+ * ## Installation
  *
  * Update your composer.json and run `composer update`
  *
  * ``` json
  * {
  *     "require": {
- *         "kzykhys/git": "dev-master"
+ *         "ulue/phpgit": "dev-master"
  *     }
  * }
  * ```
  *
- * Basic Usage
- * -----------
+ * ## Basic Usage
  *
  * ``` php
  * <?php
@@ -53,7 +50,7 @@ use function defined;
  * require __DIR__ . '/vendor/autoload.php';
  *
  * $git = new PhpGit\Git();
- * $git->clone('https://github.com/kzykhys/PhpGit.git', '/path/to/repo');
+ * $git->clone('https://github.com/ulue/phpgit.git', '/path/to/repo');
  * $git->setRepository('/path/to/repo');
  * $git->remote->add('production', 'git://example.com/your/repo.git');
  * $git->add('README.md');
@@ -101,31 +98,31 @@ use function defined;
  * @property-read Command\Tag      $tag
  * @property-read Command\Tree     $tree
  *
- * @method add(string $file, $options = [])                           Add file contents to the index
+ * @method add(string $file, $options = [])                                 Add file contents to the index
  * @method archive(string $file, $tree = null, $path = null, $options = []) Create an archive of files from a named tree
- * @method branch($options = [])                               List both remote-tracking branches and local branches
- * @method checkout(string $branch, $options = [])                    Checkout a branch or paths to the working tree
- * @method clone (string $repository, $path = null, $options = [])     Clone a repository into a new directory
- * @method commit(string $message = '', $options = [])                Record changes to the repository
- * @method config($options = [])                               List all variables set in config file
- * @method describe($committish = null, $options = [])         Returns the most recent tag that is reachable from a commit
- * @method fetch(string $repository, $refspec = null, $options = [])  Fetches named heads or tags from one or more other repositories
- * @method init(string $path, $options = [])                          Create an empty git repository or reinitialize an existing one
- * @method log($path = null, $options = [])                    Returns the commit logs
- * @method merge($commit, $message = null, $options = [])      Incorporates changes from the named commits into the current branch
- * @method mv($source, $destination, $options = [])            Move or rename a file, a directory, or a symlink
+ * @method branch($options = [])                                            List both remote-tracking branches and local branches
+ * @method checkout(string $branch, $options = [])                          Checkout a branch or paths to the working tree
+ * @method clone (string $repository, $path = null, $options = [])          Clone a repository into a new directory
+ * @method commit(string $message = '', $options = [])                      Record changes to the repository
+ * @method config($options = [])                                            List all variables set in config file
+ * @method describe($committish = null, $options = [])                      Returns the most recent tag that is reachable from a commit
+ * @method fetch(string $repository, $refspec = null, $options = [])        Fetches named heads or tags from one or more other repositories
+ * @method init(string $path, $options = [])                                Create an empty git repository or reinitialize an existing one
+ * @method log($path = null, $options = [])                                 Returns the commit logs
+ * @method merge($commit, $message = null, $options = [])                   Incorporates changes from the named commits into the current branch
+ * @method mv($source, $destination, $options = [])                         Move or rename a file, a directory, or a symlink
  * @method pull(string $repository = null, $refspec = null, $options = []) Fetch from and merge with another repository or a local branch
  * @method push(string $repository = null, $refspec = null, $options = []) Update remote refs along with associated objects
- * @method rebase($upstream = null, $branch = null, $options = [])  Forward-port local commits to the updated upstream head
- * @method remote()                                                 Returns an array of existing remotes
- * @method reset($commit = null, $paths = [])                  Resets the index entries for all <paths> to their state at <commit>
- * @method rm($file, $options = [])                            Remove files from the working tree and from the index
- * @method shortlog($commits = [])                             Summarize 'git log' output
- * @method show($object, $options = [])                        Shows one or more objects (blobs, trees, tags and commits)
- * @method stash()                                                  Save your local modifications to a new stash, and run git reset --hard to revert them
- * @method status($options = [])                               Show the working tree status
- * @method tag()                                                    Returns an array of tags
- * @method tree(string $branch = 'master', string $path = '')       List the contents of a tree object
+ * @method rebase($upstream = null, $branch = null, $options = [])          Forward-port local commits to the updated upstream head
+ * @method remote()                                                         Returns an array of existing remotes
+ * @method reset($commit = null, $paths = [])                               Resets the index entries for all <paths> to their state at <commit>
+ * @method rm($file, $options = [])                                         Remove files from the working tree and from the index
+ * @method shortlog($commits = [])                                          Summarize 'git log' output
+ * @method show($object, $options = [])                                     Shows one or more objects (blobs, trees, tags and commits)
+ * @method stash()                                                          Save your local modifications to a new stash, and run git reset --hard to revert them
+ * @method status($options = [])                                            Show the working tree status
+ * @method tag()                                                            Returns an array of tags
+ * @method tree(string $branch = 'master', string $path = '')               List the contents of a tree object
  */
 class Git
 {
@@ -355,11 +352,9 @@ class Git
      */
     public function getVersion()
     {
-        $process = $this->getCommandBuilder()
-            ->add('--version')
-            ->getProcess();
+        $builder = $this->getCommandBuilder()->add('--version');
 
-        return $this->run($process);
+        return $builder->run();
     }
 
     /**

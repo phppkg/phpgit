@@ -46,8 +46,7 @@ class Fetch extends AbstractCommand
     public function __invoke($repository, $refspec = null, array $options = [])
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getCommandBuilder()
-            ->add('fetch');
+        $builder = $this->getCommandBuilder();
 
         $this->addFlags($builder, $options);
         $builder->add($repository);
@@ -56,7 +55,7 @@ class Fetch extends AbstractCommand
             $builder->add($refspec);
         }
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }
@@ -86,13 +85,11 @@ class Fetch extends AbstractCommand
     public function all(array $options = []): bool
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getCommandBuilder()
-            ->add('fetch')
-            ->add('--all');
+        $builder = $this->getCommandBuilder()->add('--all');
 
         $this->addFlags($builder, $options);
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }

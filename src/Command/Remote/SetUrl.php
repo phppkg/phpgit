@@ -19,6 +19,11 @@ use Symfony\Component\OptionsResolver\Options;
  */
 class SetUrl extends AbstractCommand
 {
+    public function getCommandName(): string
+    {
+        return 'remote';
+    }
+
     /**
      * Alias of set()
      *
@@ -69,8 +74,7 @@ class SetUrl extends AbstractCommand
     public function set($name, $newUrl, $oldUrl = null, array $options = []): bool
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getCommandBuilder()
-            ->add('remote')
+        $builder = $this->getCommandBuilder()
             ->add('set-url');
 
         $this->addFlags($builder, $options);
@@ -83,7 +87,7 @@ class SetUrl extends AbstractCommand
             $builder->add($oldUrl);
         }
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }
@@ -111,8 +115,7 @@ class SetUrl extends AbstractCommand
     public function add($name, $newUrl, array $options = []): bool
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getCommandBuilder()
-            ->add('remote')
+        $builder = $this->getCommandBuilder()
             ->add('set-url')
             ->add('--add');
 
@@ -122,7 +125,7 @@ class SetUrl extends AbstractCommand
             ->add($name)
             ->add($newUrl);
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }
@@ -150,8 +153,7 @@ class SetUrl extends AbstractCommand
     public function delete($name, $url, array $options = []): bool
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getCommandBuilder()
-            ->add('remote')
+        $builder = $this->getCommandBuilder()
             ->add('set-url')
             ->add('--delete');
 
@@ -161,7 +163,7 @@ class SetUrl extends AbstractCommand
             ->add($name)
             ->add($url);
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }

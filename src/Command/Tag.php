@@ -42,10 +42,9 @@ class Tag extends AbstractCommand
      */
     public function __invoke()
     {
-        $builder = $this->git->getCommandBuilder()
-            ->add('tag');
+        $builder = $this->getCommandBuilder();
 
-        $output = $this->git->run($builder->getProcess());
+        $output = $this->run($builder->getProcess());
 
         return $this->split($output);
     }
@@ -74,9 +73,7 @@ class Tag extends AbstractCommand
     public function create($tag, $commit = null, array $options = []): bool
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getCommandBuilder()
-            ->add('tag')
-            ->add($tag);
+        $builder = $this->getCommandBuilder()->add($tag);
 
         $this->addFlags($builder, $options, ['annotate', 'sign', 'force']);
 
@@ -84,7 +81,7 @@ class Tag extends AbstractCommand
             $builder->add($commit);
         }
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }
@@ -99,9 +96,7 @@ class Tag extends AbstractCommand
      */
     public function delete($tag): bool
     {
-        $builder = $this->git->getCommandBuilder()
-            ->add('tag')
-            ->add('-d');
+        $builder = $this->git->getCommandBuilder()->add('-d');
 
         if (!is_array($tag) && !($tag instanceof Traversable)) {
             $tag = [$tag];
@@ -111,7 +106,7 @@ class Tag extends AbstractCommand
             $builder->add($value);
         }
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }
@@ -126,8 +121,7 @@ class Tag extends AbstractCommand
      */
     public function verify($tag): bool
     {
-        $builder = $this->git->getCommandBuilder()
-            ->add('tag')
+        $builder = $this->getCommandBuilder()
             ->add('-v');
 
         if (!is_array($tag) && !($tag instanceof Traversable)) {
@@ -138,7 +132,7 @@ class Tag extends AbstractCommand
             $builder->add($value);
         }
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }

@@ -43,8 +43,7 @@ class Mv extends AbstractCommand
     public function __invoke($source, $destination, array $options = [])
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getCommandBuilder()
-            ->add('mv');
+        $builder = $this->getCommandBuilder();
 
         $this->addFlags($builder, $options, ['force']);
 
@@ -58,7 +57,7 @@ class Mv extends AbstractCommand
 
         $builder->add($destination);
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }

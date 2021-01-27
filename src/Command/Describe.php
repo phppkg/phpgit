@@ -50,8 +50,7 @@ class Describe extends AbstractCommand
     public function __invoke($committish = null, array $options = [])
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getCommandBuilder()
-            ->add('describe');
+        $builder = $this->getCommandBuilder();
 
         $this->addFlags($builder, $options, []);
 
@@ -59,7 +58,7 @@ class Describe extends AbstractCommand
             $builder->add($committish);
         }
 
-        return trim($this->git->run($builder->getProcess()));
+        return trim($this->run($builder->getProcess()));
     }
 
     /**

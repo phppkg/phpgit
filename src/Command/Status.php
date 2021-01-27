@@ -114,15 +114,14 @@ class Status extends AbstractCommand
     public function __invoke(array $options = [])
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getCommandBuilder()
-            ->add('status')
-            ->add('--porcelain')->add('-s')->add('-b')->add('--null');
+        $builder = $this->getCommandBuilder();
+        $builder->add('--porcelain')->add('-s')->add('-b')->add('--null');
 
         $this->addFlags($builder, $options);
 
         $process = $builder->getProcess();
         $result  = ['branch' => null, 'changes' => []];
-        $output  = $this->git->run($process);
+        $output  = $this->run($process);
 
         [$branch, $changes] = preg_split('/(\0|\n)/', $output, 2);
         $lines = $this->split($changes, true);

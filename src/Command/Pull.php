@@ -38,8 +38,7 @@ class Pull extends AbstractCommand
     public function __invoke($repository = null, $refspec = null, array $options = [])
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getCommandBuilder()
-            ->add('pull');
+        $builder = $this->getCommandBuilder();
 
         if ($repository) {
             $builder->add($repository);
@@ -49,7 +48,7 @@ class Pull extends AbstractCommand
             }
         }
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }

@@ -48,7 +48,7 @@ class Tree extends AbstractCommand
         $objects = [];
         $builder = $this->git->getCommandBuilder();
         $process = $builder->add('ls-tree')->add($branch . ':' . $path)->getProcess();
-        $output  = $this->git->run($process);
+        $output  = $this->run($process);
         $lines   = $this->split($output);
 
         $types = [

@@ -42,7 +42,7 @@ class Config extends AbstractCommand
         $this->addFlags($builder, $options, ['global', 'system']);
 
         $config = [];
-        $output = $this->git->run($builder->getProcess());
+        $output = $this->run($builder->getProcess());
         $lines  = $this->split($output, true);
 
         foreach ($lines as $line) {
@@ -112,7 +112,7 @@ class Config extends AbstractCommand
 
         $builder->add('--add')->add($name)->add($value);
         $process = $builder->getProcess();
-        $this->git->run($process);
+        $this->run($process);
 
         return true;
     }

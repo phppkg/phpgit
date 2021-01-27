@@ -18,6 +18,11 @@ use PhpGit\AbstractCommand;
  */
 class SetBranches extends AbstractCommand
 {
+    public function getCommandName(): string
+    {
+        return 'remote';
+    }
+
     /**
      * Alias of set()
      *
@@ -55,8 +60,7 @@ class SetBranches extends AbstractCommand
      */
     public function set($name, array $branches): bool
     {
-        $builder = $this->git->getCommandBuilder()
-            ->add('remote')
+        $builder = $this->getCommandBuilder()
             ->add('set-branches')
             ->add($name);
 
@@ -64,7 +68,7 @@ class SetBranches extends AbstractCommand
             $builder->add($branch);
         }
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }
@@ -86,8 +90,7 @@ class SetBranches extends AbstractCommand
      */
     public function add($name, array $branches): bool
     {
-        $builder = $this->git->getCommandBuilder()
-            ->add('remote')
+        $builder = $this->getCommandBuilder()
             ->add('set-branches')
             ->add($name)
             ->add('--add');
@@ -96,7 +99,7 @@ class SetBranches extends AbstractCommand
             $builder->add($branch);
         }
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }

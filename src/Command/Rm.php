@@ -43,8 +43,7 @@ class Rm extends AbstractCommand
     public function __invoke($file, array $options = [])
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getCommandBuilder()
-            ->add('rm');
+        $builder = $this->getCommandBuilder();
 
         $this->addFlags($builder, $options, ['force', 'cached']);
 
@@ -60,7 +59,7 @@ class Rm extends AbstractCommand
             $builder->add($value);
         }
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }

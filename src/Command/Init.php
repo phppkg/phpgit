@@ -43,13 +43,12 @@ class Init extends AbstractCommand
     public function __invoke($path, array $options = [])
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getCommandBuilder()
-            ->add('init');
+        $builder = $this->getCommandBuilder();
 
         $this->addFlags($builder, $options, ['shared', 'bare']);
 
         $process = $builder->add($path)->getProcess();
-        $this->git->run($process);
+        $this->run($process);
 
         return true;
     }

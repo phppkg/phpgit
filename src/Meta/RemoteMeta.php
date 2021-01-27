@@ -24,14 +24,14 @@ class RemoteMeta extends AbstractMeta
     public $name;
 
     /**
-     * remote address
+     * remote URL address
      *
      *  - http: "https://github.com/ulue/swoft-component.git"
      *  - git: "git@github.com:ulue/swoft-component.git"
      *
      * @var string
      */
-    public $remote;
+    public $url;
 
     /**
      * @var string
@@ -62,17 +62,17 @@ class RemoteMeta extends AbstractMeta
 
     /**
      * @param string $name
-     * @param string $remote
+     * @param string $url
      *  - http: "https://github.com/ulue/swoft-component.git"
      *  - git: "git@github.com:ulue/swoft-component.git"
      *
      * @return RemoteMeta
      */
-    public static function newByParse(string $name, string $remote): RemoteMeta
+    public static function newByParse(string $name, string $url): RemoteMeta
     {
         $info = [
-            'name'   => $name,
-            'remote' => $remote,
+            'name' => $name,
+            'url'  => $url,
         ];
 
         return new self($info);

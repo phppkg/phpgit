@@ -37,8 +37,7 @@ class Push extends AbstractCommand
     public function __invoke($repository = null, $refspec = null, array $options = [])
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getCommandBuilder()
-            ->add('push');
+        $builder = $this->getCommandBuilder();
 
         $this->addFlags($builder, $options);
 
@@ -50,7 +49,7 @@ class Push extends AbstractCommand
             }
         }
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }
