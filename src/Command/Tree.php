@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * phpgit - A Git wrapper for PHP
+ * phpGit - A Git wrapper for PHP
  *
  * @author   https://github.com/inhere
  * @link     https://github.com/ulue/phpgit
@@ -43,13 +43,14 @@ class Tree extends AbstractCommand
      *
      * @return array
      */
-    public function __invoke($branch = 'master', $path = '')
+    public function __invoke(string $branch = 'master', string $path = '')
     {
         $objects = [];
-        $builder = $this->git->getCommandBuilder();
+        $builder = $this->getCommandBuilder();
         $process = $builder->add('ls-tree')->add($branch . ':' . $path)->getProcess();
-        $output  = $this->run($process);
-        $lines   = $this->split($output);
+
+        $output = $this->run($process);
+        $lines  = $this->split($output);
 
         $types = [
             'submodule' => 0,

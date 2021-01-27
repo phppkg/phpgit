@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * phpgit - A Git wrapper for PHP
+ * phpGit - A Git wrapper for PHP
  *
  * @author   https://github.com/inhere
  * @link     https://github.com/ulue/phpgit
@@ -37,8 +37,7 @@ class Reset extends AbstractCommand
      */
     public function __invoke($paths, $commit = null)
     {
-        $builder = $this->git->getCommandBuilder()
-            ->add('reset');
+        $builder = $this->getCommandBuilder();
 
         if ($commit) {
             $builder->add($commit)->add('--');
@@ -180,19 +179,17 @@ class Reset extends AbstractCommand
      * ```
      *
      * @param string $mode   --<mode>
-     * @param null   $commit The commit
+     * @param string|null   $commit The commit
      *
      * @return bool
      */
-    public function mode($mode, $commit = null): bool
+    public function mode(string $mode, string $commit = null): bool
     {
         if (!in_array($mode, ['soft', 'mixed', 'hard', 'merge', 'keep'])) {
             throw new InvalidArgumentException('$mode must be one of the following: soft, mixed, hard, merge, keep');
         }
 
-        $builder = $this->git->getCommandBuilder()
-            ->add('reset')
-            ->add('--' . $mode);
+        $builder = $this->getCommandBuilder('--' . $mode);
 
         if ($commit) {
             $builder->add($commit);

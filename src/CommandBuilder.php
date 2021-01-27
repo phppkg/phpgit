@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * phpgit - A Git wrapper for PHP
+ * phpGit - A Git wrapper for PHP
  *
  * @author   https://github.com/inhere
  * @link     https://github.com/ulue/phpgit
@@ -11,6 +11,8 @@ namespace PhpGit;
 
 use PhpGit\Exception\GitException;
 use Symfony\Component\Process\Process;
+use function array_merge;
+use function defined;
 use function getenv;
 
 /**
@@ -20,16 +22,26 @@ use function getenv;
  */
 class CommandBuilder
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     private $bin;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private $workDir = '';
 
-    /** @var string git command. eg: clone, fetch */
+    /**
+     * git command. eg: clone, fetch
+     *
+     * @var string
+     */
     private $command;
 
     /**
+     * git command args
+     *
      * @var array
      */
     private $args = [];
@@ -41,22 +53,25 @@ class CommandBuilder
 
     /**
      * @param string $command
+     * @param mixed  ...$args
      *
      * @return static
      */
-    public static function create(string $command = ''): self
+    public static function create(string $command = '', ...$args): self
     {
-        return new self($command);
+        return new self($command, ...$args);
     }
 
     /**
      * Class constructor.
      *
      * @param string $command
+     * @param mixed  ...$args
      */
-    public function __construct(string $command = '')
+    public function __construct(string $command = '', ...$args)
     {
         $this->command = $command;
+        $this->addArgs(...$args);
     }
 
     /**
@@ -106,6 +121,20 @@ class CommandBuilder
             $this->args[] = $arg;
         } else { // first arg is command
             $this->command = $arg;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param array $args
+     *
+     * @return $this
+     */
+    public function addArgs(...$args): self
+    {
+        foreach ($args as $arg) {
+            $this->add((string)$arg);
         }
 
         return $this;

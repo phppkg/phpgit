@@ -1,4 +1,11 @@
 <?php declare(strict_types=1);
+/**
+ * phpGit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 namespace PhpGit;
 
@@ -34,7 +41,6 @@ class GitUtil
             // $url = gitlab.my.com:group/some-lib
             [$host, $path] = explode(':', $url, 2);
             [$group, $repo] = explode('/', $path, 2);
-
         } else {
             $type = 'http';
 

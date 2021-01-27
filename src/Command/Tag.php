@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * phpgit - A Git wrapper for PHP
+ * phpGit - A Git wrapper for PHP
  *
  * @author   https://github.com/inhere
  * @link     https://github.com/ulue/phpgit
@@ -96,7 +96,7 @@ class Tag extends AbstractCommand
      */
     public function delete($tag): bool
     {
-        $builder = $this->git->getCommandBuilder()->add('-d');
+        $builder = $this->getCommandBuilder('-d');
 
         if (!is_array($tag) && !($tag instanceof Traversable)) {
             $tag = [$tag];

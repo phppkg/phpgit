@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * phpgit - A Git wrapper for PHP
+ * phpGit - A Git wrapper for PHP
  *
  * @author   https://github.com/inhere
  * @link     https://github.com/ulue/phpgit
@@ -76,7 +76,7 @@ class Checkout extends AbstractCommand
     public function create($branch, $startPoint = null, array $options = []): bool
     {
         $options = $this->resolve($options);
-        $builder = $this->getCommandBuilder()->add('-b');
+        $builder = $this->getCommandBuilder('-b');
 
         $this->addFlags($builder, $options, ['force', 'merge']);
 
@@ -92,7 +92,7 @@ class Checkout extends AbstractCommand
     }
 
     /**
-     * Create a new orphan branch, named <new_branch>, started from <start_point> and switch to it
+     * Create a new orphan branch, named `new_branch`, started from `start_point` and switch to it
      *
      * ``` php
      * $git = new PhpGit\Git();

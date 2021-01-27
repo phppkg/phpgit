@@ -1,12 +1,16 @@
 <?php declare(strict_types=1);
 /**
- * phpunit --bootstrap tests/boot.php tests
+ * phpGit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
  */
 
 error_reporting(E_ALL | E_STRICT);
 date_default_timezone_set('Asia/Shanghai');
 
-spl_autoload_register(function ($class) {
+spl_autoload_register(function ($class): void {
     $file = null;
 
     if (0 === strpos($class, 'PhpGit\Examples\\')) {

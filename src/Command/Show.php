@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * phpgit - A Git wrapper for PHP
+ * phpGit - A Git wrapper for PHP
  *
  * @author   https://github.com/inhere
  * @link     https://github.com/ulue/phpgit
@@ -41,8 +41,7 @@ class Show extends AbstractCommand
     public function __invoke($object, array $options = [])
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getCommandBuilder()
-            ->add('show');
+        $builder = $this->getCommandBuilder();
 
         $this->addFlags($builder, $options, ['abbrev-commit']);
 

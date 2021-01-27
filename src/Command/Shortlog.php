@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * phpgit - A Git wrapper for PHP
+ * phpGit - A Git wrapper for PHP
  *
  * @author   https://github.com/inhere
  * @link     https://github.com/ulue/phpgit
@@ -47,8 +47,7 @@ class Shortlog extends AbstractCommand
      */
     public function __invoke($commits = 'HEAD')
     {
-        $builder = $this->git->getCommandBuilder()
-            ->add('shortlog')
+        $builder = $this->getCommandBuilder()
             ->add('--numbered')
             ->add('--format=')
             ->add('-w256,2,2')
@@ -108,14 +107,13 @@ class Shortlog extends AbstractCommand
      * ]
      * ```
      *
-     * @param string $commits [optional] Defaults to HEAD
+     * @param string|array $commits [optional] Defaults to HEAD
      *
      * @return array
      */
     public function summary($commits = 'HEAD'): array
     {
-        $builder = $this->git->getCommandBuilder()
-            ->add('shortlog')
+        $builder = $this->getCommandBuilder()
             ->add('--numbered')
             ->add('--summary')
             ->add('-e');

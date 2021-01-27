@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * phpgit - A Git wrapper for PHP
+ * phpGit - A Git wrapper for PHP
  *
  * @author   https://github.com/inhere
  * @link     https://github.com/ulue/phpgit
@@ -14,6 +14,8 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Process\Process;
 use function basename;
+use function preg_split;
+use function rtrim;
 use function str_replace;
 
 /**
@@ -92,11 +94,15 @@ abstract class AbstractCommand
     }
 
     /**
+     * @param mixed ...$args
+     *
      * @return CommandBuilder
      */
-    protected function getCommandBuilder(): CommandBuilder
+    protected function getCommandBuilder(...$args): CommandBuilder
     {
-        return $this->git->getCommandBuilder($this->getCommandName());
+        $cmd = $this->getCommandName();
+
+        return $this->git->getCommandBuilder($cmd, ...$args);
     }
 
     /**

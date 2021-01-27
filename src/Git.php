@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /**
- * phpgit - A Git wrapper for PHP
+ * phpGit - A Git wrapper for PHP
  *
  * @author   https://github.com/inhere
  * @link     https://github.com/ulue/phpgit
@@ -362,13 +362,21 @@ class Git
      *
      * @param string $command
      *
+     * @param string[] ...$args
+     *
      * @return CommandBuilder
      */
-    public function getCommandBuilder(string $command = ''): CommandBuilder
+    public function getCommandBuilder(string $command = '', ...$args): CommandBuilder
     {
-        return CommandBuilder::create($command)
+        $builder = CommandBuilder::create($command)
             ->setBin($this->bin)
             ->setWorkDir($this->directory);
+
+        if ($args) {
+            $builder->addArgs(...$args);
+        }
+
+        return $builder;
     }
 
     /**
