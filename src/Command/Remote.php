@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 namespace PhpGit\Command;
 
@@ -14,11 +21,10 @@ use Symfony\Component\OptionsResolver\Options;
  *
  * @method head($name, $branch)                                     Sets the default branch for the named remote
  * @method branches($name, $branches)                               Changes the list of branches tracked by the named remote
- * @method url($name, $newUrl, $oldUrl = null, $options = array()) Sets the URL remote to $newUrl
+ * @method url($name, $newUrl, $oldUrl = null, $options = []) Sets the URL remote to $newUrl
  */
 class Remote extends AbstractCommand
 {
-
     /** @var Remote\SetHead */
     public $head;
 
@@ -46,8 +52,8 @@ class Remote extends AbstractCommand
      * @param string $name      The name of a property
      * @param array  $arguments An array of arguments
      *
-     * @throws BadMethodCallException
      * @return mixed
+     * @throws BadMethodCallException
      */
     public function __call($name, $arguments)
     {
@@ -83,18 +89,18 @@ class Remote extends AbstractCommand
      */
     public function __invoke()
     {
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('remote')
             ->add('-v');
 
-        $remotes = array();
+        $remotes = [];
         $output  = $this->git->run($builder->getProcess());
         $lines   = $this->split($output);
 
         foreach ($lines as $line) {
             if (preg_match('/^(.*)\t(.*)\s\((.*)\)$/', $line, $matches)) {
                 if (!isset($remotes[$matches[1]])) {
-                    $remotes[$matches[1]] = array();
+                    $remotes[$matches[1]] = [];
                 }
 
                 $remotes[$matches[1]][$matches[3]] = $matches[2];
@@ -125,14 +131,14 @@ class Remote extends AbstractCommand
      *
      * @return bool
      */
-    public function add($name, $url, array $options = array()): bool
+    public function add($name, $url, array $options = []): bool
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('remote')
             ->add('add');
 
-        $this->addFlags($builder, $options, array('tags', 'no-tags'));
+        $this->addFlags($builder, $options, ['tags', 'no-tags']);
 
         $builder->add($name)->add($url);
 
@@ -158,7 +164,7 @@ class Remote extends AbstractCommand
      */
     public function rename($name, $newName): bool
     {
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('remote')
             ->add('rename')
             ->add($name)
@@ -185,7 +191,7 @@ class Remote extends AbstractCommand
      */
     public function rm($name): bool
     {
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('remote')
             ->add('rm')
             ->add($name);
@@ -226,7 +232,7 @@ class Remote extends AbstractCommand
      */
     public function show($name): string
     {
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('remote')
             ->add('show')
             ->add($name);
@@ -249,7 +255,7 @@ class Remote extends AbstractCommand
      */
     public function prune($name = null): bool
     {
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('remote')
             ->add('prune');
 
@@ -270,10 +276,9 @@ class Remote extends AbstractCommand
      */
     public function setDefaultOptions(Options $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'tags'    => false,
             'no-tags' => false
-        ));
+        ]);
     }
-
 }

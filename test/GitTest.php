@@ -1,11 +1,18 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 use PhpGit\Exception\GitException;
 use PhpGit\Git;
+use PHPUnit\Framework\TestCase;
 
-class GitTest extends PHPUnit_Framework_TestCase
+class GitTest extends TestCase
 {
-
     public function testGetVersion(): void
     {
         $git = new Git();
@@ -30,5 +37,4 @@ class GitTest extends PHPUnit_Framework_TestCase
         $git = new Git();
         $git->foo();
     }
-
 }

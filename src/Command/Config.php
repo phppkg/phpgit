@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 namespace PhpGit\Command;
 
@@ -13,7 +20,6 @@ use Symfony\Component\OptionsResolver\Options;
  */
 class Config extends AbstractCommand
 {
-
     /**
      * Returns all variables set in config file
      *
@@ -26,19 +32,16 @@ class Config extends AbstractCommand
      * @param array $options [optional] An array of options {@see Config::setDefaultOptions}
      *
      * @return array
-     *@throws GitException
+     * @throws GitException
      */
-    public function __invoke(array $options = array())
+    public function __invoke(array $options = [])
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('config')
-            ->add('--list')
-            ->add('--null');
+        $builder = $this->getCommandBuilder()->add('--list')->add('--null');
 
-        $this->addFlags($builder, $options, array('global', 'system'));
+        $this->addFlags($builder, $options, ['global', 'system']);
 
-        $config = array();
+        $config = [];
         $output = $this->git->run($builder->getProcess());
         $lines  = $this->split($output, true);
 
@@ -68,19 +71,19 @@ class Config extends AbstractCommand
      * @param array  $options [optional] An array of options {@see Config::setDefaultOptions}
      *
      * @return bool
-     *@throws GitException
+     * @throws GitException
      */
-    public function set($name, $value, array $options = array()): bool
+    public function set($name, $value, array $options = []): bool
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('config');
+        $builder = $this->getCommandBuilder();
 
-        $this->addFlags($builder, $options, array('global', 'system'));
+        $this->addFlags($builder, $options, ['global', 'system']);
 
         $builder->add($name)->add($value);
+
         $process = $builder->getProcess();
-        $this->git->run($process);
+        $this->run($process);
 
         return true;
     }
@@ -98,15 +101,14 @@ class Config extends AbstractCommand
      * @param array  $options [optional] An array of options {@see Config::setDefaultOptions}
      *
      * @return bool
-     *@throws GitException
+     * @throws GitException
      */
-    public function add($name, $value, array $options = array()): bool
+    public function add($name, $value, array $options = []): bool
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('config');
+        $builder = $this->getCommandBuilder();
 
-        $this->addFlags($builder, $options, array('global', 'system'));
+        $this->addFlags($builder, $options, ['global', 'system']);
 
         $builder->add('--add')->add($name)->add($value);
         $process = $builder->getProcess();
@@ -123,10 +125,9 @@ class Config extends AbstractCommand
      */
     public function setDefaultOptions(Options $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'global' => false,
             'system' => false,
-        ));
+        ]);
     }
-
 }

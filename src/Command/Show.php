@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 namespace PhpGit\Command;
 
@@ -12,7 +19,6 @@ use Symfony\Component\OptionsResolver\Options;
  */
 class Show extends AbstractCommand
 {
-
     /**
      * Shows one or more objects (blobs, trees, tags and commits)
      *
@@ -32,13 +38,13 @@ class Show extends AbstractCommand
      *
      * @return string
      */
-    public function __invoke($object, array $options = array())
+    public function __invoke($object, array $options = [])
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('show');
 
-        $this->addFlags($builder, $options, array('abbrev-commit'));
+        $this->addFlags($builder, $options, ['abbrev-commit']);
 
         if ($options['format']) {
             $builder->add('--format=' . $options['format']);
@@ -57,14 +63,13 @@ class Show extends AbstractCommand
      */
     public function setDefaultOptions(Options $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'format'        => null,
             'abbrev-commit' => false
-        ));
+        ]);
 
-        $resolver->setAllowedTypes(array(
-            'format' => array('null', 'string'),
-        ));
+        $resolver->setAllowedTypes([
+            'format' => ['null', 'string'],
+        ]);
     }
-
 }

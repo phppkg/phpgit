@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 use PhpGit\Git;
 use Symfony\Component\Filesystem\Filesystem;
@@ -7,7 +14,6 @@ require_once __DIR__ . '/../BaseTestCase.php';
 
 class CatCommandTest extends BaseTestCase
 {
-
     public function testCatBlob(): void
     {
         $filesystem = new Filesystem();
@@ -61,5 +67,4 @@ class CatCommandTest extends BaseTestCase
 
         $this->assertEquals(3, $git->cat->size($tree[0]['hash']));
     }
-
 }

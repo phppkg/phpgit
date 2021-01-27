@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 namespace PhpGit\Command;
 
@@ -14,7 +21,6 @@ use Traversable;
  */
 class Tag extends AbstractCommand
 {
-
     /**
      * Returns an array of tags
      *
@@ -31,12 +37,12 @@ class Tag extends AbstractCommand
      * ['v1.0.0', 'v1.0.1', 'v1.0.2']
      * ```
      *
-     * @throws GitException
      * @return array
+     * @throws GitException
      */
     public function __invoke()
     {
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('tag');
 
         $output = $this->git->run($builder->getProcess());
@@ -65,14 +71,14 @@ class Tag extends AbstractCommand
      *
      * @return bool
      */
-    public function create($tag, $commit = null, array $options = array()): bool
+    public function create($tag, $commit = null, array $options = []): bool
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('tag')
             ->add($tag);
 
-        $this->addFlags($builder, $options, array('annotate', 'sign', 'force'));
+        $this->addFlags($builder, $options, ['annotate', 'sign', 'force']);
 
         if ($commit) {
             $builder->add($commit);
@@ -89,16 +95,16 @@ class Tag extends AbstractCommand
      * @param string|array|Traversable $tag The name of the tag to create
      *
      * @return bool
-     *@throws GitException
+     * @throws GitException
      */
     public function delete($tag): bool
     {
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('tag')
             ->add('-d');
 
         if (!is_array($tag) && !($tag instanceof Traversable)) {
-            $tag = array($tag);
+            $tag = [$tag];
         }
 
         foreach ($tag as $value) {
@@ -116,16 +122,16 @@ class Tag extends AbstractCommand
      * @param string|array|Traversable $tag The name of the tag to create
      *
      * @return bool
-     *@throws GitException
+     * @throws GitException
      */
     public function verify($tag): bool
     {
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('tag')
             ->add('-v');
 
         if (!is_array($tag) && !($tag instanceof Traversable)) {
-            $tag = array($tag);
+            $tag = [$tag];
         }
 
         foreach ($tag as $value) {
@@ -146,11 +152,10 @@ class Tag extends AbstractCommand
      */
     public function setDefaultOptions(Options $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'annotate' => false,
-            'sign' => false,
-            'force' => false,
-        ));
+            'sign'     => false,
+            'force'    => false,
+        ]);
     }
-
 }

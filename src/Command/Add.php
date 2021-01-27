@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 namespace PhpGit\Command;
 
@@ -14,7 +21,6 @@ use Traversable;
  */
 class Add extends AbstractCommand
 {
-
     /**
      * Add file contents to the index
      *
@@ -34,18 +40,18 @@ class Add extends AbstractCommand
      * @param array                    $options [optional] An array of options {@see Add::setDefaultOptions}
      *
      * @return bool
-     *@throws GitException
+     * @throws GitException
      */
-    public function __invoke($file, array $options = array())
+    public function __invoke($file, array $options = [])
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('add');
 
         $this->addFlags($builder, $options);
 
         if (!is_array($file) && !($file instanceof Traversable)) {
-            $file = array($file);
+            $file = [$file];
         }
 
         foreach ($file as $value) {
@@ -65,12 +71,11 @@ class Add extends AbstractCommand
      */
     public function setDefaultOptions(Options $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             //'dry-run'        => false,
-            'force'          => false,
-            'ignore-errors'  => false,
+            'force'         => false,
+            'ignore-errors' => false,
             //'ignore-missing' => false,
-        ));
+        ]);
     }
-
 }

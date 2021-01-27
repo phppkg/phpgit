@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 use PhpGit\Git;
 use Symfony\Component\Filesystem\Filesystem;
@@ -122,5 +129,4 @@ class ResetCommandTest extends BaseTestCase
 
         $git->reset->mode('foo');
     }
-
 }

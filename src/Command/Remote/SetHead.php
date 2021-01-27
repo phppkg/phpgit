@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 namespace PhpGit\Command\Remote;
 
@@ -11,7 +18,6 @@ use PhpGit\AbstractCommand;
  */
 class SetHead extends AbstractCommand
 {
-
     /**
      * Alias of set()
      *
@@ -49,7 +55,7 @@ class SetHead extends AbstractCommand
      */
     public function set($name, $branch): bool
     {
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('remote')
             ->add('set-head')
             ->add($name);
@@ -79,7 +85,7 @@ class SetHead extends AbstractCommand
      */
     public function delete($name): bool
     {
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('remote')
             ->add('set-head')
             ->add($name)
@@ -106,7 +112,7 @@ class SetHead extends AbstractCommand
      */
     public function remote($name): bool
     {
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('remote')
             ->add('set-head')
             ->add($name)
@@ -116,5 +122,4 @@ class SetHead extends AbstractCommand
 
         return true;
     }
-
 }

@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 namespace PhpGit\Command;
 
@@ -13,7 +20,6 @@ use Symfony\Component\OptionsResolver\Options;
  */
 class Init extends AbstractCommand
 {
-
     /**
      * Create an empty git repository or reinitialize an existing one
      *
@@ -32,15 +38,15 @@ class Init extends AbstractCommand
      * @param array  $options [optional] An array of options {@see Init::setDefaultOptions}
      *
      * @return bool
-     *@throws GitException
+     * @throws GitException
      */
-    public function __invoke($path, array $options = array())
+    public function __invoke($path, array $options = [])
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('init');
 
-        $this->addFlags($builder, $options, array('shared', 'bare'));
+        $this->addFlags($builder, $options, ['shared', 'bare']);
 
         $process = $builder->add($path)->getProcess();
         $this->git->run($process);
@@ -56,10 +62,9 @@ class Init extends AbstractCommand
      */
     public function setDefaultOptions(Options $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'shared' => false,
             'bare'   => false
-        ));
+        ]);
     }
-
 }

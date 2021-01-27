@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 namespace PhpGit\Command;
 
@@ -14,7 +21,6 @@ use Traversable;
  */
 class Mv extends AbstractCommand
 {
-
     /**
      * Move or rename a file, a directory, or a symlink
      *
@@ -34,16 +40,16 @@ class Mv extends AbstractCommand
      *
      * @return bool
      */
-    public function __invoke($source, $destination, array $options = array())
+    public function __invoke($source, $destination, array $options = [])
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('mv');
 
-        $this->addFlags($builder, $options, array('force'));
+        $this->addFlags($builder, $options, ['force']);
 
         if (!is_array($source) && !($source instanceof Traversable)) {
-            $source = array($source);
+            $source = [$source];
         }
 
         foreach ($source as $value) {
@@ -64,9 +70,8 @@ class Mv extends AbstractCommand
      */
     public function setDefaultOptions(Options $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'force' => false
-        ));
+        ]);
     }
-
 }

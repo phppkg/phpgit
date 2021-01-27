@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 namespace PhpGit\Command;
 
@@ -13,7 +20,6 @@ use Symfony\Component\OptionsResolver\Options;
  */
 class Commit extends AbstractCommand
 {
-
     /**
      * Record changes to the repository
      *
@@ -39,19 +45,19 @@ class Commit extends AbstractCommand
      * @param array  $options [optional] An array of options {@see GitClone::setDefaultOptions}
      *
      * @return bool
-     *@throws GitException
+     * @throws GitException
      */
-    public function __invoke($message, array $options = array())
+    public function __invoke($message, array $options = [])
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('commit')
-            ->add('-m')->add($message);
+        $builder = $this->getCommandBuilder();
+        $builder->add('-m')->add($message);
 
-        $this->addFlags($builder, $options, array('all', 'amend'));
-        $this->addValues($builder, $options, array('reuse-message', 'squash', 'author', 'date', 'cleanup'));
+        $this->addFlags($builder, $options, ['all', 'amend']);
+        $this->addValues($builder, $options, ['reuse-message', 'squash', 'author', 'date', 'cleanup']);
 
-        $this->git->run($builder->getProcess());
+        // $this->run($builder->getProcess());
+        $builder->run();
 
         return true;
     }
@@ -69,7 +75,7 @@ class Commit extends AbstractCommand
      */
     public function setDefaultOptions(Options $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'all'           => false,
             'reuse-message' => null,
             'squash'        => null,
@@ -77,11 +83,10 @@ class Commit extends AbstractCommand
             'date'          => null,
             'cleanup'       => null,
             'amend'         => false
-        ));
+        ]);
 
-        $resolver->setAllowedValues(array(
-            'cleanup' => array(null, 'default', 'verbatim', 'whitespace', 'strip')
-        ));
+        $resolver->setAllowedValues([
+            'cleanup' => [null, 'default', 'verbatim', 'whitespace', 'strip']
+        ]);
     }
-
 }

@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 namespace PhpGit\Command;
 
@@ -12,7 +19,6 @@ use Symfony\Component\OptionsResolver\Options;
  */
 class Describe extends AbstractCommand
 {
-
     /**
      * Returns the most recent tag that is reachable from a commit
      *
@@ -41,13 +47,13 @@ class Describe extends AbstractCommand
      *
      * @return string
      */
-    public function __invoke($committish = null, array $options = array())
+    public function __invoke($committish = null, array $options = [])
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('describe');
 
-        $this->addFlags($builder, $options, array());
+        $this->addFlags($builder, $options, []);
 
         if ($committish) {
             $builder->add($committish);
@@ -64,7 +70,7 @@ class Describe extends AbstractCommand
      *
      * @return string
      */
-    public function tags($committish = null, array $options = array()): string
+    public function tags($committish = null, array $options = []): string
     {
         $options['tags'] = true;
 
@@ -80,11 +86,10 @@ class Describe extends AbstractCommand
      */
     public function setDefaultOptions(Options $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'all'    => false,
             'tags'   => false,
             'always' => false,
-        ));
+        ]);
     }
-
 }

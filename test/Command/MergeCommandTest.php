@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 use PhpGit\Exception\GitException;
 use PhpGit\Git;
@@ -8,7 +15,6 @@ require_once __DIR__ . '/../BaseTestCase.php';
 
 class MergeCommandTest extends BaseTestCase
 {
-
     public function testMerge(): void
     {
         $filesystem = new Filesystem();
@@ -98,5 +104,4 @@ class MergeCommandTest extends BaseTestCase
 
         $this->assertEquals('baz', file_get_contents($this->directory . '/test.txt'));
     }
-
 }

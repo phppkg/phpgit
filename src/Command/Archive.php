@@ -1,9 +1,15 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 namespace PhpGit\Command;
 
 use PhpGit\AbstractCommand;
-use PhpGit\Exception\GitException;
 use Symfony\Component\OptionsResolver\Options;
 use Traversable;
 
@@ -14,7 +20,6 @@ use Traversable;
  */
 class Archive extends AbstractCommand
 {
-
     /**
      * Create an archive of files from a named tree
      *
@@ -36,10 +41,10 @@ class Archive extends AbstractCommand
      *
      * @return bool
      */
-    public function __invoke($file, $tree = null, $path = null, array $options = array())
+    public function __invoke($file, $tree = null, $path = null, array $options = [])
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('archive');
 
         if ($options['format']) {
@@ -57,7 +62,7 @@ class Archive extends AbstractCommand
         }
 
         if (!is_array($path) && !($path instanceof Traversable)) {
-            $path = array($path);
+            $path = [$path];
         }
 
         foreach ($path as $value) {
@@ -91,6 +96,4 @@ class Archive extends AbstractCommand
             'format' => ['tar', 'zip']
         ]);
     }
-
-
 }

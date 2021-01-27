@@ -1,9 +1,15 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 namespace PhpGit\Command;
 
 use PhpGit\AbstractCommand;
-use PhpGit\Exception\GitException;
 use Symfony\Component\OptionsResolver\Options;
 
 /**
@@ -13,7 +19,6 @@ use Symfony\Component\OptionsResolver\Options;
  */
 class Log extends AbstractCommand
 {
-
     /**
      * Returns the commit logs
      *
@@ -51,12 +56,12 @@ class Log extends AbstractCommand
      *
      * @return array
      */
-    public function __invoke($revRange = '', $path = null, array $options = array())
+    public function __invoke($revRange = '', $path = null, array $options = [])
     {
-        $commits = array();
+        $commits = [];
         $options = $this->resolve($options);
 
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('log')
             ->add('-n')->add($options['limit'])
             ->add('--skip=' . $options['skip'])
@@ -75,13 +80,13 @@ class Log extends AbstractCommand
 
         foreach ($lines as $line) {
             [$hash, $name, $email, $date, $title] = preg_split('/\|\|/', $line, -1, PREG_SPLIT_NO_EMPTY);
-            $commits[] = array(
+            $commits[] = [
                 'hash'  => $hash,
                 'name'  => $name,
                 'email' => $email,
                 'date'  => $date,
                 'title' => $title
-            );
+            ];
         }
 
         return $commits;
@@ -95,10 +100,9 @@ class Log extends AbstractCommand
      */
     public function setDefaultOptions(Options $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'limit' => 10,
             'skip'  => 0
-        ));
+        ]);
     }
-
 }

@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 namespace PhpGit\Command;
 
@@ -12,7 +19,6 @@ use Symfony\Component\OptionsResolver\Options;
  */
 class Push extends AbstractCommand
 {
-
     /**
      * Update remote refs along with associated objects
      *
@@ -28,10 +34,10 @@ class Push extends AbstractCommand
      *
      * @return bool
      */
-    public function __invoke($repository = null, $refspec = null, array $options = array())
+    public function __invoke($repository = null, $refspec = null, array $options = [])
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('push');
 
         $this->addFlags($builder, $options);
@@ -54,12 +60,11 @@ class Push extends AbstractCommand
      */
     public function setDefaultOptions(Options $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'all'    => false,
             'mirror' => false,
             'tags'   => false,
             'force'  => false
-        ));
+        ]);
     }
-
 }

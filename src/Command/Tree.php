@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 namespace PhpGit\Command;
 
@@ -11,7 +18,6 @@ use PhpGit\AbstractCommand;
  */
 class Tree extends AbstractCommand
 {
-
     /**
      * Returns the contents of a tree object
      *
@@ -39,32 +45,31 @@ class Tree extends AbstractCommand
      */
     public function __invoke($branch = 'master', $path = '')
     {
-        $objects = array();
-        $builder = $this->git->getProcessBuilder();
+        $objects = [];
+        $builder = $this->git->getCommandBuilder();
         $process = $builder->add('ls-tree')->add($branch . ':' . $path)->getProcess();
         $output  = $this->git->run($process);
         $lines   = $this->split($output);
 
-        $types = array(
+        $types = [
             'submodule' => 0,
             'tree'      => 1,
             'blob'      => 2
-        );
+        ];
 
         foreach ($lines as $line) {
             [$meta, $file] = explode("\t", $line);
-            [$mode, $type, $hash] = explode(" ", $meta);
+            [$mode, $type, $hash] = explode(' ', $meta);
 
-            $objects[] = array(
+            $objects[] = [
                 'sort' => sprintf('%d:%s', $types[$type], $file),
                 'mode' => $mode,
                 'type' => $type,
                 'hash' => $hash,
                 'file' => $file
-            );
+            ];
         }
 
         return $objects;
     }
-
 }

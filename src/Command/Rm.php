@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 namespace PhpGit\Command;
 
@@ -13,7 +20,6 @@ use Traversable;
  */
 class Rm extends AbstractCommand
 {
-
     /**
      * Remove files from the working tree and from the index
      *
@@ -34,20 +40,20 @@ class Rm extends AbstractCommand
      *
      * @return bool
      */
-    public function __invoke($file, array $options = array())
+    public function __invoke($file, array $options = [])
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('rm');
 
-        $this->addFlags($builder, $options, array('force', 'cached'));
+        $this->addFlags($builder, $options, ['force', 'cached']);
 
         if ($options['recursive']) {
             $builder->add('-r');
         }
 
         if (!is_array($file) && !($file instanceof Traversable)) {
-            $file = array($file);
+            $file = [$file];
         }
 
         foreach ($file as $value) {
@@ -72,7 +78,7 @@ class Rm extends AbstractCommand
      *
      * @return bool
      */
-    public function cached($file, array $options = array()): bool
+    public function cached($file, array $options = []): bool
     {
         $options['cached'] = true;
 
@@ -88,11 +94,10 @@ class Rm extends AbstractCommand
      */
     public function setDefaultOptions(Options $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'force'     => false,
             'cached'    => false,
             'recursive' => false
-        ));
+        ]);
     }
-
 }

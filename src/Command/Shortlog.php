@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 namespace PhpGit\Command;
 
@@ -13,7 +20,6 @@ use Traversable;
  */
 class Shortlog extends AbstractCommand
 {
-
     /**
      * Summarize 'git log' output
      *
@@ -41,7 +47,7 @@ class Shortlog extends AbstractCommand
      */
     public function __invoke($commits = 'HEAD')
     {
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('shortlog')
             ->add('--numbered')
             ->add('--format=')
@@ -49,7 +55,7 @@ class Shortlog extends AbstractCommand
             ->add('-e');
 
         if (!is_array($commits) && !($commits instanceof Traversable)) {
-            $commits = array($commits);
+            $commits = [$commits];
         }
 
         foreach ($commits as $commit) {
@@ -61,24 +67,24 @@ class Shortlog extends AbstractCommand
 
         $output = $this->git->run($process);
         $lines  = $this->split($output);
-        $result = array();
+        $result = [];
         $author = null;
 
         foreach ($lines as $line) {
             if (substr($line, 0, 1) !== ' ') {
                 if (preg_match('/([^<>]*? <[^<>]+>)/', $line, $matches)) {
-                    $author = $matches[1];
-                    $result[$author] = array();
+                    $author          = $matches[1];
+                    $result[$author] = [];
                 }
                 continue;
             }
 
             [$commit, $date, $subject] = explode('|', trim($line), 3);
-            $result[$author][] = array(
+            $result[$author][] = [
                 'commit'  => $commit,
                 'date'    => new DateTime($date),
                 'subject' => $subject
-            );
+            ];
         }
 
         return $result;
@@ -108,14 +114,14 @@ class Shortlog extends AbstractCommand
      */
     public function summary($commits = 'HEAD'): array
     {
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('shortlog')
             ->add('--numbered')
             ->add('--summary')
             ->add('-e');
 
         if (!is_array($commits) && !($commits instanceof Traversable)) {
-            $commits = array($commits);
+            $commits = [$commits];
         }
 
         foreach ($commits as $commit) {
@@ -124,14 +130,13 @@ class Shortlog extends AbstractCommand
 
         $output = $this->git->run($builder->getProcess());
         $lines  = $this->split($output);
-        $result = array();
+        $result = [];
 
         foreach ($lines as $line) {
             [$commits, $author] = explode("\t", trim($line), 2);
-            $result[$author] = (int) $commits;
+            $result[$author] = (int)$commits;
         }
 
         return $result;
     }
-
 }

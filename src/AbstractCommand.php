@@ -1,9 +1,18 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 namespace PhpGit;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use PhpGit\Exception\GitException;
 use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Process\Process;
 use function basename;
 use function str_replace;
 
@@ -44,7 +53,7 @@ abstract class AbstractCommand
      *
      * @return array
      */
-    public function resolve(array $options = array()): array
+    public function resolve(array $options = []): array
     {
         $resolver = new OptionsResolver();
         $this->setDefaultOptions($resolver);
@@ -83,21 +92,40 @@ abstract class AbstractCommand
     }
 
     /**
-     * @return ProcessBuilder
+     * @return CommandBuilder
      */
-    protected function getProcessBuilder(): ProcessBuilder
+    protected function getCommandBuilder(): CommandBuilder
     {
-        return $this->git->getProcessBuilder($this->getCommandName());
+        return $this->git->getCommandBuilder($this->getCommandName());
+    }
+
+    /**
+     * Executes a process
+     *
+     * @param Process $process The process to run
+     *
+     * @return mixed
+     * @throws Exception\GitException
+     */
+    public function run(Process $process)
+    {
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            throw new GitException($process->getErrorOutput(), $process->getExitCode(), $process->getCommandLine());
+        }
+
+        return $process->getOutput();
     }
 
     /**
      * Adds boolean options to command arguments
      *
-     * @param ProcessBuilder $builder     A ProcessBuilder object
+     * @param CommandBuilder $builder     A ProcessBuilder object
      * @param array          $options     An array of options
      * @param array          $optionNames The names of options to add
      */
-    protected function addFlags(ProcessBuilder $builder, array $options = [], array $optionNames = []): void
+    protected function addFlags(CommandBuilder $builder, array $options = [], array $optionNames = []): void
     {
         if ($optionNames) {
             foreach ($optionNames as $name) {
@@ -117,11 +145,11 @@ abstract class AbstractCommand
     /**
      * Adds options with values to command arguments
      *
-     * @param ProcessBuilder $builder     A ProcessBuilder object
+     * @param CommandBuilder $builder     A ProcessBuilder object
      * @param array          $options     An array of options
      * @param array|null     $optionNames The names of options to add
      */
-    protected function addValues(ProcessBuilder $builder, array $options = [], array $optionNames = null): void
+    protected function addValues(CommandBuilder $builder, array $options = [], array $optionNames = null): void
     {
         if ($optionNames) {
             foreach ($optionNames as $name) {
@@ -137,5 +165,4 @@ abstract class AbstractCommand
             }
         }
     }
-
 }

@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 namespace PhpGit\Command;
 
@@ -44,15 +51,22 @@ use Symfony\Component\OptionsResolver\Options;
  */
 class Status extends AbstractCommand
 {
-
     public const UNMODIFIED           = ' ';
+
     public const MODIFIED             = 'M';
+
     public const ADDED                = 'A';
+
     public const DELETED              = 'D';
+
     public const RENAMED              = 'R';
+
     public const COPIED               = 'C';
+
     public const UPDATED_BUT_UNMERGED = 'U';
+
     public const UNTRACKED            = '?';
+
     public const IGNORED              = '!';
 
     /**
@@ -97,17 +111,17 @@ class Status extends AbstractCommand
      *
      * @return mixed
      */
-    public function __invoke(array $options = array())
+    public function __invoke(array $options = [])
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('status')
             ->add('--porcelain')->add('-s')->add('-b')->add('--null');
 
         $this->addFlags($builder, $options);
 
         $process = $builder->getProcess();
-        $result  = array('branch' => null, 'changes' => array());
+        $result  = ['branch' => null, 'changes' => []];
         $output  = $this->git->run($process);
 
         [$branch, $changes] = preg_split('/(\0|\n)/', $output, 2);
@@ -122,11 +136,11 @@ class Status extends AbstractCommand
         }
 
         foreach ($lines as $line) {
-            $result['changes'][] = array(
+            $result['changes'][] = [
                 'file'      => substr($line, 3),
                 'index'     => substr($line, 0, 1),
                 'work_tree' => substr($line, 1, 1)
-            );
+            ];
         }
 
         return $result;
@@ -139,9 +153,8 @@ class Status extends AbstractCommand
      */
     public function setDefaultOptions(Options $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'ignored' => false
-        ));
+        ]);
     }
-
 }

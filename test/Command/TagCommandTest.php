@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 use PhpGit\Exception\GitException;
 use PhpGit\Git;
@@ -8,7 +15,6 @@ require_once __DIR__ . '/../BaseTestCase.php';
 
 class TagCommandTest extends BaseTestCase
 {
-
     public function testTagDelete(): void
     {
         $filesystem = new Filesystem();
@@ -55,5 +61,4 @@ class TagCommandTest extends BaseTestCase
         $git->tag->create('v1.0.0', $log[0]['hash']);
         $this->assertCount(1, $git->tag());
     }
-
 }

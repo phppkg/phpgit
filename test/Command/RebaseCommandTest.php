@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 use PhpGit\Exception\GitException;
 use PhpGit\Git;
@@ -8,7 +15,6 @@ require_once __DIR__ . '/../BaseTestCase.php';
 
 class RebaseCommandTest extends BaseTestCase
 {
-
     public function testRebase(): void
     {
         $filesystem = new Filesystem();
@@ -151,5 +157,4 @@ class RebaseCommandTest extends BaseTestCase
 
         $git->rebase->skip();
     }
-
 }

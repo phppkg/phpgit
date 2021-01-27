@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
@@ -16,7 +23,7 @@ abstract class BaseTestCase extends TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->directory = __DIR__ . '/../../build/' . strtolower(get_class($this));
     }
@@ -29,5 +36,4 @@ abstract class BaseTestCase extends TestCase
         $filesystem = new Filesystem();
         $filesystem->remove($this->directory);
     }
-
 }

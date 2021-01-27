@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 use PhpGit\Git;
 
@@ -6,7 +13,6 @@ require_once __DIR__ . '/../BaseTestCase.php';
 
 class RemoteCommandTest extends BaseTestCase
 {
-
     public function testRemote(): void
     {
         $git = new Git();
@@ -96,5 +102,4 @@ class RemoteCommandTest extends BaseTestCase
         $git = new Git();
         $git->remote->foo();
     }
-
 }

@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 namespace PhpGit\Command;
 
@@ -13,7 +20,6 @@ use Symfony\Component\OptionsResolver\Options;
  */
 class Checkout extends AbstractCommand
 {
-
     /**
      * Switches branches by updating the index, working tree, and HEAD to reflect the specified branch or commit
      *
@@ -32,15 +38,14 @@ class Checkout extends AbstractCommand
      * @param array  $options [optional] An array of options {@see Checkout::setDefaultOptions}
      *
      * @return bool
-     *@throws GitException
+     * @throws GitException
      */
-    public function __invoke($branch, array $options = array())
+    public function __invoke($branch, array $options = [])
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('checkout');
+        $builder = $this->getCommandBuilder();
 
-        $this->addFlags($builder, $options, array('force', 'merge'));
+        $this->addFlags($builder, $options, ['force', 'merge']);
 
         $builder->add($branch);
         $this->git->run($builder->getProcess());
@@ -68,14 +73,12 @@ class Checkout extends AbstractCommand
      *
      * @return bool
      */
-    public function create($branch, $startPoint = null, array $options = array()): bool
+    public function create($branch, $startPoint = null, array $options = []): bool
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('checkout')
-            ->add('-b');
+        $builder = $this->getCommandBuilder()->add('-b');
 
-        $this->addFlags($builder, $options, array('force', 'merge'));
+        $this->addFlags($builder, $options, ['force', 'merge']);
 
         $builder->add($branch);
 
@@ -107,13 +110,12 @@ class Checkout extends AbstractCommand
      *
      * @return bool
      */
-    public function orphan($branch, $startPoint = null, array $options = array()): bool
+    public function orphan($branch, $startPoint = null, array $options = []): bool
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('checkout');
+        $builder = $this->getCommandBuilder();
 
-        $this->addFlags($builder, $options, array('force', 'merge'));
+        $this->addFlags($builder, $options, ['force', 'merge']);
 
         $builder->add('--orphan')->add($branch);
 
@@ -134,10 +136,9 @@ class Checkout extends AbstractCommand
      */
     public function setDefaultOptions(Options $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'force' => false,
             'merge' => false
-        ));
+        ]);
     }
-
 }

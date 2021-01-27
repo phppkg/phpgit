@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 namespace PhpGit\Command\Remote;
 
@@ -12,7 +19,6 @@ use Symfony\Component\OptionsResolver\Options;
  */
 class SetUrl extends AbstractCommand
 {
-
     /**
      * Alias of set()
      *
@@ -34,7 +40,7 @@ class SetUrl extends AbstractCommand
      *
      * @return bool
      */
-    public function __invoke($name, $newUrl, $oldUrl = null, array $options = array())
+    public function __invoke($name, $newUrl, $oldUrl = null, array $options = [])
     {
         return $this->set($name, $newUrl, $oldUrl, $options);
     }
@@ -60,10 +66,10 @@ class SetUrl extends AbstractCommand
      *
      * @return bool
      */
-    public function set($name, $newUrl, $oldUrl = null, array $options = array()): bool
+    public function set($name, $newUrl, $oldUrl = null, array $options = []): bool
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('remote')
             ->add('set-url');
 
@@ -102,10 +108,10 @@ class SetUrl extends AbstractCommand
      *
      * @return bool
      */
-    public function add($name, $newUrl, array $options = array()): bool
+    public function add($name, $newUrl, array $options = []): bool
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('remote')
             ->add('set-url')
             ->add('--add');
@@ -141,10 +147,10 @@ class SetUrl extends AbstractCommand
      *
      * @return bool
      */
-    public function delete($name, $url, array $options = array()): bool
+    public function delete($name, $url, array $options = []): bool
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('remote')
             ->add('set-url')
             ->add('--delete');
@@ -167,9 +173,8 @@ class SetUrl extends AbstractCommand
      */
     public function setDefaultOptions(Options $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'push' => false
-        ));
+        ]);
     }
-
 }

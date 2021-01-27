@@ -1,16 +1,24 @@
 <?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 namespace PhpGit;
 
+use PhpGit\Exception\GitException;
 use Symfony\Component\Process\Process;
 use function getenv;
 
 /**
- * Class ProcessBuilder
+ * Class CommandBuilder
  *
  * @package PhpGit
  */
-class ProcessBuilder
+class CommandBuilder
 {
     /** @var string */
     private $bin;
@@ -32,35 +40,6 @@ class ProcessBuilder
     private $options = [];
 
     /**
-     * This method is used to create a process object.
-     *
-     * @param string $command
-     * @param array  $args
-     * @param array  $options
-     *
-     * @return Process
-     */
-    public static function newProcess(string $command, array $args = [], array $options = []): Process
-    {
-        $isWindows = defined('PHP_WINDOWS_VERSION_BUILD');
-        $options   = array_merge([
-            'env_vars' => $isWindows ? ['PATH' => getenv('PATH')] : [],
-            'command'  => 'git',
-            'work_dir' => null,
-            'timeout'  => 3600,
-        ], $options);
-
-        $cmdWithArgs = array_merge([$options['command'], $command], $args);
-
-        $process = new Process($cmdWithArgs, $options['work_dir']);
-        $process->setEnv($options['env_vars']);
-        $process->setTimeout($options['timeout']);
-        $process->setIdleTimeout($options['timeout']);
-
-        return $process;
-    }
-
-    /**
      * @param string $command
      *
      * @return static
@@ -78,6 +57,21 @@ class ProcessBuilder
     public function __construct(string $command = '')
     {
         $this->command = $command;
+    }
+
+    /**
+     * @return string
+     */
+    public function run(): string
+    {
+        $process = $this->getProcess();
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            throw new GitException($process->getErrorOutput(), $process->getExitCode(), $process->getCommandLine());
+        }
+
+        return $process->getOutput();
     }
 
     /**
@@ -120,7 +114,7 @@ class ProcessBuilder
     /**
      * @param string $bin
      *
-     * @return ProcessBuilder
+     * @return CommandBuilder
      */
     public function setBin(string $bin): self
     {
@@ -131,7 +125,7 @@ class ProcessBuilder
     /**
      * @param string $workDir
      *
-     * @return ProcessBuilder
+     * @return CommandBuilder
      */
     public function setWorkDir(string $workDir): self
     {
@@ -142,7 +136,7 @@ class ProcessBuilder
     /**
      * @param array $options
      *
-     * @return ProcessBuilder
+     * @return CommandBuilder
      */
     public function setOptions(array $options): self
     {

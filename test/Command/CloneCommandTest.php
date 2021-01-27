@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 use PhpGit\Git;
 use Symfony\Component\Filesystem\Filesystem;
@@ -7,7 +14,6 @@ require_once __DIR__ . '/../BaseTestCase.php';
 
 class CloneCommandTest extends BaseTestCase
 {
-
     public function testClone(): void
     {
         $git = new Git();
@@ -24,5 +30,4 @@ class CloneCommandTest extends BaseTestCase
 
         $this->assertFileExists($this->directory . '/.git');
     }
-
 }

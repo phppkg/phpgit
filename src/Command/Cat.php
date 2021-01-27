@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 namespace PhpGit\Command;
 
@@ -12,7 +19,6 @@ use PhpGit\Exception\GitException;
  */
 class Cat extends AbstractCommand
 {
-
     /**
      * Returns the contents of blob object
      *
@@ -24,12 +30,12 @@ class Cat extends AbstractCommand
      *
      * @param string $object The name of the blob object to show
      *
-     * @throws GitException
      * @return string
+     * @throws GitException
      */
     public function blob($object): string
     {
-        $process = $this->git->getProcessBuilder()
+        $process = $this->git->getCommandBuilder()
             ->add('cat-file')
             ->add('blob')
             ->add($object)
@@ -49,12 +55,12 @@ class Cat extends AbstractCommand
      *
      * @param string $object The name of the object to show
      *
-     * @throws GitException
      * @return string
+     * @throws GitException
      */
     public function type($object): string
     {
-        $process = $this->git->getProcessBuilder()
+        $process = $this->git->getCommandBuilder()
             ->add('cat-file')
             ->add('-t')
             ->add($object)
@@ -74,12 +80,12 @@ class Cat extends AbstractCommand
      *
      * @param string $object The name of the object to show
      *
-     * @throws GitException
      * @return string
+     * @throws GitException
      */
     public function size($object): string
     {
-        $process = $this->git->getProcessBuilder()
+        $process = $this->git->getCommandBuilder()
             ->add('cat-file')
             ->add('-s')
             ->add($object)
@@ -87,5 +93,4 @@ class Cat extends AbstractCommand
 
         return trim($this->git->run($process));
     }
-
 }

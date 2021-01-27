@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 namespace PhpGit\Command;
 
@@ -12,7 +19,6 @@ use Symfony\Component\OptionsResolver\Options;
  */
 class Rebase extends AbstractCommand
 {
-
     /**
      * Forward-port local commits to the updated upstream head
      *
@@ -35,11 +41,10 @@ class Rebase extends AbstractCommand
      *
      * @return bool
      */
-    public function __invoke($upstream = null, $branch = null, array $options = array())
+    public function __invoke($upstream = null, $branch = null, array $options = [])
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('rebase');
+        $builder = $this->getCommandBuilder();
 
         if ($options['onto']) {
             $builder->add('--onto')->add($options['onto']);
@@ -53,7 +58,7 @@ class Rebase extends AbstractCommand
             $builder->add($branch);
         }
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }
@@ -65,11 +70,9 @@ class Rebase extends AbstractCommand
      */
     public function continues(): bool
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('rebase')
-            ->add('--continue');
+        $builder = $this->getCommandBuilder()->add('--continue');
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }
@@ -81,11 +84,9 @@ class Rebase extends AbstractCommand
      */
     public function abort(): bool
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('rebase')
-            ->add('--abort');
+        $builder = $this->getCommandBuilder()->add('--abort');
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }
@@ -97,11 +98,9 @@ class Rebase extends AbstractCommand
      */
     public function skip(): bool
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('rebase')
-            ->add('--skip');
+        $builder = $this->getCommandBuilder()->add('--skip');
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }
@@ -115,15 +114,14 @@ class Rebase extends AbstractCommand
      */
     public function setDefaultOptions(Options $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'onto'         => null,
             'no-verify'    => false,
             'force-rebase' => false
-        ));
+        ]);
 
-        $resolver->setAllowedTypes(array(
-            'onto' => array('null', 'string')
-        ));
+        $resolver->setAllowedTypes([
+            'onto' => ['null', 'string']
+        ]);
     }
-
 }

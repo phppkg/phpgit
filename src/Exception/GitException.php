@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 namespace PhpGit\Exception;
 
@@ -23,7 +30,7 @@ class GitException extends RuntimeException
      * @param null           $commandLine [optional] Command-line
      * @param Exception|null $previous    [optional] The previous exception used for the exception chaining. Since 5.3.0
      */
-    public function __construct($message = "", $code = 0, $commandLine = null, Exception $previous = null)
+    public function __construct($message = '', $code = 0, $commandLine = null, Exception $previous = null)
     {
         parent::__construct($message, $code, $previous);
 
@@ -37,5 +44,4 @@ class GitException extends RuntimeException
     {
         return $this->commandLine;
     }
-
 }

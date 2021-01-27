@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 namespace PhpGit\Command\Remote;
 
@@ -11,7 +18,6 @@ use PhpGit\AbstractCommand;
  */
 class SetBranches extends AbstractCommand
 {
-
     /**
      * Alias of set()
      *
@@ -49,7 +55,7 @@ class SetBranches extends AbstractCommand
      */
     public function set($name, array $branches): bool
     {
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('remote')
             ->add('set-branches')
             ->add($name);
@@ -80,7 +86,7 @@ class SetBranches extends AbstractCommand
      */
     public function add($name, array $branches): bool
     {
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('remote')
             ->add('set-branches')
             ->add($name)
@@ -94,5 +100,4 @@ class SetBranches extends AbstractCommand
 
         return true;
     }
-
 }

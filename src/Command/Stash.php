@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 namespace PhpGit\Command;
 
@@ -11,7 +18,6 @@ use PhpGit\AbstractCommand;
  */
 class Stash extends AbstractCommand
 {
-
     /**
      * Save your local modifications to a new stash, and run git reset --hard to revert them
      *
@@ -25,10 +31,9 @@ class Stash extends AbstractCommand
      */
     public function __invoke()
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('stash');
+        $builder = $this->getCommandBuilder();
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }
@@ -42,21 +47,19 @@ class Stash extends AbstractCommand
      * $git->stash->save('My stash');
      * ```
      *
-     * @param null  $message [optional] The description along with the stashed state
+     * @param string  $message [optional] The description along with the stashed state
      * @param array $options [optional] An array of options {@see Stash::setDefaultOptions}
      *
      * @return bool
      */
-    public function save($message = null, array $options = array()): bool
+    public function save($message = '', array $options = []): bool
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('stash')
-            ->add('save');
+        $builder = $this->getCommandBuilder()->add('save');
 
         $builder->add($message);
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }
@@ -83,22 +86,20 @@ class Stash extends AbstractCommand
      *
      * @return array
      */
-    public function lists(array $options = array()): array
+    public function lists(array $options = []): array
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('stash')
-            ->add('list');
+        $builder = $this->getCommandBuilder()->add('list');
 
-        $output = $this->git->run($builder->getProcess());
+        $output = $this->run($builder->getProcess());
         $lines  = $this->split($output);
-        $list   = array();
+        $list   = [];
 
         foreach ($lines as $line) {
             if (preg_match('/stash@{(\d+)}:.* [Oo]n (.*): (.*)/', $line, $matches)) {
-                $list[$matches[1]] = array(
+                $list[$matches[1]] = [
                     'branch'  => $matches[2],
                     'message' => $matches[3]
-                );
+                ];
             }
         }
 
@@ -127,15 +128,13 @@ class Stash extends AbstractCommand
      */
     public function show($stash = null): string
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('stash')
-            ->add('show');
+        $builder = $this->getCommandBuilder()->add('show');
 
         if ($stash) {
             $builder->add($stash);
         }
 
-        return $this->git->run($builder->getProcess());
+        return $this->run($builder->getProcess());
     }
 
     /**
@@ -147,21 +146,19 @@ class Stash extends AbstractCommand
      * $git->stash->drop('stash@{0}');
      * ```
      *
-     * @param null $stash The stash to drop
+     * @param string|null $stash The stash to drop
      *
      * @return mixed
      */
-    public function drop($stash = null)
+    public function drop(string $stash = null)
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('stash')
-            ->add('drop');
+        $builder = $this->getCommandBuilder()->add('drop');
 
         if ($stash) {
             $builder->add($stash);
         }
 
-        return $this->git->run($builder->getProcess());
+        return $this->run($builder->getProcess());
     }
 
     /**
@@ -173,25 +170,23 @@ class Stash extends AbstractCommand
      * $git->stash->pop('stash@{0}');
      * ```
      *
-     * @param null  $stash   The stash to pop
-     * @param array $options [optional] An array of options {@see Stash::setDefaultOptions}
+     * @param string|null $stash   The stash to pop
+     * @param array       $options [optional] An array of options {@see Stash::setDefaultOptions}
      *
      * @return bool
      */
-    public function pop($stash = null, array $options = array()): bool
+    public function pop(string $stash = null, array $options = []): bool
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('stash')
-            ->add('pop');
+        $builder = $this->getCommandBuilder()->add('pop');
 
-        $this->addFlags($builder, $options, array('index'));
+        $this->addFlags($builder, $options, ['index']);
 
         if ($stash) {
             $builder->add($stash);
         }
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }
@@ -205,25 +200,23 @@ class Stash extends AbstractCommand
      * $git->stash->apply('stash@{0}');
      * ```
      *
-     * @param null  $stash   The stash to apply
-     * @param array $options [optional] An array of options {@see Stash::setDefaultOptions}
+     * @param string|null $stash   The stash to apply
+     * @param array       $options [optional] An array of options {@see Stash::setDefaultOptions}
      *
      * @return bool
      */
-    public function apply($stash = null, array $options = array()): bool
+    public function apply(string $stash = null, array $options = []): bool
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
-            ->add('stash')
-            ->add('apply');
+        $builder = $this->getCommandBuilder()->add('apply');
 
-        $this->addFlags($builder, $options, array('index'));
+        $this->addFlags($builder, $options, ['index']);
 
         if ($stash) {
             $builder->add($stash);
         }
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }
@@ -237,15 +230,14 @@ class Stash extends AbstractCommand
      * $git->stash->branch('hotfix', 'stash@{0}');
      * ```
      *
-     * @param string $name  The name of the branch
-     * @param null   $stash The stash
+     * @param string      $name  The name of the branch
+     * @param string|null $stash The stash
      *
      * @return bool
      */
-    public function branch($name, $stash = null): bool
+    public function branch(string $name, string $stash = null): bool
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('stash')
+        $builder = $this->getCommandBuilder()
             ->add('branch')
             ->add($name);
 
@@ -253,7 +245,7 @@ class Stash extends AbstractCommand
             $builder->add($stash);
         }
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }
@@ -271,11 +263,10 @@ class Stash extends AbstractCommand
      */
     public function clear(): bool
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('stash')
+        $builder = $this->getCommandBuilder()
             ->add('clear');
 
-        $this->git->run($builder->getProcess());
+        $this->run($builder->getProcess());
 
         return true;
     }
@@ -289,7 +280,7 @@ class Stash extends AbstractCommand
      * $commit = $git->stash->create();
      * ```
      *
-     * ##### Output Example
+     * **Output Example**
      *
      * ```
      * 877316ea6f95c43b7ccc2c2a362eeedfa78b597d
@@ -299,11 +290,8 @@ class Stash extends AbstractCommand
      */
     public function create(): string
     {
-        $builder = $this->git->getProcessBuilder()
-            ->add('stash')
-            ->add('create');
+        $builder = $this->getCommandBuilder()->add('create');
 
-        return $this->git->run($builder->getProcess());
+        return $this->run($builder->getProcess());
     }
-
 }

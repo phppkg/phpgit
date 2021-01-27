@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 use PhpGit\Git;
 use Symfony\Component\Filesystem\Filesystem;
@@ -7,7 +14,6 @@ require_once __DIR__ . '/../BaseTestCase.php';
 
 class RmCommandTest extends BaseTestCase
 {
-
     public function testRm(): void
     {
         $filesystem = new Filesystem();
@@ -47,5 +53,4 @@ class RmCommandTest extends BaseTestCase
         $tree = $git->tree();
         $this->assertEquals([], $tree);
     }
-
 }

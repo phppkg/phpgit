@@ -1,9 +1,15 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 namespace PhpGit\Command;
 
 use PhpGit\AbstractCommand;
-use PhpGit\Exception\GitException;
 use Symfony\Component\OptionsResolver\Options;
 
 /**
@@ -40,10 +46,10 @@ class GitClone extends AbstractCommand
      *
      * @return bool
      */
-    public function __invoke($repository, $path = null, array $options = array())
+    public function __invoke($repository, $path = null, array $options = [])
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('clone')
             ->add('--quiet');
 
@@ -68,9 +74,9 @@ class GitClone extends AbstractCommand
      */
     public function setDefaultOptions(Options $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'shared' => false,
             'bare'   => false
-        ));
+        ]);
     }
 }

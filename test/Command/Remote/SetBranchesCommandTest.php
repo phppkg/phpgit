@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 use PhpGit\Git;
 
@@ -6,7 +13,6 @@ require_once __DIR__ . '/../../BaseTestCase.php';
 
 class SetBranchesCommandTest extends BaseTestCase
 {
-
     public function testSetBranches(): void
     {
         $git = new Git();
@@ -24,5 +30,4 @@ class SetBranchesCommandTest extends BaseTestCase
 
         $git->remote->branches->add('origin', ['gh-pages']);
     }
-
 }

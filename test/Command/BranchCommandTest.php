@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 use PhpGit\Git;
 use Symfony\Component\Filesystem\Filesystem;
@@ -7,8 +14,7 @@ require_once __DIR__ . '/../BaseTestCase.php';
 
 class BranchCommandTest extends BaseTestCase
 {
-
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -102,5 +108,4 @@ class BranchCommandTest extends BaseTestCase
         $branches = $git->branch();
         $this->assertCount(1, $branches);
     }
-
 }

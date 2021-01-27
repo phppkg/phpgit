@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 namespace PhpGit\Command;
 
@@ -14,7 +21,6 @@ use Traversable;
  */
 class Reset extends AbstractCommand
 {
-
     /**
      * Resets the index entries for all **$paths** to their state at **$commit**
      *
@@ -31,7 +37,7 @@ class Reset extends AbstractCommand
      */
     public function __invoke($paths, $commit = null)
     {
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('reset');
 
         if ($commit) {
@@ -39,7 +45,7 @@ class Reset extends AbstractCommand
         }
 
         if (!is_array($paths) && !($paths instanceof Traversable)) {
-            $paths = array($paths);
+            $paths = [$paths];
         }
 
         foreach ($paths as $path) {
@@ -180,11 +186,11 @@ class Reset extends AbstractCommand
      */
     public function mode($mode, $commit = null): bool
     {
-        if (!in_array($mode, array('soft', 'mixed', 'hard', 'merge', 'keep'))) {
+        if (!in_array($mode, ['soft', 'mixed', 'hard', 'merge', 'keep'])) {
             throw new InvalidArgumentException('$mode must be one of the following: soft, mixed, hard, merge, keep');
         }
 
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('reset')
             ->add('--' . $mode);
 
@@ -196,5 +202,4 @@ class Reset extends AbstractCommand
 
         return true;
     }
-
 }

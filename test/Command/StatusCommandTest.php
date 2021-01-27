@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 use PhpGit\Command\Status;
 use PhpGit\Git;
@@ -8,7 +15,6 @@ require_once __DIR__ . '/../BaseTestCase.php';
 
 class StatusCommandTest extends BaseTestCase
 {
-
     public function testStatus(): void
     {
         $filesystem = new Filesystem();
@@ -72,5 +78,4 @@ class StatusCommandTest extends BaseTestCase
         $status = $git->status();
         $this->assertEquals('master', $status['branch']);
     }
-
 }

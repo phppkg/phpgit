@@ -5,22 +5,19 @@
 
 PhpGit - A Git wrapper for PHP 7.1+
 
-
-Requirements
-------------
+## Requirements
 
 * PHP7.1+
 * Git
 
-Installation
-------------
+## Installation
 
 Update your composer.json and run `composer update`
 
 ``` json
 {
     "require": {
-        "kzykhys/git": "dev-master"
+        "ulue/phpgit": "dev-master"
     }
 }
 ```

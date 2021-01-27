@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 namespace PhpGit\Command;
 
@@ -13,7 +20,6 @@ use Symfony\Component\OptionsResolver\Options;
  */
 class Branch extends AbstractCommand
 {
-
     /**
      * Returns an array of both remote-tracking branches and local branches
      *
@@ -40,13 +46,13 @@ class Branch extends AbstractCommand
      * @param array $options [optional] An array of options {@see Branch::setDefaultOptions}
      *
      * @return array
-     *@throws GitException
+     * @throws GitException
      */
-    public function __invoke(array $options = array())
+    public function __invoke(array $options = [])
     {
         $options  = $this->resolve($options);
-        $branches = array();
-        $builder  = $this->getProcessBuilder()->add('-v')->add('--abbrev=7');
+        $branches = [];
+        $builder  = $this->getCommandBuilder()->add('-v')->add('--abbrev=7');
 
         if ($options['remotes']) {
             $builder->add('--remotes');
@@ -57,12 +63,12 @@ class Branch extends AbstractCommand
         }
 
         $process = $builder->getProcess();
-        $this->git->run($process);
+        $this->run($process);
 
         $lines = preg_split('/\r?\n/', rtrim($process->getOutput()), -1, PREG_SPLIT_NO_EMPTY);
 
         foreach ($lines as $line) {
-            $branch = array();
+            $branch = [];
             preg_match('/(?<current>\*| ) (?<name>[^\s]+) +((?:->) (?<alias>[^\s]+)|(?<hash>[0-9a-z]{7}) (?<title>.*))/', $line, $matches);
 
             $branch['current'] = ($matches['current'] === '*');
@@ -104,10 +110,10 @@ class Branch extends AbstractCommand
      *
      * @return bool
      */
-    public function create($branch, $startPoint = null, array $options = array()): bool
+    public function create($branch, $startPoint = null, array $options = []): bool
     {
         $options = $this->resolve($options);
-        $builder = $this->getProcessBuilder();
+        $builder = $this->getCommandBuilder();
 
         if ($options['force']) {
             $builder->add('-f');
@@ -142,12 +148,12 @@ class Branch extends AbstractCommand
      * @param array  $options   [optional] An array of options {@see Branch::setDefaultOptions}
      *
      * @return bool
-     *@throws GitException
+     * @throws GitException
      */
-    public function move($branch, $newBranch, array $options = array()): bool
+    public function move($branch, $newBranch, array $options = []): bool
     {
         $options = $this->resolve($options);
-        $builder = $this->getProcessBuilder();
+        $builder = $this->getCommandBuilder();
 
         if ($options['force']) {
             $builder->add('-M');
@@ -180,12 +186,12 @@ class Branch extends AbstractCommand
      * @param array  $options [optional] An array of options {@see Branch::setDefaultOptions}
      *
      * @return bool
-     *@throws GitException
+     * @throws GitException
      */
-    public function delete($branch, array $options = array()): bool
+    public function delete($branch, array $options = []): bool
     {
         $options = $this->resolve($options);
-        $builder = $this->getProcessBuilder();
+        $builder = $this->getCommandBuilder();
 
         if ($options['force']) {
             $builder->add('-D');
@@ -208,11 +214,10 @@ class Branch extends AbstractCommand
      */
     public function setDefaultOptions(Options $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'force'   => false,
             'all'     => false,
             'remotes' => false,
-        ));
+        ]);
     }
-
 }

@@ -1,4 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * phpgit - A Git wrapper for PHP
+ *
+ * @author   https://github.com/inhere
+ * @link     https://github.com/ulue/phpgit
+ * @license  MIT
+ */
 
 namespace PhpGit\Command;
 
@@ -14,7 +21,6 @@ use Traversable;
  */
 class Merge extends AbstractCommand
 {
-
     /**
      * Incorporates changes from the named commits into the current branch
      *
@@ -39,16 +45,16 @@ class Merge extends AbstractCommand
      *
      * @return bool
      */
-    public function __invoke($commit, $message = null, array $options = array())
+    public function __invoke($commit, $message = null, array $options = [])
     {
         $options = $this->resolve($options);
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('merge');
 
-        $this->addFlags($builder, $options, array('no-ff', 'rerere-autoupdate', 'squash'));
+        $this->addFlags($builder, $options, ['no-ff', 'rerere-autoupdate', 'squash']);
 
         if (!is_array($commit) && !($commit instanceof Traversable)) {
-            $commit = array($commit);
+            $commit = [$commit];
         }
         foreach ($commit as $value) {
             $builder->add($value);
@@ -72,12 +78,12 @@ class Merge extends AbstractCommand
      * }
      * ```
      *
-     * @throws GitException
      * @return bool
+     * @throws GitException
      */
     public function abort(): bool
     {
-        $builder = $this->git->getProcessBuilder()
+        $builder = $this->git->getCommandBuilder()
             ->add('merge')
             ->add('--abort');
 
@@ -97,14 +103,13 @@ class Merge extends AbstractCommand
      */
     public function setDefaultOptions(Options $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'no-ff'             => false,
             'rerere-autoupdate' => false,
             'squash'            => false,
 
-            'strategy'          => null,
-            'strategy-option'   => null
-        ));
+            'strategy'        => null,
+            'strategy-option' => null
+        ]);
     }
-
 }
