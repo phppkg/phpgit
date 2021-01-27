@@ -50,9 +50,18 @@ class Branch extends AbstractCommand
      */
     public function __invoke(array $options = [])
     {
-        $options  = $this->resolve($options);
-        $branches = [];
-        $builder  = $this->getCommandBuilder()->add('-v', '--abbrev=7');
+        return $this->getList($options);
+    }
+
+    /**
+     * @param array $options
+     *
+     * @return array
+     */
+    public function getList(array $options = []): array
+    {
+        $options = $this->resolve($options);
+        $builder = $this->getCommandBuilder('-v', '--abbrev=7');
 
         if ($options['remotes']) {
             $builder->add('--remotes');
@@ -66,7 +75,8 @@ class Branch extends AbstractCommand
         $output = $this->run($builder);
         $lines  = preg_split('/\r?\n/', rtrim($output), -1, PREG_SPLIT_NO_EMPTY);
 
-        $pattern = '/(?<current>\*| ) (?<name>[^\s]+) +((?:->) (?<alias>[^\s]+)|(?<hash>[0-9a-z]{7}) (?<title>.*))/';
+        $branches = [];
+        $pattern  = '/(?<current>\*| ) (?<name>[^\s]+) +((?:->) (?<alias>[^\s]+)|(?<hash>[0-9a-z]{7}) (?<title>.*))/';
         foreach ($lines as $line) {
             $branch = [
                 'current' => '',
@@ -128,7 +138,7 @@ class Branch extends AbstractCommand
      *
      * @return bool
      */
-    public function create($branch, $startPoint = null, array $options = []): bool
+    public function create(string $branch, $startPoint = null, array $options = []): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder();
@@ -168,7 +178,7 @@ class Branch extends AbstractCommand
      * @return bool
      * @throws GitException
      */
-    public function move($branch, $newBranch, array $options = []): bool
+    public function move(string $branch, $newBranch, array $options = []): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder();
@@ -206,7 +216,7 @@ class Branch extends AbstractCommand
      * @return bool
      * @throws GitException
      */
-    public function delete($branch, array $options = []): bool
+    public function delete(string $branch, array $options = []): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder();

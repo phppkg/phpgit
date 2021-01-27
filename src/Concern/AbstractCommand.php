@@ -108,11 +108,11 @@ abstract class AbstractCommand
     }
 
     /**
-     * @param mixed ...$args
+     * @param string ...$args
      *
      * @return CommandBuilder
      */
-    protected function getCommandBuilder(...$args): CommandBuilder
+    protected function getCommandBuilder(string ...$args): CommandBuilder
     {
         $cmd = $this->getCommandName();
 
