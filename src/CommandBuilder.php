@@ -11,13 +11,11 @@ namespace PhpGit;
 
 use PhpGit\Exception\GitException;
 use Symfony\Component\Process\Process;
-use Toolkit\Cli\Cli;
 use Toolkit\Cli\Color;
 use function array_merge;
 use function defined;
 use function getenv;
 use function implode;
-use function printf;
 use function sprintf;
 
 /**
@@ -114,16 +112,18 @@ class CommandBuilder
     {
         $isWindows = defined('PHP_WINDOWS_VERSION_BUILD');
         $options   = array_merge([
-            'environment_variables' => $isWindows ? ['PATH' => getenv('PATH')] : [],
-            'process_timeout'       => 3600,
+            'timeout'  => 3600,
+            'env_vars' => $isWindows ? ['PATH' => getenv('PATH')] : [],
         ], $this->options);
 
         $cmdWithArgs = array_merge([$this->bin, $this->command], $this->args);
 
+        $timeout = $options['timeout'];
         $process = new Process($cmdWithArgs, $this->workDir ?: null);
-        $process->setEnv($options['environment_variables']);
-        $process->setTimeout($options['process_timeout']);
-        $process->setIdleTimeout($options['process_timeout']);
+
+        $process->setEnv($options['env_vars']);
+        $process->setTimeout($timeout);
+        $process->setIdleTimeout($timeout);
 
         return $process;
     }
@@ -190,6 +190,18 @@ class CommandBuilder
     public function setWorkDir(string $workDir): self
     {
         $this->workDir = $workDir;
+        return $this;
+    }
+
+    /**
+     * @param string $option
+     * @param mixed $value
+     *
+     * @return CommandBuilder
+     */
+    public function setOption(string $option, $value): self
+    {
+        $this->options[$option] = $value;
         return $this;
     }
 

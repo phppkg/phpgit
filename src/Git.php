@@ -162,6 +162,9 @@ class Git
     /** @var string */
     private $bin = 'git';
 
+    /** @var integer */
+    private $timeout = 60;
+
     /** @var string The git repo dir path. */
     private $directory;
 
@@ -203,9 +206,7 @@ class Git
      */
     public function newCmd(string $cmd, string ...$args): CommandBuilder
     {
-        return CommandBuilder::create($cmd, ...$args)
-            ->setBin($this->bin)
-            ->setWorkDir($this->directory);
+        return $this->getCommandBuilder($cmd, ...$args);
     }
 
     /**
@@ -220,7 +221,8 @@ class Git
     {
         return CommandBuilder::create($command, ...$args)
             ->setBin($this->bin)
-            ->setWorkDir($this->directory);
+            ->setWorkDir($this->directory)
+            ->setOption('timeout', $this->timeout);
     }
 
     /**
