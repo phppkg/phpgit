@@ -7,6 +7,8 @@
  * @license  MIT
  */
 
+// namespace PhpGitTest;
+
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
 

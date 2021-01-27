@@ -10,8 +10,6 @@
 use PhpGit\Git;
 use Symfony\Component\Filesystem\Filesystem;
 
-require_once __DIR__ . '/../BaseTestCase.php';
-
 class CloneTest extends BaseTestCase
 {
     public function testClone(): void

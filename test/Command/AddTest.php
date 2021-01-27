@@ -11,8 +11,6 @@ use PhpGit\Exception\GitException;
 use PhpGit\Git;
 use Symfony\Component\Filesystem\Filesystem;
 
-require_once __DIR__ . '/../BaseTestCase.php';
-
 /**
  * @author Kazuyuki Hayashi <hayashi@valnur.net>
  */

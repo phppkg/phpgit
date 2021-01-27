@@ -9,8 +9,6 @@
 
 use PhpGit\Git;
 
-require_once __DIR__ . '/../BaseTestCase.php';
-
 class FetchTest extends BaseTestCase
 {
     public function testFetch(): void
