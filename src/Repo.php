@@ -44,6 +44,16 @@ class Repo
     /**
      * @var string[]
      */
+    private $remotes = [];
+
+    /**
+     * @var RemoteInfo[]
+     */
+    private $remoteInfos = [];
+
+    /**
+     * @var string[]
+     */
     private $branchNames = [];
 
     /**
@@ -52,14 +62,14 @@ class Repo
     private $branchInfos = [];
 
     /**
-     * @var string[]
+     * @var string
      */
-    private $remotes = [];
+    private $currentBranch;
 
     /**
-     * @var RemoteInfo[]
+     * @var string
      */
-    private $remoteInfos = [];
+    private $lastCommitId;
 
     /**
      * @param string $repoDir
@@ -195,6 +205,49 @@ class Repo
         $this->remotes = $this->ensureGit()->remote->getList();
 
         return $this->remotes;
+    }
+
+    /**
+     * @param bool $refresh
+     *
+     * @return string
+     */
+    public function getCurrentBranch(bool $refresh = false): string
+    {
+        if (false === $refresh && null !== $this->currentBranch) {
+            return $this->currentBranch;
+        }
+
+        $this->currentBranch = $this->ensureGit()->getCurrentBranch();
+
+        return $this->currentBranch;
+    }
+
+    /**
+     * @param bool $refresh
+     *
+     * @return string
+     */
+    public function getLastCommitId(bool $refresh = false): string
+    {
+        if (false === $refresh && null !== $this->lastCommitId) {
+            return $this->lastCommitId;
+        }
+
+        $this->lastCommitId = $this->ensureGit()->getLastCommitId();
+
+        return $this->lastCommitId;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getInfo(): array
+    {
+        return [
+            'current branch' => $this->getCurrentBranch(),
+            'last commitId'  => $this->getLastCommitId(),
+        ];
     }
 
     /**

@@ -76,7 +76,8 @@ class Branch extends AbstractCommand
         $lines  = preg_split('/\r?\n/', rtrim($output), -1, PREG_SPLIT_NO_EMPTY);
 
         $branches = [];
-        $pattern  = '/(?<current>\*| ) (?<name>[^\s]+) +((?:->) (?<alias>[^\s]+)|(?<hash>[0-9a-z]{7}) (?<title>.*))/';
+        // $pattern  = '/(?<current>\*| ) (?<name>[^\s]+) +((?:->) (?<alias>[^\s]+)|(?<hash>[0-9a-z]{7}) (?<title>.*))/';
+        $pattern  = '/(?<current>\*| ) (?<name>[^\s]+) +((?:->) (?<alias>[^\s]+)|(?<hash>[0-9a-z]{4,41}) (?<title>.*))/';
         foreach ($lines as $line) {
             $branch = [
                 'current' => '',

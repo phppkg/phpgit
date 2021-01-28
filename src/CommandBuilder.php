@@ -12,11 +12,9 @@ namespace PhpGit;
 use PhpGit\Exception\GitException;
 use Symfony\Component\Process\Process;
 use Toolkit\Cli\Color;
-use function array_merge;
-use function defined;
-use function getenv;
 use function implode;
 use function sprintf;
+use function trim;
 
 /**
  * Class CommandBuilder
@@ -28,7 +26,7 @@ class CommandBuilder
     /**
      * @var string
      */
-    private $bin;
+    private $bin = 'git';
 
     /**
      * @var string
@@ -50,9 +48,23 @@ class CommandBuilder
     private $args = [];
 
     /**
+     * Process options
+     * - timeout
+     * - bin_name
+     * - env_vars
+     *
      * @var array
      */
     private $options = [];
+
+    /**
+     * Direct set full command line. eg: `git symbolic-ref --short -q HEAD`
+     *
+     * NOTICE: if is not empty, will ignore $bin, $command, $args
+     *
+     * @var string
+     */
+    private $commandLine = '';
 
     /**
      * @param string $command
@@ -89,43 +101,28 @@ class CommandBuilder
     }
 
     /**
+     * @param bool $trimOutput
+     *
      * @return string
      */
-    public function run(): string
+    public function run(bool $trimOutput = false): string
     {
-        Color::println("> " . $this->getCommandLine(), 'ylw');
+        $cmdLine = $this->getCommandLine();
+        Color::println("> $cmdLine", 'ylw');
 
-        $process = $this->getProcess();
+        $process = $this->createProcess();
+
+        // start and wait
         $process->run();
+        // $process->run(null, ['MY_VAR' => $theValue]]);
 
         if (!$process->isSuccessful()) {
-            throw new GitException($process->getErrorOutput(), $process->getExitCode(), $process->getCommandLine());
+            throw new GitException($process->getErrorOutput(), $process->getExitCode(), $cmdLine);
         }
 
-        return $process->getOutput();
-    }
+        $output = $process->getOutput();
 
-    /**
-     * @return Process
-     */
-    public function getProcess(): Process
-    {
-        $isWindows = defined('PHP_WINDOWS_VERSION_BUILD');
-        $options   = array_merge([
-            'timeout'  => 3600,
-            'env_vars' => $isWindows ? ['PATH' => getenv('PATH')] : [],
-        ], $this->options);
-
-        $cmdWithArgs = array_merge([$this->bin, $this->command], $this->args);
-
-        $timeout = $options['timeout'];
-        $process = new Process($cmdWithArgs, $this->workDir ?: null);
-
-        $process->setEnv($options['env_vars']);
-        $process->setTimeout($timeout);
-        $process->setIdleTimeout($timeout);
-
-        return $process;
+        return $trimOutput ? trim($output) : $output;
     }
 
     /**
@@ -159,10 +156,29 @@ class CommandBuilder
     }
 
     /**
+     * @return Process
+     */
+    public function createProcess(): Process
+    {
+        $options = $this->options;
+
+        // work_dir and bin_name
+        $options['bin_name'] = $this->bin;
+        $options['work_dir'] = $this->workDir;
+        $options['cmd_line'] = $this->commandLine;
+
+        return GitUtil::newProcess($this->command, $this->args, $options);
+    }
+
+    /**
      * @return string
      */
     public function getCommandLine(): string
     {
+        if ($this->commandLine) {
+            return $this->commandLine;
+        }
+
         $argStr = implode(' ', $this->args);
         // foreach ($this->args as $arg) {
         //
@@ -194,8 +210,18 @@ class CommandBuilder
     }
 
     /**
+     * @param int $timeout
+     *
+     * @return $this
+     */
+    public function setTimeout(int $timeout): self
+    {
+        return $this->setOption('timeout', $timeout);
+    }
+
+    /**
      * @param string $option
-     * @param mixed $value
+     * @param mixed  $value
      *
      * @return CommandBuilder
      */
@@ -213,6 +239,17 @@ class CommandBuilder
     public function setOptions(array $options): self
     {
         $this->options = $options;
+        return $this;
+    }
+
+    /**
+     * @param string $cmdLine
+     *
+     * @return $this
+     */
+    public function setCommandLine(string $cmdLine): self
+    {
+        $this->commandLine = $cmdLine;
         return $this;
     }
 }

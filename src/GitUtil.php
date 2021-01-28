@@ -10,6 +10,8 @@
 namespace PhpGit;
 
 use Symfony\Component\Process\Process;
+use function array_merge;
+use function defined;
 use function explode;
 use function parse_url;
 use function strpos;
@@ -25,9 +27,13 @@ class GitUtil
     /**
      * This method is used to create a process object.
      *
-     * @param string $command
-     * @param array  $args
-     * @param array  $options
+     * @param string $command command of the `bin_name`
+     * @param array  $args    command args
+     * @param array  $options process options
+     *                       - timeout
+     *                       - bin_name
+     *                       - work_dir
+     *                       - env_vars
      *
      * @return Process
      */
@@ -35,18 +41,29 @@ class GitUtil
     {
         $isWindows = defined('PHP_WINDOWS_VERSION_BUILD');
         $options   = array_merge([
-            'env_vars' => $isWindows ? ['PATH' => getenv('PATH')] : [],
-            'command'  => 'git',
+            'cmd_line' => '', // NOTICE: if is not empty, will ignore `bin_name`, $command, $args
             'work_dir' => null,
+            'bin_name' => 'git',
             'timeout'  => 3600,
+            'env_vars' => $isWindows ? ['PATH' => getenv('PATH')] : [],
         ], $options);
 
-        $cmdWithArgs = array_merge([$options['command'], $command], $args);
+        // use full command line. eg: git symbolic-ref --short -q HEAD
+        if ($cmdLine = $options['cmd_line']) {
+            $process = Process::fromShellCommandline($cmdLine);
+        } else {
+            $cmdWithArgs = array_merge([$options['bin_name'], $command], $args);
 
-        $process = new Process($cmdWithArgs, $options['work_dir']);
+            $process = new Process($cmdWithArgs);
+        }
+
         $process->setEnv($options['env_vars']);
         $process->setTimeout($options['timeout']);
         $process->setIdleTimeout($options['timeout']);
+
+        if ($dir = $options['work_dir']) {
+            $process->setWorkingDirectory($dir);
+        }
 
         return $process;
     }

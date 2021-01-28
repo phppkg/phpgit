@@ -225,7 +225,44 @@ class Git
         return CommandBuilder::create($command, ...$args)
             ->setBin($this->bin)
             ->setWorkDir($this->directory)
-            ->setOption('timeout', $this->timeout);
+            ->setTimeout( $this->timeout);
+    }
+
+    /**
+     * @param string $cmdLine
+     * @param bool   $trimOutput
+     *
+     * @return string
+     */
+    public function runCmdLine(string $cmdLine, bool $trimOutput = false): string
+    {
+        $cmd = $this->getCommandBuilder();
+
+        return $cmd->setCommandLine($cmdLine)->run($trimOutput);
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastCommitId(): string
+    {
+        // latest commit id by: git log --pretty=%H -n1 HEAD
+        $cmdLine = 'git log --pretty=%H -n1 HEAD';
+
+        return $this->runCmdLine($cmdLine);
+    }
+
+    /**
+     * @return string
+     */
+    public function getCurrentBranch(): string
+    {
+        // 1. git symbolic-ref --short -q HEAD
+        // 2. git rev-parse --abbrev-ref HEA
+        // 3. git branch --show-current // Old version does not support
+        $str = 'git symbolic-ref --short -q HEAD';
+
+        return $this->runCmdLine($str);
     }
 
     /**
@@ -281,14 +318,14 @@ class Git
     /**
      * Returns version number
      *
-     * @return mixed
+     * @return string
      * @throws GitException
      */
-    public function getVersion()
+    public function getVersion(): string
     {
         $builder = $this->getCommandBuilder()->add('--version');
 
-        return $builder->run();
+        return $builder->run(true);
     }
 
     /**
