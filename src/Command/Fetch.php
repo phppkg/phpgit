@@ -35,6 +35,7 @@ class Fetch extends AbstractCommand
      * - **append** (_boolean_) Append ref names and object names of fetched refs to the existing contents of .git/FETCH_HEAD
      * - **keep**   (_boolean_) Keep downloaded pack
      * - **prune**  (_boolean_) After fetching, remove any remote-tracking branches which no longer exist on the remote
+     * - **tags**  (_boolean_) Fetch all tags from the remote (i.e., fetch remote tags refs/tags/* into local tags with the same name), in addition to whatever else would otherwise be fetched
      *
      * @param string $repository  The "remote" repository that is the source of a fetch or pull operation
      * @param null   $refspec     The format of a <refspec> parameter is an optional plus +, followed by the source ref <src>,
@@ -100,6 +101,7 @@ class Fetch extends AbstractCommand
      * - **append** (_boolean_) Append ref names and object names of fetched refs to the existing contents of .git/FETCH_HEAD
      * - **keep**   (_boolean_) Keep downloaded pack
      * - **prune**  (_boolean_) After fetching, remove any remote-tracking branches which no longer exist on the remote
+     * - **tags**  (_boolean_) Fetch all tags from the remote (i.e., fetch remote tags refs/tags/* into local tags with the same name), in addition to whatever else would otherwise be fetched
      */
     public function setDefaultOptions(Options $resolver): void
     {
@@ -108,6 +110,7 @@ class Fetch extends AbstractCommand
             //'force'  => false,
             'keep'   => false,
             'prune'  => false,
+            'tags'   => false,
         ]);
     }
 }
