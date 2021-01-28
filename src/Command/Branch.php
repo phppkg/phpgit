@@ -73,7 +73,12 @@ class Branch extends AbstractCommand
 
         // $process = $builder->getProcess();
         $output = $this->run($builder);
-        $lines  = preg_split('/\r?\n/', rtrim($output), -1, PREG_SPLIT_NO_EMPTY);
+
+        // Output:
+        // * master                d35f850 up: Add option tags to fetch command
+        //   remotes/origin/HEAD   -> origin/master
+        //   remotes/origin/master d35f850 up: Add option tags to fetch command
+        $lines = preg_split('/\r?\n/', rtrim($output), -1, PREG_SPLIT_NO_EMPTY);
 
         $branches = [];
         // $pattern  = '/(?<current>\*| ) (?<name>[^\s]+) +((?:->) (?<alias>[^\s]+)|(?<hash>[0-9a-z]{7}) (?<title>.*))/';
