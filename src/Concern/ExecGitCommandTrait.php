@@ -29,9 +29,9 @@ trait ExecGitCommandTrait
      * @param string $name
      * @param mixed  ...$args
      *
-     * @return string
+     * @return mixed
      */
-    public function exec(string $name, ...$args): string
+    public function exec(string $name, ...$args)
     {
         if (isset(self::COMMANDS[$name])) {
             // lazy load command

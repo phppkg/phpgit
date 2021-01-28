@@ -131,9 +131,9 @@ class Repo
      * @param string $cmd
      * @param mixed  ...$args
      *
-     * @return string
+     * @return mixed
      */
-    public function exec(string $cmd, ...$args): string
+    public function exec(string $cmd, ...$args)
     {
         $git = $this->ensureGit();
 
@@ -245,8 +245,8 @@ class Repo
     public function getInfo(): array
     {
         return [
-            'current branch' => $this->getCurrentBranch(),
-            'last commitId'  => $this->getLastCommitId(),
+            'currentBranch' => $this->getCurrentBranch(),
+            'lastCommitId'  => $this->getLastCommitId(),
         ];
     }
 

@@ -111,7 +111,7 @@ use PhpGit\Exception\GitException;
  * @method pull(string $repository = null, $refspec = null, $options = []) Fetch from and merge with another repository or a local branch
  * @method push(string $repository = null, $refspec = null, $options = []) Update remote refs along with associated objects
  * @method rebase($upstream = null, $branch = null, $options = [])          Forward-port local commits to the updated upstream head
- * @method remote()                                                         Returns an array of existing remotes
+ * @method array remote()                                                         Returns an array of existing remotes
  * @method reset($commit = null, $paths = [])                               Resets the index entries for all <paths> to their state at <commit>
  * @method rm($file, $options = [])                                         Remove files from the working tree and from the index
  * @method shortlog($commits = [])                                          Summarize 'git log' output
@@ -249,7 +249,7 @@ class Git
         // latest commit id by: git log --pretty=%H -n1 HEAD
         $cmdLine = 'git log --pretty=%H -n1 HEAD';
 
-        return $this->runCmdLine($cmdLine);
+        return $this->runCmdLine($cmdLine, true);
     }
 
     /**
@@ -262,7 +262,7 @@ class Git
         // 3. git branch --show-current // Old version does not support
         $str = 'git symbolic-ref --short -q HEAD';
 
-        return $this->runCmdLine($str);
+        return $this->runCmdLine($str, true);
     }
 
     /**
