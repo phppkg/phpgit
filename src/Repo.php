@@ -9,10 +9,12 @@
 
 namespace PhpGit;
 
+use Generator;
 use InvalidArgumentException;
 use PhpGit\Info\BranchInfo;
 use PhpGit\Info\RemoteInfo;
 use Toolkit\Cli\Cli;
+use function strpos;
 
 /**
  * Class Repo
@@ -21,6 +23,10 @@ use Toolkit\Cli\Cli;
  */
 class Repo
 {
+    public const PLATFORM_GITHUB = 'github';
+    public const PLATFORM_GITLAB = 'gitlab';
+    public const PLATFORM_CUSTOM = 'custom';
+
     /**
      * @var Git
      */
@@ -42,7 +48,7 @@ class Repo
     private $defaultRemote = Git::DEFAULT_REMOTE;
 
     /**
-     * @var string[]
+     * @var string[][]
      */
     private $remotes = [];
 
@@ -60,6 +66,11 @@ class Repo
      * @var BranchInfo[]
      */
     private $branchInfos = [];
+
+    /**
+     * @var string
+     */
+    private $platform;
 
     /**
      * @var string
@@ -155,12 +166,14 @@ class Repo
         }
 
         $url = $this->getRemoteUrl($name, $type);
-        if (!$url) {
-            throw new InvalidArgumentException("The remote '$name' is not exists");
-        }
 
         // create
-        $this->remoteInfos[$key] = RemoteInfo::newByUrl($name, $url);
+        if ($url) {
+            $this->remoteInfos[$key] = RemoteInfo::newByUrl($name, $url);
+        } else {
+            // throw new InvalidArgumentException("The remote '$name' is not exists");
+            $this->remoteInfos[$key] = RemoteInfo::new(['name' => $name]);
+        }
 
         return $this->remoteInfos[$key];
     }
@@ -207,6 +220,34 @@ class Repo
         return $this->remotes;
     }
 
+    protected function loadDefaultRemoteInfo(): void
+    {
+        $info = $this->getRemoteInfo();
+
+        if (strpos($info->host, self::PLATFORM_GITHUB) !== false) {
+            $this->platform = self::PLATFORM_GITHUB;
+        } elseif (strpos($info->host, self::PLATFORM_GITLAB) !== false) {
+            $this->platform = self::PLATFORM_GITLAB;
+        } else {
+            $this->platform = self::PLATFORM_CUSTOM;
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastTagName(): string
+    {
+        $git = $this->ensureGit();
+
+        $cmdLine = 'git fetch --tags';
+        $git->runCmdLine($cmdLine);
+
+        $cmdLine = 'git describe --tags $(git rev-list --tags --max-count=1)';
+
+        return $git->runCmdLine($cmdLine, true);
+    }
+
     /**
      * @param bool $refresh
      *
@@ -240,14 +281,58 @@ class Repo
     }
 
     /**
+     * find changed or new created files by git status.
+     */
+    public function getChangedFiles(): ?Generator
+    {
+        // -u expand dir's files
+        $cmdLine = 'git status -s -u';
+        // [, $output,] = Sys::run($cmdLine, $this->workDir);
+        $output = $this->ensureGit()->runCmdLine($cmdLine, true);
+
+        // 'D some.file'    deleted
+        // ' M some.file'   modified
+        // '?? some.file'   new file
+        foreach (explode("\n", $output) as $file) {
+            $file = trim($file);
+
+            // modified files
+            if (strpos($file, 'M ') === 0) {
+                yield substr($file, 2);
+
+                // deleted files
+            } elseif (strpos($file, 'D ') === 0) {
+                yield substr($file, 3);
+
+              // new files
+            } elseif (strpos($file, '?? ') === 0) {
+                yield substr($file, 3);
+            }
+        }
+    }
+
+    /**
      * @return string[]
      */
     public function getInfo(): array
     {
-        return [
+        $remoteUrls = [];
+        foreach ($this->getRemotes() as $name => $urls) {
+            $remoteUrls[$name] = $urls['fetch'];
+        }
+
+        $repoInfo = [
+            'platformName' => $this->getPlatform(),
             'currentBranch' => $this->getCurrentBranch(),
             'lastCommitId'  => $this->getLastCommitId(),
+            'remoteList'    => $remoteUrls,
         ];
+
+        if ($tagName = $this->getLastTagName()) {
+            $repoInfo['lastTagName'] = $tagName;
+        }
+
+        return $repoInfo;
     }
 
     /**
@@ -303,5 +388,17 @@ class Repo
     public function setDefaultRemote(string $defaultRemote): void
     {
         $this->defaultRemote = $defaultRemote;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlatform(): string
+    {
+        if (!$this->platform) {
+            $this->loadDefaultRemoteInfo();
+        }
+
+        return $this->platform;
     }
 }

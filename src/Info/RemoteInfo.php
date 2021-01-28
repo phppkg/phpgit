@@ -13,6 +13,7 @@ use PhpGit\Concern\AbstractInfo;
 use PhpGit\Git;
 use PhpGit\GitUtil;
 use function sprintf;
+use function strpos;
 
 /**
  * Class RemoteMeta
@@ -36,7 +37,7 @@ class RemoteInfo extends AbstractInfo
      *
      * @var string
      */
-    public $url;
+    public $url = '';
 
     // ----------- parts of the url
 
@@ -98,6 +99,22 @@ class RemoteInfo extends AbstractInfo
     }
 
     /**
+     * @return bool
+     */
+    public function isValid(): bool
+    {
+        return $this->url !== '';
+    }
+
+    /**
+     * @return bool
+     */
+    public function isInvalid(): bool
+    {
+        return $this->url === '';
+    }
+
+    /**
      * @return string
      */
     public function getPath(): string
@@ -110,21 +127,37 @@ class RemoteInfo extends AbstractInfo
     }
 
     /**
+     * @param bool $withSuffix
+     *
      * @return string "git@github.com:ulue/swoft-component.git"
      */
-    public function getGitUrl(): string
+    public function getGitUrl(bool $withSuffix = false): string
     {
-        return sprintf('%s@%s:%s.git', Git::URL_GIT, $this->host, $this->getPath());
+        $suffix = $withSuffix ? '.git': '';
+
+        return sprintf('%s@%s:%s%s', Git::URL_GIT, $this->host, $this->getPath(), $suffix);
     }
 
     /**
+     * @param bool $withSuffix
+     *
      * @return string "https://github.com/ulue/phpgit.git"
      */
-    public function getHttpUrl(): string
+    public function getHttpUrl(bool $withSuffix = false): string
     {
-        return sprintf('%s://%s/%s.git', Git::URL_HTTP, $this->host, $this->getPath());
+        $scheme = $this->scheme;
+        if (strpos($scheme, Git::URL_HTTP) === false) {
+            $scheme = Git::URL_HTTP;
+        }
+
+        $suffix = $withSuffix ? '.git': '';
+
+        return sprintf('%s://%s/%s%s', $scheme, $this->host, $this->getPath(), $suffix);
     }
 
+    /**
+     * @return string
+     */
     public function __toString(): string
     {
         return sprintf('%s %s', $this->name, $this->url);

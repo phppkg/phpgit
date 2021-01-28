@@ -128,6 +128,8 @@ class Git
     public const URL_GIT  = 'git';
     public const URL_HTTP = 'http';
 
+    public const GITHUB_HOST = 'github.com';
+
     public const DEFAULT_REMOTE = 'origin';
 
     // all supported git commands
