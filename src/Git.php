@@ -68,6 +68,7 @@ use PhpGit\Exception\GitException;
  *
  * @property-read Command\Add      $add
  * @property-read Command\Archive  $archive
+ * @property-read Command\Blame    $blame
  * @property-read Command\Branch   $branch
  * @property-read Command\Cat      $cat
  * @property-read Command\Checkout $checkout
@@ -93,8 +94,9 @@ use PhpGit\Exception\GitException;
  * @property-read Command\Tag      $tag
  * @property-read Command\Tree     $tree
  *
- * @method add(string|array $file, $options = [])                                 Add file contents to the index
+ * @method add(string|array $file, $options = [])                           Add file contents to the index
  * @method archive(string $file, $tree = null, $path = null, $options = []) Create an archive of files from a named tree
+ * @method blame(string $file = null, $hash = null)                         Returns the file lines with blame
  * @method branch($options = [])                                            List both remote-tracking branches and local branches
  * @method checkout(string $branch, $options = [])                          Checkout a branch or paths to the working tree
  * @method clone (string $repository, $path = null, $options = [])          Clone a repository into a new directory
@@ -132,6 +134,7 @@ class Git
     public const COMMANDS = [
         'add'      => Command\Add::class,
         'archive'  => Command\Archive::class,
+        'blame'    => Command\Blame::class,
         'branch'   => Command\Branch::class,
         'cat'      => Command\Cat::class,
         'checkout' => Command\Checkout::class,
@@ -294,5 +297,24 @@ class Git
     public function getDirectory(): string
     {
         return $this->directory;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTimeout(): int
+    {
+        return $this->timeout;
+    }
+
+    /**
+     * @param int $timeout
+     *
+     * @return Git
+     */
+    public function setTimeout(int $timeout): Git
+    {
+        $this->timeout = $timeout;
+        return $this;
     }
 }
