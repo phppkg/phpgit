@@ -220,6 +220,18 @@ class Repo
         return $this->remotes;
     }
 
+    /**
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function hasRemote(string $name): bool
+    {
+        $this->getRemotes();
+
+        return !isset($remotes[$name]);
+    }
+
     protected function loadDefaultRemoteInfo(): void
     {
         $info = $this->getRemoteInfo();
