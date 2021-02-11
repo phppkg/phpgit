@@ -255,7 +255,8 @@ class Repo
         $cmdLine = 'git fetch --tags';
         $git->runCmdLine($cmdLine);
 
-        $cmdLine = 'git describe --tags $(git rev-list --tags --max-count=1)';
+        // $cmdLine = 'git describe --tags $(git rev-list --tags --max-count=1)';
+        $cmdLine = 'git describe --abbrev=0 --tags';
 
         return $git->runCmdLine($cmdLine, true);
     }
