@@ -10,7 +10,6 @@
 namespace PhpGit;
 
 use Generator;
-use InvalidArgumentException;
 use PhpGit\Info\BranchInfo;
 use PhpGit\Info\RemoteInfo;
 use Toolkit\Cli\Cli;
@@ -35,7 +34,7 @@ class Repo
     /**
      * @var Info
      */
-    private $info;
+    // private $info;
 
     /**
      * @var string
