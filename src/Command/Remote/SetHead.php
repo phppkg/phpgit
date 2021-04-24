@@ -3,7 +3,7 @@
  * phpGit - A Git wrapper for PHP
  *
  * @author   https://github.com/inhere
- * @link     https://github.com/ulue/phpgit
+ * @link     https://github.com/phpcom-lab/phpgit
  * @license  MIT
  */
 
@@ -29,7 +29,7 @@ class SetHead extends AbstractCommand
      * ``` php
      * $git = new PhpGit\Git();
      * $git->setRepository('/path/to/repo');
-     * $git->remote->add('origin', 'https://github.com/ulue/phpgit.git');
+     * $git->remote->add('origin', 'https://github.com/phpcom-lab/phpgit.git');
      * $git->remote->head('origin');
      * ```
      *
@@ -49,7 +49,7 @@ class SetHead extends AbstractCommand
      * ``` php
      * $git = new PhpGit\Git();
      * $git->setRepository('/path/to/repo');
-     * $git->remote->add('origin', 'https://github.com/ulue/phpgit.git');
+     * $git->remote->add('origin', 'https://github.com/phpcom-lab/phpgit.git');
      * $git->remote->head->set('origin');
      * ```
      *
@@ -79,7 +79,7 @@ class SetHead extends AbstractCommand
      * ``` php
      * $git = new PhpGit\Git();
      * $git->setRepository('/path/to/repo');
-     * $git->remote->add('origin', 'https://github.com/ulue/phpgit.git');
+     * $git->remote->add('origin', 'https://github.com/phpcom-lab/phpgit.git');
      * $git->remote->head->delete('origin');
      * ```
      *
@@ -105,7 +105,7 @@ class SetHead extends AbstractCommand
      * ``` php
      * $git = new PhpGit\Git();
      * $git->setRepository('/path/to/repo');
-     * $git->remote->add('origin', 'https://github.com/ulue/phpgit.git');
+     * $git->remote->add('origin', 'https://github.com/phpcom-lab/phpgit.git');
      * $git->remote->head->remote('origin');
      * ```
      *

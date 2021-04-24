@@ -3,7 +3,7 @@
  * phpGit - A Git wrapper for PHP
  *
  * @author   https://github.com/inhere
- * @link     https://github.com/ulue/phpgit
+ * @link     https://github.com/phpcom-lab/phpgit
  * @license  MIT
  */
 

@@ -3,7 +3,7 @@
  * phpGit - A Git wrapper for PHP
  *
  * @author   https://github.com/inhere
- * @link     https://github.com/ulue/phpgit
+ * @link     https://github.com/phpcom-lab/phpgit
  * @license  MIT
  */
 
@@ -101,7 +101,7 @@ class GitUtil
             ];
         }
 
-        // eg: "https://github.com/ulue/swoft-component.git"
+        // eg: "https://github.com/phpcom-lab/swoft-component.git"
         $info = parse_url($url);
         // add
         $info['url']  = $url;

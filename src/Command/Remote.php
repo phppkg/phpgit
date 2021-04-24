@@ -3,7 +3,7 @@
  * phpGit - A Git wrapper for PHP
  *
  * @author   https://github.com/inhere
- * @link     https://github.com/ulue/phpgit
+ * @link     https://github.com/phpcom-lab/phpgit
  * @license  MIT
  */
 
@@ -71,7 +71,7 @@ class Remote extends AbstractCommand
      *
      * ``` php
      * $git = new PhpGit\Git();
-     * $git->clone('https://github.com/ulue/phpgit.git', '/path/to/repo');
+     * $git->clone('https://github.com/phpcom-lab/phpgit.git', '/path/to/repo');
      * $git->setRepository('/path/to/repo');
      * $remotes = $git->remote();
      * ```
@@ -81,8 +81,8 @@ class Remote extends AbstractCommand
      * ``` php
      * [
      *     'origin' => [
-     *         'fetch' => 'https://github.com/ulue/phpgit.git',
-     *         'push'  => 'https://github.com/ulue/phpgit.git'
+     *         'fetch' => 'https://github.com/phpcom-lab/phpgit.git',
+     *         'push'  => 'https://github.com/phpcom-lab/phpgit.git'
      *     ]
      * ]
      * ```
@@ -102,7 +102,7 @@ class Remote extends AbstractCommand
      * ``` php
      * $git = new PhpGit\Git();
      * $git->setRepository('/path/to/repo');
-     * $git->remote->add('origin', 'https://github.com/ulue/phpgit.git');
+     * $git->remote->add('origin', 'https://github.com/phpcom-lab/phpgit.git');
      * $git->fetch('origin');
      * ```
      *
@@ -137,7 +137,7 @@ class Remote extends AbstractCommand
      * ``` php
      * $git = new PhpGit\Git();
      * $git->setRepository('/path/to/repo');
-     * $git->remote->add('origin', 'https://github.com/ulue/phpgit.git');
+     * $git->remote->add('origin', 'https://github.com/phpcom-lab/phpgit.git');
      * $git->remote->rename('origin', 'upstream');
      * ```
      *
@@ -164,7 +164,7 @@ class Remote extends AbstractCommand
      * ``` php
      * $git = new PhpGit\Git();
      * $git->setRepository('/path/to/repo');
-     * $git->remote->add('origin', 'https://github.com/ulue/phpgit.git');
+     * $git->remote->add('origin', 'https://github.com/phpcom-lab/phpgit.git');
      * $git->remote->rm('origin');
      * ```
      *
@@ -188,7 +188,7 @@ class Remote extends AbstractCommand
      *
      * ``` php
      * $git = new PhpGit\Git();
-     * $git->clone('https://github.com/ulue/phpgit.git', '/path/to/repo');
+     * $git->clone('https://github.com/phpcom-lab/phpgit.git', '/path/to/repo');
      * $git->setRepository('/path/to/repo');
      * echo $git->remote->show('origin');
      * ```
@@ -197,8 +197,8 @@ class Remote extends AbstractCommand
      *
      * ```
      * \* remote origin
-     *   Fetch URL: https://github.com/ulue/phpgit.git
-     *   Push  URL: https://github.com/ulue/phpgit.git
+     *   Fetch URL: https://github.com/phpcom-lab/phpgit.git
+     *   Push  URL: https://github.com/phpcom-lab/phpgit.git
      *   HEAD branch: master
      *   Remote branch:
      *     master tracked

@@ -3,7 +3,7 @@
  * phpGit - A Git wrapper for PHP
  *
  * @author   https://github.com/inhere
- * @link     https://github.com/ulue/phpgit
+ * @link     https://github.com/phpcom-lab/phpgit
  * @license  MIT
  */
 
@@ -29,7 +29,7 @@ class SetBranches extends AbstractCommand
      * ``` php
      * $git = new PhpGit\Git();
      * $git->setRepository('/path/to/repo');
-     * $git->remote->add('origin', 'https://github.com/ulue/phpgit.git');
+     * $git->remote->add('origin', 'https://github.com/phpcom-lab/phpgit.git');
      * $git->remote->branches('origin', array('master', 'develop'));
      * ```
      *
@@ -49,7 +49,7 @@ class SetBranches extends AbstractCommand
      * ``` php
      * $git = new PhpGit\Git();
      * $git->setRepository('/path/to/repo');
-     * $git->remote->add('origin', 'https://github.com/ulue/phpgit.git');
+     * $git->remote->add('origin', 'https://github.com/phpcom-lab/phpgit.git');
      * $git->remote->branches->set('origin', array('master', 'develop'));
      * ```
      *
@@ -79,7 +79,7 @@ class SetBranches extends AbstractCommand
      * ``` php
      * $git = new PhpGit\Git();
      * $git->setRepository('/path/to/repo');
-     * $git->remote->add('origin', 'https://github.com/ulue/phpgit.git');
+     * $git->remote->add('origin', 'https://github.com/phpcom-lab/phpgit.git');
      * $git->remote->branches->add('origin', array('master', 'develop'));
      * ```
      *

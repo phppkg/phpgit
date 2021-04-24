@@ -3,7 +3,7 @@
  * phpGit - A Git wrapper for PHP
  *
  * @author   https://github.com/inhere
- * @link     https://github.com/ulue/phpgit
+ * @link     https://github.com/phpcom-lab/phpgit
  * @license  MIT
  */
 
@@ -32,8 +32,8 @@ class RemoteInfo extends AbstractInfo
     /**
      * The repo remote URL address
      *
-     *  - http: "https://github.com/ulue/swoft-component.git"
-     *  - git: "git@github.com:ulue/swoft-component.git"
+     *  - http: "https://github.com/phpcom-lab/swoft-component.git"
+     *  - git: "git@github.com:phpcom-lab/swoft-component.git"
      *
      * @var string
      */
@@ -84,8 +84,8 @@ class RemoteInfo extends AbstractInfo
     /**
      * @param string $name
      * @param string $url
-     *  - http: "https://github.com/ulue/phpgit.git"
-     *  - git: "git@github.com:ulue/phpgit.git"
+     *  - http: "https://github.com/phpcom-lab/phpgit.git"
+     *  - git: "git@github.com:phpcom-lab/phpgit.git"
      *
      * @return RemoteInfo
      */
@@ -129,7 +129,7 @@ class RemoteInfo extends AbstractInfo
     /**
      * @param bool $withSuffix
      *
-     * @return string "git@github.com:ulue/swoft-component.git"
+     * @return string "git@github.com:phpcom-lab/swoft-component.git"
      */
     public function getGitUrl(bool $withSuffix = false): string
     {
@@ -141,7 +141,7 @@ class RemoteInfo extends AbstractInfo
     /**
      * @param bool $withSuffix
      *
-     * @return string "https://github.com/ulue/phpgit.git"
+     * @return string "https://github.com/phpcom-lab/phpgit.git"
      */
     public function getHttpUrl(bool $withSuffix = false): string
     {

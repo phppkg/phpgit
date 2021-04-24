@@ -1,7 +1,8 @@
 # PhpGit
 
-[![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/ulue/phpgit)](https://github.com/ulue/phpgit)
-[![Github Actions Status](https://github.com/ulue/phpgit/workflows/Unit-tests/badge.svg)](https://github.com/ulue/phpgit/actions)
+[![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/phpcom-lab/phpgit)](https://github.com/phpcom-lab/phpgit)
+[![Github Actions Status](https://github.com/phpcom-lab/phpgit/workflows/Unit-tests/badge.svg)](https://github.com/phpcom-lab/phpgit/actions)
+[![Php Version](https://img.shields.io/badge/php-%3E7.1.0-brightgreen.svg?maxAge=2592000)](https://packagist.org/packages/toolkit/sys-utils)
 
 PhpGit - A Git wrapper for PHP 7.1+
 
@@ -17,14 +18,14 @@ Update your composer.json and run `composer update`
 ``` json
 {
     "require": {
-        "ulue/phpgit": "dev-master"
+        "phpcom-lab/phpgit": "dev-master"
     }
 }
 ```
 
 ## Basic Usage
 
-``` php
+```php
 <?php
 
 require __DIR__ . '/vendor/autoload.php';
@@ -67,10 +68,10 @@ var_dump($info);
 object(PhpGit\Info\RemoteInfo)#35 (8) {
   ["type"]=> string(4) "http"
   ["name"]=> string(6) "origin"
-  ["url"]=> string(34) "https://github.com/ulue/phpgit.git"
+  ["url"]=> string(34) "https://github.com/phpcom-lab/phpgit.git"
   ["scheme"]=> string(5) "https"
   ["host"]=> string(10) "github.com"
-  ["path"]=> string(11) "ulue/phpgit"
+  ["path"]=> string(11) "phpcom-lab/phpgit"
   ["group"]=> string(4) "ulue"
   ["repo"]=> string(6) "phpgit"
 }

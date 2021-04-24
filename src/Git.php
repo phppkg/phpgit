@@ -3,7 +3,7 @@
  * phpGit - A Git wrapper for PHP
  *
  * @author   https://github.com/inhere
- * @link     https://github.com/ulue/phpgit
+ * @link     https://github.com/phpcom-lab/phpgit
  * @license  MIT
  */
 
@@ -15,8 +15,8 @@ use PhpGit\Exception\GitException;
 /**
  * # PhpGit
  *
- * [![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/ulue/phpgit)](https://github.com/ulue/phpgit)
- * [![Github Actions Status](https://github.com/ulue/phpgit/workflows/Unit-tests/badge.svg)](https://github.com/ulue/phpgit/actions)
+ * [![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/phpcom-lab/phpgit)](https://github.com/phpcom-lab/phpgit)
+ * [![Github Actions Status](https://github.com/phpcom-lab/phpgit/workflows/Unit-tests/badge.svg)](https://github.com/phpcom-lab/phpgit/actions)
  *
  * PhpGit - A Git wrapper for PHP7.1+
  *
@@ -32,7 +32,7 @@ use PhpGit\Exception\GitException;
  * ``` json
  * {
  *     "require": {
- *         "ulue/phpgit": "dev-master"
+ *         "phpcom-lab/phpgit": "dev-master"
  *     }
  * }
  * ```
@@ -45,7 +45,7 @@ use PhpGit\Exception\GitException;
  * require __DIR__ . '/vendor/autoload.php';
  *
  * $git = new PhpGit\Git();
- * $git->clone('https://github.com/ulue/phpgit.git', '/path/to/repo');
+ * $git->clone('https://github.com/phpcom-lab/phpgit.git', '/path/to/repo');
  * $git->setRepository('/path/to/repo');
  * $git->remote->add('production', 'git://example.com/your/repo.git');
  * $git->add('README.md');

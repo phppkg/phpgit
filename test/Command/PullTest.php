@@ -3,7 +3,7 @@
  * phpGit - A Git wrapper for PHP
  *
  * @author   https://github.com/inhere
- * @link     https://github.com/ulue/phpgit
+ * @link     https://github.com/phpcom-lab/phpgit
  * @license  MIT
  */
 
@@ -17,7 +17,7 @@ class PullTest extends BaseTestCase
         $git->init($this->directory);
         $git->setRepository($this->directory);
 
-        $git->remote->add('origin', 'https://github.com/ulue/phpgit.git');
+        $git->remote->add('origin', 'https://github.com/phpcom-lab/phpgit.git');
         $git->pull('origin', 'master');
 
         $this->assertFileExists($this->directory . '/README.md');

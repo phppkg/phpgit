@@ -3,7 +3,7 @@
  * phpGit - A Git wrapper for PHP
  *
  * @author   https://github.com/inhere
- * @link     https://github.com/ulue/phpgit
+ * @link     https://github.com/phpcom-lab/phpgit
  * @license  MIT
  */
 
@@ -16,7 +16,7 @@ class SetHeadTest extends BaseTestCase
     public function testSetHead(): void
     {
         $git = new Git();
-        $git->clone('https://github.com/ulue/phpgit.git', $this->directory);
+        $git->clone('https://github.com/phpcom-lab/phpgit.git', $this->directory);
         $git->setRepository($this->directory);
 
         $before = $git->branch(['all' => true]);
@@ -31,7 +31,7 @@ class SetHeadTest extends BaseTestCase
     public function testSetHeadDelete(): void
     {
         $git = new Git();
-        $git->clone('https://github.com/ulue/phpgit.git', $this->directory);
+        $git->clone('https://github.com/phpcom-lab/phpgit.git', $this->directory);
         $git->setRepository($this->directory);
 
         $before = $git->branch(['all' => true]);
@@ -46,7 +46,7 @@ class SetHeadTest extends BaseTestCase
     public function testSetHeadRemote(): void
     {
         $git = new Git();
-        $git->clone('https://github.com/ulue/phpgit.git', $this->directory);
+        $git->clone('https://github.com/phpcom-lab/phpgit.git', $this->directory);
         $git->setRepository($this->directory);
 
         $before = $git->branch(['all' => true]);
