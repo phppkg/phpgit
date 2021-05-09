@@ -3,28 +3,28 @@
 namespace PhpGit\Changelog\Filter;
 
 use PhpGit\Changelog\GitChangeLog;
-use function strlen;
+use function str_word_count;
 use function trim;
 
 /**
- * Class MsgLenFilter
+ * Class WordsLenFilter
  * @package PhpGit\Changelog\Filter
  */
-final class MsgLenFilter
+final class WordsLenFilter
 {
     /**
      * @var int
      */
-    protected $minLen;
+    protected $minNum;
 
     /**
      * Class constructor.
      *
-     * @param int $minLen
+     * @param int $minNum
      */
-    public function __construct(int $minLen = 10)
+    public function __construct(int $minNum = 2)
     {
-        $this->minLen = $minLen;
+        $this->minNum = $minNum;
     }
 
     /**
@@ -33,15 +33,16 @@ final class MsgLenFilter
     public function __invoke(array $item): bool
     {
         $msg = trim($item['msg'], '. ');
+        $num = str_word_count($msg);
 
-        return strlen($msg) > $this->minLen;
+        return $num > $this->minNum;
     }
 
     /**
-     * @param int $minLen
+     * @param int $minNum
      */
-    public function setMinLen(int $minLen): void
+    public function setMinNum(int $minNum): void
     {
-        $this->minLen = $minLen;
+        $this->minNum = $minNum;
     }
 }
