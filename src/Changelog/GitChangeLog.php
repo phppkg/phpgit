@@ -12,6 +12,7 @@ use function is_array;
 use function is_callable;
 use function is_object;
 use function is_string;
+use function md5;
 use function strpos;
 use function trim;
 
@@ -45,9 +46,9 @@ class GitChangeLog
         'hashId'    => '', // %H %h
         'parentId'  => '', // %P %p
         'msg'       => '', // %s
-        'date'      => '',  // %ci
-        'author'    => '',  // %an
-        'committer' => '',  // %cn
+        'date'      => '', // %ci
+        'author'    => '', // %an
+        'committer' => '', // %cn
     ];
 
     /**
@@ -66,6 +67,13 @@ class GitChangeLog
     protected $noGroup = false;
 
     /**
+     * Ignore repeated log by message
+     *
+     * @var bool
+     */
+    protected $igrRepeat = true;
+
+    /**
      * Title string for formatted text. eg: ## Change Log
      *
      * @var string
@@ -78,6 +86,11 @@ class GitChangeLog
     protected $repoUrl = '';
 
     /**
+     * The git log output. eg: `git log --pretty="format:%H"`
+     *
+     * @see https://devhints.io/git-log-format
+     * @see https://git-scm.com/docs/pretty-formats
+     *
      * @var string
      */
     protected $logOutput = '';
@@ -171,12 +184,6 @@ class GitChangeLog
         }
         $this->parsed = true;
 
-        // see https://devhints.io/git-log-format
-
-        /**
-         * git log output
-         * - each line like: `commitID message`
-         */
         $str = trim($this->logOutput);
         if (!$str) {
             throw new RuntimeException('please load git log output for parse');
@@ -186,6 +193,8 @@ class GitChangeLog
         if ($parser = $this->lineParser) {
             $isParser = is_object($parser) && $parser instanceof LineParserInterface;
         }
+
+        $messages = [];
 
         // split each line
         foreach (explode("\n", $str) as $line) {
@@ -206,7 +215,7 @@ class GitChangeLog
             if ($parser) {
                 if ($isParser) {
                     $item = $parser->parse($line);
-                } else {
+                } else { // callable
                     $item = $parser($line);
                 }
             } else {
@@ -216,6 +225,16 @@ class GitChangeLog
             // item filter
             if (($fni = $this->itemFilter) && false === $fni($item)) {
                 continue;
+            }
+
+            // ignore repeat message log
+            if ($this->igrRepeat) {
+                $msgId = md5($item['msg']);
+                if (isset($messages[$msgId])) {
+                    continue;
+                }
+
+                $messages[$msgId] = 1;
             }
 
             // merge for ensure field exists
@@ -264,9 +283,9 @@ class GitChangeLog
     /**
      * @return string
      */
-    public function format(): string
+    public function generate(): string
     {
-        // parse
+        // ensure parse
         $this->parse();
 
         // do format parsed
@@ -280,7 +299,7 @@ class GitChangeLog
             $outLines[] = $this->title;
         }
 
-        // build string
+        // build change log
         foreach ($this->formatted as $group => $lines) {
             // only one group, not render group name.
             if ($groupNum > 1) {
@@ -486,5 +505,13 @@ class GitChangeLog
     public function setItemFilter(callable $itemFilter): void
     {
         $this->itemFilter = $itemFilter;
+    }
+
+    /**
+     * @param bool $igrRepeat
+     */
+    public function setIgrRepeat(bool $igrRepeat): void
+    {
+        $this->igrRepeat = $igrRepeat;
     }
 }

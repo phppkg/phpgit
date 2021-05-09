@@ -118,8 +118,8 @@ $gcl->setItemFormatter(new GithubReleaseFormatter());
 
 Color::info('parse logs and generate changelog');
 
-// parse and format.
-$str = $gcl->format();
+// parse and generate.
+$str = $gcl->generate();
 
 echo $str;
 ```
