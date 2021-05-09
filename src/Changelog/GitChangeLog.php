@@ -91,9 +91,19 @@ class GitChangeLog
     protected $logFormat = self::LOG_FMT_HS;
 
     /**
+     * @var callable
+     */
+    protected $lineFilter;
+
+    /**
      * @var callable|LineParserInterface
      */
     protected $lineParser;
+
+    /**
+     * @var callable
+     */
+    protected $itemFilter;
 
     /**
      * The item formatter. format each item to string
@@ -177,6 +187,7 @@ class GitChangeLog
             $isParser = is_object($parser) && $parser instanceof LineParserInterface;
         }
 
+        // split each line
         foreach (explode("\n", $str) as $line) {
             if (!$line = trim($line)) {
                 continue;
@@ -184,6 +195,11 @@ class GitChangeLog
 
             // fix: symfony process's output will quote `"`
             if (!$line = trim($line, '"\'')) {
+                continue;
+            }
+
+            // line filter
+            if (($fnl = $this->lineFilter) && false === $fnl($line)) {
                 continue;
             }
 
@@ -195,6 +211,11 @@ class GitChangeLog
                 }
             } else {
                 $item = $this->builtInParse($line);
+            }
+
+            // item filter
+            if (($fni = $this->itemFilter) && false === $fni($item)) {
+                continue;
             }
 
             // merge for ensure field exists
@@ -449,5 +470,21 @@ class GitChangeLog
     public function setTitle(string $title): void
     {
         $this->title = $title;
+    }
+
+    /**
+     * @param callable $lineFilter
+     */
+    public function setLineFilter(callable $lineFilter): void
+    {
+        $this->lineFilter = $lineFilter;
+    }
+
+    /**
+     * @param callable $itemFilter
+     */
+    public function setItemFilter(callable $itemFilter): void
+    {
+        $this->itemFilter = $itemFilter;
     }
 }
