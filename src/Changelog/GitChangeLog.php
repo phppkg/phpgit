@@ -174,6 +174,11 @@ class GitChangeLog
                 continue;
             }
 
+            // fix: symfony process's output will quote `"`
+            if (!$line = trim($line, '"\'')) {
+                continue;
+            }
+
             if ($parser) {
                 if ($isParser) {
                     $item = $parser->parse($line);
