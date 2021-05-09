@@ -134,16 +134,16 @@ will see:
 
 ### Fixed
 
- - fix get latest tag error on windows https://github.com/phpcom-lab/phpgit/commit/"b9892b0ec363e405fcb76b08ea971fb651b4d2dc
+ - fix get latest tag error on windows https://github.com/phpcom-lab/phpgit/commit/b9892b0ec363e405fcb76b08ea971fb651b4d2dc
 
 ### Update
 
- - up: rename package org to phpcom-lab https://github.com/phpcom-lab/phpgit/commit/"990e55c6beddf654819c323c2a18d329074399f9
+ - up: rename package org to phpcom-lab https://github.com/phpcom-lab/phpgit/commit/990e55c6beddf654819c323c2a18d329074399f9
  - update some info https://github.com/phpcom-lab/phpgit/commit/"1110de8b5ef0406c837bcd65f607b6f9483c9154
 
 ### Feature
 
- - feat: add util for quick generate change log https://github.com/phpcom-lab/phpgit/commit/"50962c12d3f16cdbbd8c1f21bc17ff920842365e
+ - feat: add util for quick generate change log https://github.com/phpcom-lab/phpgit/commit/50962c12d3f16cdbbd8c1f21bc17ff920842365e
 
 ```
 
