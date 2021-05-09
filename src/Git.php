@@ -207,9 +207,9 @@ class Git
      * @param string $cmd
      * @param mixed  ...$args
      *
-     * @return CommandBuilder
+     * @return CmdBuilder
      */
-    public function newCmd(string $cmd, string ...$args): CommandBuilder
+    public function newCmd(string $cmd, string ...$args): CmdBuilder
     {
         return $this->getCommandBuilder($cmd, ...$args);
     }
@@ -220,14 +220,14 @@ class Git
      * @param string   $command
      * @param string[] ...$args
      *
-     * @return CommandBuilder
+     * @return CmdBuilder
      */
-    public function getCommandBuilder(string $command = '', ...$args): CommandBuilder
+    public function getCommandBuilder(string $command = '', ...$args): CmdBuilder
     {
-        return CommandBuilder::create($command, ...$args)
-            ->setBin($this->bin)
-            ->setWorkDir($this->directory)
-            ->setTimeout( $this->timeout);
+        return CmdBuilder::create($command, ...$args)
+                         ->setBin($this->bin)
+                         ->setWorkDir($this->directory)
+                         ->setTimeout( $this->timeout);
     }
 
     /**

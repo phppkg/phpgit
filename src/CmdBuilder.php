@@ -12,8 +12,11 @@ namespace PhpGit;
 use PhpGit\Exception\GitException;
 use Symfony\Component\Process\Process;
 use Toolkit\Cli\Color;
+use Toolkit\Stdlib\Str;
+use function chdir;
 use function implode;
 use function sprintf;
+use function system;
 use function trim;
 
 /**
@@ -21,7 +24,7 @@ use function trim;
  *
  * @package PhpGit
  */
-class CommandBuilder
+class CmdBuilder
 {
     /**
      * @var string
@@ -32,6 +35,28 @@ class CommandBuilder
      * @var string
      */
     private $workDir = '';
+
+    /**
+     * @var int
+     */
+    protected $code = 0;
+
+    /**
+     * @var string
+     */
+    protected $error = '';
+
+    /**
+     * Dry run all commands
+     *
+     * @var bool
+     */
+    protected $dryRun = false;
+
+    /**
+     * @var bool
+     */
+    protected $printCmd = true;
 
     /**
      * git command. eg: clone, fetch
@@ -72,7 +97,7 @@ class CommandBuilder
      *
      * @return static
      */
-    public static function new(string $command = '', string ...$args): self
+    public static function new(string $command = '', ...$args): self
     {
         return new self($command, ...$args);
     }
@@ -83,7 +108,7 @@ class CommandBuilder
      *
      * @return static
      */
-    public static function create(string $command = '', string ...$args): self
+    public static function create(string $command = '', ...$args): self
     {
         return new self($command, ...$args);
     }
@@ -94,10 +119,54 @@ class CommandBuilder
      * @param string $command
      * @param mixed  ...$args
      */
-    public function __construct(string $command = '', string ...$args)
+    public function __construct(string $command = '', ...$args)
     {
         $this->command = $command;
         $this->add(...$args);
+    }
+
+    /**
+     * direct run and not collect returns.
+     */
+    public function runAndPrint(): void
+    {
+        $cmdLine = $this->getCommandLine();
+
+        if ($this->printCmd) {
+            Color::println("> $cmdLine", 'yellow');
+        }
+
+        if ($this->dryRun) {
+            $output = 'DRY-RUN: Command execute success';
+            Color::println($output, 'cyan');
+            return;
+        }
+
+        $this->execAndPrint($cmdLine, $this->workDir);
+    }
+
+    /**
+     * direct print to stdout, not return outputs.
+     *
+     * @param string $command
+     * @param string $workDir
+     */
+    protected function execAndPrint(string $command, string $workDir): void
+    {
+        // TODO use Exec::system($command);
+        if ($workDir) {
+            chdir($workDir);
+        }
+
+        $lastLine  = system($command, $exitCode);
+        $this->code = $exitCode;
+
+        if ($exitCode !== 0) {
+            $this->error = trim($lastLine);
+            Color::println("error code $exitCode:\n" . $lastLine, 'red');
+        } else {
+            echo "\n";
+        }
     }
 
     /**
@@ -179,18 +248,19 @@ class CommandBuilder
             return $this->commandLine;
         }
 
-        $argStr = implode(' ', $this->args);
-        // foreach ($this->args as $arg) {
-        //
-        // }
+        $argList = [];
+        foreach ($this->args as $arg) {
+            $argList[] = Str::shellQuote((string)$arg);
+        }
 
-        return sprintf('%s %s %s', $this->bin, $this->command, $argStr);
+        $argString = implode(' ', $argList);
+        return sprintf('%s %s %s', $this->bin, $this->command, $argString);
     }
 
     /**
      * @param string $bin
      *
-     * @return CommandBuilder
+     * @return CmdBuilder
      */
     public function setBin(string $bin): self
     {
@@ -199,9 +269,28 @@ class CommandBuilder
     }
 
     /**
+     * @param bool $dryRun
+     *
+     * @return $this
+     */
+    public function setDryRun(bool $dryRun): self
+    {
+        $this->dryRun = $dryRun;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDryRun(): bool
+    {
+        return $this->dryRun;
+    }
+
+    /**
      * @param string $workDir
      *
-     * @return CommandBuilder
+     * @return CmdBuilder
      */
     public function setWorkDir(string $workDir): self
     {
@@ -223,7 +312,7 @@ class CommandBuilder
      * @param string $option
      * @param mixed  $value
      *
-     * @return CommandBuilder
+     * @return CmdBuilder
      */
     public function setOption(string $option, $value): self
     {
@@ -234,7 +323,7 @@ class CommandBuilder
     /**
      * @param array $options
      *
-     * @return CommandBuilder
+     * @return CmdBuilder
      */
     public function setOptions(array $options): self
     {
@@ -251,5 +340,13 @@ class CommandBuilder
     {
         $this->commandLine = $cmdLine;
         return $this;
+    }
+
+    /**
+     * @param bool $printCmd
+     */
+    public function setPrintCmd(bool $printCmd): void
+    {
+        $this->printCmd = $printCmd;
     }
 }

@@ -118,9 +118,9 @@ class Repo
      * @param string $cmd
      * @param mixed  ...$args
      *
-     * @return CommandBuilder
+     * @return CmdBuilder
      */
-    public function newCmd(string $cmd, string ...$args): CommandBuilder
+    public function newCmd(string $cmd, string ...$args): CmdBuilder
     {
         return $this->ensureGit()->newCmd($cmd, ...$args);
     }

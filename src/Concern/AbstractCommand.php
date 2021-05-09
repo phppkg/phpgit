@@ -9,7 +9,7 @@
 
 namespace PhpGit\Concern;
 
-use PhpGit\CommandBuilder;
+use PhpGit\CmdBuilder;
 use PhpGit\Git;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -110,9 +110,9 @@ abstract class AbstractCommand
     /**
      * @param string ...$args
      *
-     * @return CommandBuilder
+     * @return CmdBuilder
      */
-    protected function getCommandBuilder(string ...$args): CommandBuilder
+    protected function getCommandBuilder(string ...$args): CmdBuilder
     {
         $cmd = $this->getCommandName();
 
@@ -122,11 +122,11 @@ abstract class AbstractCommand
     /**
      * Executes a process
      *
-     * @param CommandBuilder $builder
+     * @param CmdBuilder $builder
      *
      * @return string
      */
-    public function run(CommandBuilder $builder): string
+    public function run(CmdBuilder $builder): string
     {
         return $builder->run();
     }
@@ -134,11 +134,11 @@ abstract class AbstractCommand
     /**
      * Adds boolean options to command arguments
      *
-     * @param CommandBuilder $builder     A ProcessBuilder object
-     * @param array          $options     An array of options
-     * @param array          $optionNames The names of options to add
+     * @param CmdBuilder $builder     A ProcessBuilder object
+     * @param array      $options     An array of options
+     * @param array      $optionNames The names of options to add
      */
-    protected function addFlags(CommandBuilder $builder, array $options = [], array $optionNames = []): void
+    protected function addFlags(CmdBuilder $builder, array $options = [], array $optionNames = []): void
     {
         if ($optionNames) {
             foreach ($optionNames as $name) {
@@ -158,11 +158,11 @@ abstract class AbstractCommand
     /**
      * Adds options with values to command arguments
      *
-     * @param CommandBuilder $builder     A ProcessBuilder object
-     * @param array          $options     An array of options
-     * @param array|null     $optionNames The names of options to add
+     * @param CmdBuilder $builder     A ProcessBuilder object
+     * @param array      $options     An array of options
+     * @param array|null $optionNames The names of options to add
      */
-    protected function addValues(CommandBuilder $builder, array $options = [], array $optionNames = null): void
+    protected function addValues(CmdBuilder $builder, array $options = [], array $optionNames = null): void
     {
         if ($optionNames) {
             foreach ($optionNames as $name) {
