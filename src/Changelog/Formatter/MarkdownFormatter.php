@@ -41,6 +41,11 @@ class MarkdownFormatter extends AbstractFormatter
             $line .= sprintf(' [%s](%s/commit/%s)', $abbrev7, $url, $hid);
         }
 
+        $user = $item['author'] ?: $item['committer'];
+        if ($user) {
+            $line .= " (by $user)";
+        }
+
         return [$grp, $line];
     }
 }

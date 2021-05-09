@@ -2,8 +2,6 @@
 
 namespace PhpGit\Changelog\Formatter;
 
-use function sprintf;
-use function strpos;
 use function substr;
 
 /**
@@ -22,10 +20,10 @@ class SimpleFormatter extends AbstractFormatter
         $line = ' - ';
         if ($hid = $item['hashId']) {
             $abbrev7 = substr($hid, 0, 7);
-            $line .= $abbrev7 . ' ';
+            $line    .= $abbrev7 . ' ';
         }
 
-        $msg  = $item['msg'];
+        $msg = $item['msg'];
         $grp = $this->matchGroup($msg);
 
         $line .= $msg;

@@ -27,6 +27,11 @@ class GithubReleaseFormatter extends MarkdownFormatter
             $line .= sprintf(' %s/commit/%s', $url, $hid);
         }
 
+        $user = $item['author'] ?: $item['committer'];
+        if ($user) {
+            $line .= " (by @$user)";
+        }
+
         return [$grp, $line];
     }
 }
