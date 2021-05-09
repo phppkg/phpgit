@@ -19,21 +19,17 @@ class GitTest extends TestCase
         $this->assertNotEmpty($git->getVersion());
     }
 
-    /**
-     * @expectedException GitException
-     */
     public function testInvalidGitBinary(): void
     {
+        $this->expectException(GitException::class);
         $git = new Git();
         $git->setBin('/foo/bar');
         $git->getVersion();
     }
 
-    /**
-     * @expectedException \BadMethodCallException
-     */
     public function testBadMethodCall(): void
     {
+        $this->expectException(GitException::class);
         $git = new Git();
         $git->foo();
     }

@@ -30,13 +30,11 @@ class TagTest extends BaseTestCase
         $this->assertCount(0, $git->tag());
     }
 
-    /**
-     * @expectedException GitException
-     */
     public function testTagVerify(): void
     {
         $filesystem = new Filesystem();
 
+        $this->expectException(GitException::class);
         $git = new Git();
         $git->init($this->directory);
         $git->setRepository($this->directory);

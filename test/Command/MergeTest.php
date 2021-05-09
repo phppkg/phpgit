@@ -39,13 +39,11 @@ class MergeTest extends BaseTestCase
         $this->assertEquals('bar', file_get_contents($this->directory . '/test.txt'));
     }
 
-    /**
-     * @expectedException GitException
-     */
     public function testMergeFail(): void
     {
         $filesystem = new Filesystem();
 
+        $this->expectException(GitException::class);
         $git = new Git();
         $git->init($this->directory);
         $git->setRepository($this->directory);

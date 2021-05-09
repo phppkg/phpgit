@@ -94,11 +94,9 @@ class RemoteTest extends BaseTestCase
         $git->remote->prune('origin');
     }
 
-    /**
-     * @expectedException \BadMethodCallException
-     */
     public function testBadMethodCall(): void
     {
+        $this->expectException(\BadMethodCallException::class);
         $git = new Git();
         $git->remote->foo();
     }

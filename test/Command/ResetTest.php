@@ -109,13 +109,11 @@ class ResetTest extends BaseTestCase
         $git->reset->keep();
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testResetInvalidMode(): void
     {
         $filesystem = new Filesystem();
 
+        $this->expectException(InvalidArgumentException::class);
         $git = new Git();
         $git->init($this->directory);
         $git->setRepository($this->directory);

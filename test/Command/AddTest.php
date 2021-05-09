@@ -32,12 +32,10 @@ class AddTest extends BaseTestCase
         $this->assertTrue($git->add(['test.md'], ['force' => true]));
     }
 
-    /**
-     * @expectedException GitException
-     * @expectedExceptionCode 128
-     */
     public function testException(): void
     {
+        $this->expectException(GitException::class);
+        $this->expectExceptionCode(128);
         $git = new Git();
         $git->init($this->directory);
         $git->setRepository($this->directory);
