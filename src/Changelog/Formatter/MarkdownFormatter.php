@@ -2,9 +2,7 @@
 
 namespace PhpGit\Changelog\Formatter;
 
-use PhpGit\Changelog\GitChangeLog;
 use function sprintf;
-use function strpos;
 use function substr;
 
 /**

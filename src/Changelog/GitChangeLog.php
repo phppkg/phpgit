@@ -12,6 +12,7 @@ use function is_array;
 use function is_callable;
 use function is_object;
 use function is_string;
+use function strpos;
 use function trim;
 
 /**
@@ -69,7 +70,7 @@ class GitChangeLog
      *
      * @var string
      */
-    protected $title = "## Change Log\n";
+    protected $title = "## Change Log";
 
     /**
      * @var string
@@ -284,6 +285,7 @@ class GitChangeLog
         $groupNames  = [];
         $isFormatter = is_object($formatter) && $formatter instanceof ItemFormatterInterface;
 
+        $otherGroup = '';
         foreach ($this->logItems as $item) {
             $item['url'] = $this->repoUrl;
 
@@ -311,9 +313,23 @@ class GitChangeLog
                 continue;
             }
 
-            $groupNames[$group] = $group;
+            // if returned group name add suffix or prefix
+            if (!$otherGroup && strpos($group, self::OTHER_GROUP) !== false) {
+                $otherGroup = $group;
+            }
 
+            $groupNames[$group] = $group;
+            // add line
             $this->formatted[$group][] = $line;
+        }
+
+        // up: keep the other group on last.
+        if (isset($this->formatted[$otherGroup]) && count($groupNames) > 1) {
+            $groupLines = $this->formatted[$otherGroup];
+            unset($this->formatted[$otherGroup]);
+
+            // re-add on last
+            $this->formatted[$otherGroup] = $groupLines;
         }
 
         return $groupNames;
