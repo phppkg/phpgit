@@ -24,11 +24,11 @@ abstract class AbstractFormatter implements ItemFormatterInterface
             return 'Fixed';
         }
 
-        if (strpos($msg, 'up') === 0) {
+        if (stripos($msg, 'up') === 0 || stripos($msg, 'add') === 0) {
             return 'Update';
         }
 
-        if (strpos($msg, 'feat') === 0 || strpos($msg, 'new') === 0) {
+        if (stripos($msg, 'feat') === 0 || stripos($msg, 'new') === 0) {
             return 'Feature';
         }
 
@@ -36,7 +36,7 @@ abstract class AbstractFormatter implements ItemFormatterInterface
     }
 
     /**
-     * @param array $item each line item {@see GitChangeLog::$logItems}
+     * @param array $item each line item {@see GitChangeLog::LOG_ITEM}
      *
      * @return string[] returns [group, line string]
      */

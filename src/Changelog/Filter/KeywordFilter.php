@@ -4,7 +4,6 @@ namespace PhpGit\Changelog\Filter;
 
 use PhpGit\Changelog\GitChangeLog;
 use function stripos;
-use function strlen;
 
 /**
  * Class KeywordFilter
@@ -18,13 +17,20 @@ final class KeywordFilter
     private $keyword;
 
     /**
+     * @var bool
+     */
+    private $exclude;
+
+    /**
      * Class constructor.
      *
      * @param string $keyword
+     * @param bool   $exclude
      */
-    public function __construct(string $keyword)
+    public function __construct(string $keyword, bool $exclude = true)
     {
         $this->keyword = $keyword;
+        $this->exclude = $exclude;
     }
 
     /**
@@ -33,8 +39,13 @@ final class KeywordFilter
     public function __invoke(array $item): bool
     {
         $msg = $item['msg'];
+        $has = stripos($msg, $this->keyword) !== false;
 
-        return stripos($msg, $this->keyword) !== false;
+        if ($this->exclude) {
+            return !$has;
+        }
+
+        return $has;
     }
 
     /**

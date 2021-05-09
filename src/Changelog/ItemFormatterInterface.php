@@ -16,7 +16,7 @@ interface ItemFormatterInterface
     public function matchGroup(string $msg): string;
 
     /**
-     * @param array $item each line item {@see GitChangeLog::$logItems}
+     * @param array $item each line item {@see GitChangeLog::LOG_ITEM}
      *
      * @return string[] returns [group, line string]
      *                  - group  The log group name. eg: Update, Fix, Feature.

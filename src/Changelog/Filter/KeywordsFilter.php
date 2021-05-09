@@ -15,15 +15,21 @@ final class KeywordsFilter
      * @var string[]
      */
     private $keywords;
+    /**
+     * @var bool
+     */
+    private $exclude;
 
     /**
      * Class constructor.
      *
      * @param array $keywords
+     * @param bool  $exclude
      */
-    public function __construct(array $keywords)
+    public function __construct(array $keywords, bool $exclude = true)
     {
         $this->keywords = $keywords;
+        $this->exclude  = $exclude;
     }
 
     /**
@@ -32,12 +38,14 @@ final class KeywordsFilter
     public function __invoke(array $item): bool
     {
         $msg = $item['msg'];
+
         foreach ($this->keywords as $keyword) {
             if (stripos($msg, $keyword) !== false) {
-                return false;
+                return !$this->exclude;
             }
         }
-        return true;
+
+        return $this->exclude;
     }
 
     /**

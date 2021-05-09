@@ -29,6 +29,11 @@ class SimpleFormatter extends AbstractFormatter
         $grp = $this->matchGroup($msg);
 
         $line .= $msg;
+        $user = $item['author'] ?: $item['committer'];
+        if ($user) {
+            $line .= " (by $user)";
+        }
+
         return [$grp, $line];
     }
 }

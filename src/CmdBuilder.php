@@ -163,7 +163,7 @@ class CmdBuilder
             chdir($workDir);
         }
 
-        $lastLine  = system($command, $exitCode);
+        $lastLine   = system($command, $exitCode);
         $this->code = $exitCode;
 
         if ($exitCode !== 0) {
@@ -232,14 +232,14 @@ class CmdBuilder
     }
 
     /**
-     * @param string|int $arg
-     * @param bool       $isOk
+     * @param string|int      $arg
+     * @param bool|int|string $ifExpr
      *
      * @return $this
      */
-    public function addIf($arg, bool $isOk): self
+    public function addIf($arg, $ifExpr): self
     {
-        if ($isOk) {
+        if ($ifExpr) {
             $this->args[] = $arg;
         }
 
