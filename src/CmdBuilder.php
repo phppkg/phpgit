@@ -37,16 +37,6 @@ class CmdBuilder
     private $workDir = '';
 
     /**
-     * @var int
-     */
-    protected $code = 0;
-
-    /**
-     * @var string
-     */
-    protected $error = '';
-
-    /**
      * Dry run all commands
      *
      * @var bool
@@ -90,6 +80,21 @@ class CmdBuilder
      * @var string
      */
     private $commandLine = '';
+
+    /**
+     * @var int
+     */
+    protected $code = 0;
+
+    /**
+     * @var string
+     */
+    protected $error = '';
+
+    /**
+     * @var string
+     */
+    private $output = '';
 
     /**
      * @param string $command
@@ -190,8 +195,10 @@ class CmdBuilder
         }
 
         $output = $process->getOutput();
+        $output = $trimOutput ? trim($output) : $output;
 
-        return $trimOutput ? trim($output) : $output;
+        $this->output = $output;
+        return $output;
     }
 
     /**
@@ -207,6 +214,33 @@ class CmdBuilder
             } else { // first arg is command
                 $this->command = $arg;
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param string $format
+     * @param mixed  ...$a
+     *
+     * @return $this
+     */
+    public function addf(string $format, ...$a): self
+    {
+        $this->args[] = sprintf($format, ...$a);
+        return $this;
+    }
+
+    /**
+     * @param string|int $arg
+     * @param bool       $isOk
+     *
+     * @return $this
+     */
+    public function addIf($arg, bool $isOk): self
+    {
+        if ($isOk) {
+            $this->args[] = $arg;
         }
 
         return $this;
@@ -348,5 +382,13 @@ class CmdBuilder
     public function setPrintCmd(bool $printCmd): void
     {
         $this->printCmd = $printCmd;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOutput(): string
+    {
+        return $this->output;
     }
 }

@@ -23,6 +23,18 @@ abstract class AbstractFormatter implements ItemFormatterInterface
             return 'Update';
         }
 
+        if (strpos($msg, 'feat') === 0) {
+            return 'Feature';
+        }
+
+        if (stripos($msg, 'fix') === 0) {
+            return 'Fixed';
+        }
+
+        // if (stripos($msg, 'new') === 0 || stripos($msg, 'add') === 0) {
+        //     return 'Fixed';
+        // }
+
         return GitChangeLog::OTHER_GROUP;
     }
 

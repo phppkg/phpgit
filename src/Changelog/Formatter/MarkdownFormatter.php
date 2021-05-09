@@ -13,9 +13,14 @@ use function substr;
  */
 class MarkdownFormatter extends AbstractFormatter
 {
+    /**
+     * @param string $msg
+     *
+     * @return string
+     */
     public function matchGroup(string $msg): string
     {
-        return '### ' . parent::matchGroup($msg);
+        return "\n### " . parent::matchGroup($msg) . "\n";
     }
 
     /**

@@ -243,7 +243,7 @@ class GitChangeLog
         $isFormatter = is_object($formatter) && $formatter instanceof ItemFormatterInterface;
 
         foreach ($this->logItems as $item) {
-            $item['repoUrl'] = $this->repoUrl;
+            $item['url'] = $this->repoUrl;
 
             if ($isFormatter) {
                 $formatted = $formatter->format($item);

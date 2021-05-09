@@ -77,6 +77,76 @@ object(PhpGit\Info\RemoteInfo)#35 (8) {
 }
 ```
 
+## Changelog
+
+Provide quick generate formatted changelog.
+
+```php
+use Toolkit\Cli\Color;
+use PhpGit\Changelog\Formatter\GithubReleaseFormatter;
+use PhpGit\Changelog\Formatter\SimpleFormatter;
+use PhpGit\Changelog\GitChangeLog;
+
+// this is built in log format.
+// you can custom format string, but must be set an log parser by $gcl->setLineParser(new YourLineParser);
+$logFormat = GitChangeLog::LOG_FMT_HSC;
+
+$oldVersion = 'v0.2.1';
+$newVersion = 'HEAD';
+
+// get output by git log cmd:
+//  `git log v0.2.1...HEAD --reverse --pretty=format:"%H | %s | %cn" --no-merges`
+$c = PhpGit\Git::new()->newCmd('log');
+$c->add("$oldVersion...$newVersion");
+$c->add('--reverse');
+$c->addf('--pretty=format:"%s"', $logFormat);
+
+// get repo url
+$info = PhpGit\Repo::new()->getRemoteInfo('origin');
+$repoUrl = $info->getHttpUrl();
+Color::info('repo URL: ' . $repoUrl);
+
+// create object by output.
+$gcl = GitChangeLog::new($c->getOutput());
+$gcl->setLogFormat($logFmt);
+$gcl->setRepoUrl($repoUrl);
+
+// you can set output style. default is markdown.
+// can also, you can custom your item formatter
+$gcl->setItemFormatter(new GithubReleaseFormatter());
+//$gcl->setItemFormatter(new SimpleFormatter());
+
+Color::info('parse logs and generate changelog');
+
+// parse and format.
+$str = $gcl->format();
+
+echo $str;
+```
+
+will see:
+
+```text
+> git log v0.2.1...HEAD --reverse --pretty=format:"%H | %s | %cn" --no-merges
+> git remote -v
+[INFO] repo URL:https://github.com/phpcom-lab/phpgit
+[INFO] parse logs and generate changelog
+
+### Fixed
+
+ - fix get latest tag error on windows https://github.com/phpcom-lab/phpgit/commit/"b9892b0ec363e405fcb76b08ea971fb651b4d2dc
+
+### Update
+
+ - up: rename package org to phpcom-lab https://github.com/phpcom-lab/phpgit/commit/"990e55c6beddf654819c323c2a18d329074399f9
+ - update some info https://github.com/phpcom-lab/phpgit/commit/"1110de8b5ef0406c837bcd65f607b6f9483c9154
+
+### Feature
+
+ - feat: add util for quick generate change log https://github.com/phpcom-lab/phpgit/commit/"50962c12d3f16cdbbd8c1f21bc17ff920842365e
+
+```
+
 ## API
 
 ### Git commands
