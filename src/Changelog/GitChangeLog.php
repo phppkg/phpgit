@@ -2,11 +2,13 @@
 
 namespace PhpGit\Changelog;
 
-use PhpGit\Changelog\Formatter\MarkdownFormatter;
 use InvalidArgumentException;
+use PhpGit\Changelog\Formatter\MarkdownFormatter;
 use RuntimeException;
 use function array_merge;
 use function count;
+use function dirname;
+use function file_put_contents;
 use function implode;
 use function is_array;
 use function is_callable;
@@ -54,7 +56,7 @@ class GitChangeLog
     /**
      * @var bool
      */
-    protected $parsed = false;
+    private $parsed = false;
 
     /**
      * Not output group name line.
@@ -104,9 +106,11 @@ class GitChangeLog
     protected $logFormat = self::LOG_FMT_HS;
 
     /**
-     * @var callable
+     * The log line filters
+     *
+     * @var callable[]
      */
-    protected $lineFilter;
+    protected $lineFilters = [];
 
     /**
      * @var callable|LineParserInterface
@@ -114,9 +118,11 @@ class GitChangeLog
     protected $lineParser;
 
     /**
-     * @var callable
+     * The parsed log item filters
+     *
+     * @var callable[]
      */
-    protected $itemFilter;
+    protected $itemFilters = [];
 
     /**
      * The item formatter. format each item to string
@@ -149,6 +155,23 @@ class GitChangeLog
     protected $formatted = [];
 
     /**
+     * Valid commit log count after parse and formatted.
+     *
+     * @var int
+     */
+    private $logCount = 0;
+
+    /**
+     * @var bool
+     */
+    private $generated = false;
+
+    /**
+     * @var string
+     */
+    private $changelog = '';
+
+    /**
      * @return static
      */
     public static function new(string $logOutput = ''): self
@@ -174,6 +197,10 @@ class GitChangeLog
         $this->logOutput = trim($output);
     }
 
+    //-------------------------------------------------------------------
+    // parse
+    //-------------------------------------------------------------------
+
     /**
      * @return $this
      */
@@ -198,17 +225,13 @@ class GitChangeLog
 
         // split each line
         foreach (explode("\n", $str) as $line) {
-            if (!$line = trim($line)) {
-                continue;
-            }
-
             // fix: symfony process's output will quote `"`
-            if (!$line = trim($line, '"\'')) {
+            if (!$line = trim(trim($line), '"\' ')) {
                 continue;
             }
 
-            // line filter
-            if (($fnl = $this->lineFilter) && false === $fnl($line)) {
+            // line filters
+            if ($this->applyLineFilters($line)) {
                 continue;
             }
 
@@ -223,7 +246,7 @@ class GitChangeLog
             }
 
             // item filter
-            if (($fni = $this->itemFilter) && false === $fni($item)) {
+            if ($this->applyItemFilters($item)) {
                 continue;
             }
 
@@ -242,6 +265,36 @@ class GitChangeLog
         }
 
         return $this;
+    }
+
+    /**
+     * @param string $line
+     *
+     * @return bool
+     */
+    protected function applyLineFilters(string $line): bool
+    {
+        foreach ($this->lineFilters as $filter) {
+            if (false === $filter($line)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @param array $item
+     *
+     * @return bool
+     */
+    protected function applyItemFilters(array $item): bool
+    {
+        foreach ($this->itemFilters as $filter) {
+            if (false === $filter($item)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -273,11 +326,30 @@ class GitChangeLog
         return [
             'hashId'    => $id,
             // 'parentId'    => $pid,
-            'msg'       => $msg,
+            'msg'       => trim($msg),
             'date'      => $date,
             'author'    => $an,
             'committer' => $cn,
         ];
+    }
+
+    //-------------------------------------------------------------------
+    // generate and export
+    //-------------------------------------------------------------------
+
+    /**
+     * @param string $file
+     *
+     * @return bool
+     */
+    public function export(string $file): bool
+    {
+        $str = $this->generate();
+        $dir = dirname($file);
+
+        ChangeLogUtil::mkdir($dir);
+
+        return file_put_contents($file, $str) > 0;
     }
 
     /**
@@ -285,11 +357,17 @@ class GitChangeLog
      */
     public function generate(): string
     {
+        // generated
+        if ($this->generated) {
+            return $this->changelog;
+        }
+        $this->generated = true;
+
         // ensure parse
         $this->parse();
 
         // do format parsed
-        $groupNames = $this->doFormat();
+        $groupNames = $this->formatItems();
 
         $outLines = [];
         $groupNum = count($groupNames);
@@ -309,13 +387,15 @@ class GitChangeLog
             $outLines[] = implode("\n", $lines);
         }
 
-        return implode("\n", $outLines);
+        $this->changelog = implode("\n", $outLines);
+
+        return $this->changelog;
     }
 
     /**
      * @return array
      */
-    protected function doFormat(): array
+    protected function formatItems(): array
     {
         $formatter = $this->itemFormatter;
         if (!$formatter) {
@@ -359,7 +439,9 @@ class GitChangeLog
             }
 
             $groupNames[$group] = $group;
+
             // add line
+            $this->logCount++;
             $this->formatted[$group][] = $line;
         }
 
@@ -375,12 +457,16 @@ class GitChangeLog
         return $groupNames;
     }
 
+    //-------------------------------------------------------------------
+    // helpers
+    //-------------------------------------------------------------------
+
     /**
-     * @return array
+     * @return string
      */
-    public function getChangeLog(): array
+    public function getChangelog(): string
     {
-        return $this->logItems;
+        return $this->changelog;
     }
 
     /**
@@ -494,17 +580,55 @@ class GitChangeLog
     /**
      * @param callable $lineFilter
      */
-    public function setLineFilter(callable $lineFilter): void
+    public function addLineFilter(callable $lineFilter): void
     {
-        $this->lineFilter = $lineFilter;
+        $this->lineFilters[] = $lineFilter;
+    }
+
+    /**
+     * @param callable[] $lineFilters
+     */
+    public function addLineFilters(array $lineFilters): void
+    {
+        foreach ($lineFilters as $lineFilter) {
+            $this->addLineFilter($lineFilter);
+        }
+    }
+
+    /**
+     * @param callable[] $lineFilters
+     */
+    public function setLineFilters(array $lineFilters): void
+    {
+        $this->lineFilters = [];
+        $this->addLineFilters($lineFilters);
     }
 
     /**
      * @param callable $itemFilter
      */
-    public function setItemFilter(callable $itemFilter): void
+    public function addItemFilter(callable $itemFilter): void
     {
-        $this->itemFilter = $itemFilter;
+        $this->itemFilters[] = $itemFilter;
+    }
+
+    /**
+     * @param callable[] $itemFilters
+     */
+    public function addItemFilters(array $itemFilters): void
+    {
+        foreach ($itemFilters as $itemFilter) {
+            $this->addItemFilter($itemFilter);
+        }
+    }
+
+    /**
+     * @param callable[] $itemFilters
+     */
+    public function setItemFilters(array $itemFilters): void
+    {
+        $this->itemFilters = [];
+        $this->addItemFilters($itemFilters);
     }
 
     /**
@@ -513,5 +637,13 @@ class GitChangeLog
     public function setIgrRepeat(bool $igrRepeat): void
     {
         $this->igrRepeat = $igrRepeat;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLogCount(): int
+    {
+        return $this->logCount;
     }
 }

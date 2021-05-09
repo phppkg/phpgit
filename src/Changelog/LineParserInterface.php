@@ -13,5 +13,5 @@ interface LineParserInterface
      *
      * @return array returns an item array. {@see GitChangeLog::$logItems}
      */
-     public function parse(string $line): array;
+    public function parse(string $line): array;
 }
