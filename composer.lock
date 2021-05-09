@@ -188,16 +188,16 @@
         },
         {
             "name": "toolkit/stdlib",
-            "version": "v1.0.10",
+            "version": "v1.0.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-toolkit/stdlib.git",
-                "reference": "6c9bcdde0e62725f5ab2daa9f47baa040e6d2551"
+                "reference": "e4f5fec8a1510c80651aec7ceda85b8c9b5aecdb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-toolkit/stdlib/zipball/6c9bcdde0e62725f5ab2daa9f47baa040e6d2551",
-                "reference": "6c9bcdde0e62725f5ab2daa9f47baa040e6d2551",
+                "url": "https://api.github.com/repos/php-toolkit/stdlib/zipball/e4f5fec8a1510c80651aec7ceda85b8c9b5aecdb",
+                "reference": "e4f5fec8a1510c80651aec7ceda85b8c9b5aecdb",
                 "shasum": ""
             },
             "require": {
@@ -239,9 +239,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-toolkit/stdlib/issues",
-                "source": "https://github.com/php-toolkit/stdlib/tree/v1.0.10"
+                "source": "https://github.com/php-toolkit/stdlib/tree/v1.0.12"
             },
-            "time": "2021-01-27T14:15:06+00:00"
+            "time": "2021-05-09T10:52:47+00:00"
         }
     ],
     "packages-dev": [
