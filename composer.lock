@@ -135,16 +135,16 @@
         },
         {
             "name": "toolkit/cli-utils",
-            "version": "v1.2.2",
+            "version": "v1.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-toolkit/cli-utils.git",
-                "reference": "5e438e4d999f8d1c21a3da92d787857f91a407b9"
+                "reference": "481c31b86187a57d3b7b60a834be386be6cdddff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-toolkit/cli-utils/zipball/5e438e4d999f8d1c21a3da92d787857f91a407b9",
-                "reference": "5e438e4d999f8d1c21a3da92d787857f91a407b9",
+                "url": "https://api.github.com/repos/php-toolkit/cli-utils/zipball/481c31b86187a57d3b7b60a834be386be6cdddff",
+                "reference": "481c31b86187a57d3b7b60a834be386be6cdddff",
                 "shasum": ""
             },
             "require": {
@@ -173,18 +173,20 @@
                     "homepage": "http://www.yzone.net/"
                 }
             ],
-            "description": "some cli tool library of the php",
+            "description": "useful cli tool library of the php",
             "homepage": "https://github.com/php-toolkit/cli-utils",
             "keywords": [
+                "cli",
+                "command-line",
                 "library",
                 "php",
                 "tool"
             ],
             "support": {
                 "issues": "https://github.com/php-toolkit/cli-utils/issues",
-                "source": "https://github.com/php-toolkit/cli-utils/tree/v1.2.2"
+                "source": "https://github.com/php-toolkit/cli-utils/tree/v1.2.5"
             },
-            "time": "2021-01-23T17:44:39+00:00"
+            "time": "2021-05-09T03:17:57+00:00"
         },
         {
             "name": "toolkit/stdlib",
