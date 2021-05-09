@@ -65,6 +65,13 @@ class GitChangeLog
     protected $noGroup = false;
 
     /**
+     * Title string for formatted text. eg: ## Change Log
+     *
+     * @var string
+     */
+    protected $title = "## Change Log\n";
+
+    /**
      * @var string
      */
     protected $repoUrl = '';
@@ -237,8 +244,38 @@ class GitChangeLog
      */
     public function format(): string
     {
+        // parse
         $this->parse();
 
+        // do format parsed
+        $groupNames = $this->doFormat();
+
+        $outLines = [];
+        $groupNum = count($groupNames);
+
+        // first add title
+        if ($this->title) {
+            $outLines[] = $this->title;
+        }
+
+        // build string
+        foreach ($this->formatted as $group => $lines) {
+            // only one group, not render group name.
+            if ($groupNum > 1) {
+                $outLines[] = $group;
+            }
+
+            $outLines[] = implode("\n", $lines);
+        }
+
+        return implode("\n", $outLines);
+    }
+
+    /**
+     * @return array
+     */
+    protected function doFormat(): array
+    {
         $formatter = $this->itemFormatter;
         if (!$formatter) {
             $formatter = new MarkdownFormatter();
@@ -279,18 +316,7 @@ class GitChangeLog
             $this->formatted[$group][] = $line;
         }
 
-        $outLines = [];
-        $groupNum = count($groupNames);
-        foreach ($this->formatted as $group => $lines) {
-            // only one group, not render group name.
-            if ($groupNum > 1) {
-                $outLines[] = $group;
-            }
-
-            $outLines[] = implode("\n", $lines);
-        }
-
-        return implode("\n", $outLines);
+        return $groupNames;
     }
 
     /**
@@ -391,5 +417,21 @@ class GitChangeLog
     public function setRepoUrl(string $repoUrl): void
     {
         $this->repoUrl = $repoUrl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
     }
 }

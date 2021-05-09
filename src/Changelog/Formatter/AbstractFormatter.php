@@ -4,6 +4,7 @@ namespace PhpGit\Changelog\Formatter;
 
 use PhpGit\Changelog\GitChangeLog;
 use PhpGit\Changelog\ItemFormatterInterface;
+use function stripos;
 use function strpos;
 
 /**
@@ -19,16 +20,16 @@ abstract class AbstractFormatter implements ItemFormatterInterface
      */
     public function matchGroup(string $msg): string
     {
+        if (stripos($msg, 'fix') === 0) {
+            return 'Fixed';
+        }
+
         if (strpos($msg, 'up') === 0) {
             return 'Update';
         }
 
-        if (strpos($msg, 'feat') === 0) {
+        if (strpos($msg, 'feat') === 0 || strpos($msg, 'new') === 0) {
             return 'Feature';
-        }
-
-        if (stripos($msg, 'fix') === 0) {
-            return 'Fixed';
         }
 
         // if (stripos($msg, 'new') === 0 || stripos($msg, 'add') === 0) {
