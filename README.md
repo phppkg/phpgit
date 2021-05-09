@@ -81,6 +81,21 @@ object(PhpGit\Info\RemoteInfo)#35 (8) {
 
 Provide quick generate formatted changelog.
 
+### Formatter
+
+- `SimpleFormatter`
+- `MarkdownFormatter`
+- `GithubReleaseFormatter`
+
+### Filter
+
+- `KeywordFilter`
+- `KeywordsFilter`
+- `MsgLenFilter`
+- `WordsLenFilter`
+
+### Example
+
 ```php
 use Toolkit\Cli\Color;
 use PhpGit\Changelog\Formatter\GithubReleaseFormatter;

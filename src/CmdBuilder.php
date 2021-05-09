@@ -233,13 +233,13 @@ class CmdBuilder
 
     /**
      * @param string|int      $arg
-     * @param bool|int|string $ifExpr
+     * @param bool|int|string $cond
      *
      * @return $this
      */
-    public function addIf($arg, $ifExpr): self
+    public function addIf($arg, $cond): self
     {
-        if ($ifExpr) {
+        if ($cond) {
             $this->args[] = $arg;
         }
 
