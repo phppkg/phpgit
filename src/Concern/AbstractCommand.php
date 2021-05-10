@@ -96,7 +96,7 @@ abstract class AbstractCommand
      *
      * @return array
      */
-    protected function split(string $input, $useNull = false): array
+    protected function split(string $input, bool $useNull = false): array
     {
         if ($useNull) {
             $pattern = '/\0/';

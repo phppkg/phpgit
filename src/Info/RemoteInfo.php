@@ -19,6 +19,7 @@ use function strpos;
  * Class RemoteMeta
  *
  * @package PhpGit\Info
+ * @author  inhere
  */
 class RemoteInfo extends AbstractInfo
 {
@@ -133,7 +134,7 @@ class RemoteInfo extends AbstractInfo
      */
     public function getGitUrl(bool $withSuffix = false): string
     {
-        $suffix = $withSuffix ? '.git': '';
+        $suffix = $withSuffix ? '.git' : '';
 
         return sprintf('%s@%s:%s%s', Git::URL_GIT, $this->host, $this->getPath(), $suffix);
     }
@@ -150,7 +151,7 @@ class RemoteInfo extends AbstractInfo
             $scheme = Git::URL_HTTP;
         }
 
-        $suffix = $withSuffix ? '.git': '';
+        $suffix = $withSuffix ? '.git' : '';
 
         return sprintf('%s://%s/%s%s', $scheme, $this->host, $this->getPath(), $suffix);
     }

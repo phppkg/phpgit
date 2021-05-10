@@ -377,11 +377,22 @@ class CmdBuilder
     }
 
     /**
-     * @param bool $printCmd
+     * @return $this
      */
-    public function setPrintCmd(bool $printCmd): void
+    public function notPrintCmd(): self
+    {
+        return $this->setPrintCmd(false);
+    }
+
+    /**
+     * @param bool $printCmd
+     *
+     * @return $this
+     */
+    public function setPrintCmd(bool $printCmd): self
     {
         $this->printCmd = $printCmd;
+        return $this;
     }
 
     /**

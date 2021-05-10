@@ -11,6 +11,7 @@ namespace PhpGit\Command;
 
 use PhpGit\Concern\AbstractCommand;
 use PhpGit\Exception\GitException;
+use PhpGit\Info\TagsInfo;
 use Symfony\Component\OptionsResolver\Options;
 use Traversable;
 
@@ -40,13 +41,50 @@ class Tag extends AbstractCommand
      * @return array
      * @throws GitException
      */
-    public function __invoke()
+    public function __invoke(): array
     {
-        $builder = $this->getCommandBuilder();
+        return $this->list();
+    }
 
-        $output = $this->run($builder);
+    /**
+     * @param string $sort   tag sort setting.
+     *                       eg:
+     *                       `version:refname`
+     *                       `-version:refname`
+     *                       `committerdate`
+     *                       `-committerdate` Reverse order by commit time
+     *                       `taggerdate`
+     *                       `-taggerdate`
+     *
+     * @return array
+     */
+    public function list(string $sort = ''): array
+    {
+        // something:
+        // `git tag -l` == `git tag --format '%(refname:strip=2)'`
+        // more e.g:
+        //  // refname - sorts in a lexicographic order
+        //  // version:refname or v:refname - this sorts based on versions
+        // git tag --sort=-version:refname
+        // git tag -l --sort version:refname
+        // git tag --format '%(refname:strip=2)' --sort=-taggerdate
+        // git tag --format '%(refname:strip=2) %(objectname)' --sort=-taggerdate                      21-05-11 - 0:25:23
+        // git log --tags --simplify-by-decoration --pretty="format:%d - %cr"
+        $builder = $this->getCommandBuilder()
+            ->addIf("--sort=$sort", $sort);
 
+        $output = $builder->run();
         return $this->split($output);
+    }
+
+    /**
+     * @param string $sort
+     *
+     * @return TagsInfo
+     */
+    public function tagsInfo(string $sort = ''): TagsInfo
+    {
+        return TagsInfo::new(['tags' => $this->list($sort)]);
     }
 
     /**
@@ -70,7 +108,7 @@ class Tag extends AbstractCommand
      *
      * @return bool
      */
-    public function create($tag, $commit = null, array $options = []): bool
+    public function create(string $tag, $commit = null, array $options = []): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder()->add($tag);
@@ -81,7 +119,8 @@ class Tag extends AbstractCommand
             $builder->add($commit);
         }
 
-        $this->run($builder);
+        // $this->run($builder);
+        $builder->run();
 
         return true;
     }
@@ -97,17 +136,16 @@ class Tag extends AbstractCommand
     public function delete($tag): bool
     {
         $builder = $this->getCommandBuilder('-d');
-
         if (!is_array($tag) && !($tag instanceof Traversable)) {
-            $tag = [$tag];
+            $tag = [(string)$tag];
         }
 
         foreach ($tag as $value) {
             $builder->add($value);
         }
 
-        $this->run($builder);
-
+        // $this->run($builder);
+        $builder->run();
         return true;
     }
 

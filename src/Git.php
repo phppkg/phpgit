@@ -22,8 +22,8 @@ use PhpGit\Exception\GitException;
  *
  * ## Requirements
  *
- * * PHP5.3
- * * Git
+ * - PHP 7.2+
+ * - Git
  *
  * ## Installation
  *
@@ -64,6 +64,7 @@ use PhpGit\Exception\GitException;
  * ```
  *
  * @author  Kazuyuki Hayashi <hayashi@valnur.net>
+ * @author  inhere<in.798@qq.com>
  * @license MIT
  *
  * @property-read Command\Add      $add
@@ -118,17 +119,22 @@ use PhpGit\Exception\GitException;
  * @method show($object, $options = [])                                     Shows one or more objects (blobs, trees, tags and commits)
  * @method stash()                                                          Save your local modifications to a new stash, and run git reset --hard to revert them
  * @method status($options = [])                                            Show the working tree status
- * @method tag()                                                            Returns an array of tags
+ * @method array tag()                                                            Returns an array of tags
  * @method tree(string $branch = 'master', string $path = '')               List the contents of a tree object
  */
 class Git
 {
     use ExecGitCommandTrait;
 
+    public const PROTO_SSH  = 'ssh';
+    public const PROTO_HTTP = 'http';
+
     public const URL_GIT  = 'git';
     public const URL_HTTP = 'http';
+    public const URL_HTTPS = 'https';
 
     public const GITHUB_HOST = 'github.com';
+    public const GITLAB_HOST = 'gitlab.com';
 
     public const DEFAULT_REMOTE = 'origin';
 
@@ -241,6 +247,18 @@ class Git
         $cmd = $this->getCommandBuilder();
 
         return $cmd->setCommandLine($cmdLine)->run($trimOutput);
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastTag(): string
+    {
+        // git for-each-ref refs/tags --sort=-taggerdate --format='%(refname)' --count=1
+        // git for-each-ref refs/tags --sort=-committerdate --format '%(refname) %(objectname)'
+        $cmdLine = 'git describe --abbrev=0 --tags';
+
+        return $this->runCmdLine($cmdLine, true);
     }
 
     /**
