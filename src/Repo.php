@@ -256,16 +256,9 @@ class Repo
      */
     public function getLastTagName(bool $refresh = false): string
     {
-        $git = $this->ensureGit();
+        $git = $this->ensureGit()->setQuietRun(true);
 
-        if ($refresh) {
-            $git->runCmdLine('git fetch --tags');
-        }
-
-        // $cmdLine = 'git describe --tags $(git rev-list --tags --max-count=1)';
-        $cmdLine = 'git describe --abbrev=0 --tags';
-
-        return $git->runCmdLine($cmdLine, true);
+        return $git->getLastTagName($refresh);
     }
 
     /**

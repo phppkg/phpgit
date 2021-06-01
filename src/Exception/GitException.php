@@ -25,12 +25,12 @@ class GitException extends RuntimeException
     /**
      * Construct the exception. Note: The message is NOT binary safe.
      *
-     * @param string         $message     [optional] The Exception message to throw.
-     * @param int            $code        [optional] The Exception code.
-     * @param null           $commandLine [optional] Command-line
-     * @param Exception|null $previous    [optional] The previous exception used for the exception chaining. Since 5.3.0
+     * @param string         $message     The Exception message to throw.
+     * @param int            $code        The Exception code.
+     * @param string         $commandLine Command-line string
+     * @param Exception|null $previous    The previous exception used for the exception chaining. Since 5.3.0
      */
-    public function __construct($message = '', $code = 0, $commandLine = null, Exception $previous = null)
+    public function __construct(string $message = '', int $code = 0, string $commandLine = '', Exception $previous = null)
     {
         parent::__construct($message, $code, $previous);
 
@@ -38,9 +38,9 @@ class GitException extends RuntimeException
     }
 
     /**
-     * @return null|string
+     * @return string
      */
-    public function getCommandLine(): ?string
+    public function getCommandLine(): string
     {
         return $this->commandLine;
     }

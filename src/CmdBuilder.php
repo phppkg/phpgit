@@ -49,6 +49,11 @@ class CmdBuilder
     protected $printCmd = true;
 
     /**
+     * @var bool
+     */
+    protected $quietRun = false;
+
+    /**
      * git command. eg: clone, fetch
      *
      * @var string
@@ -190,11 +195,18 @@ class CmdBuilder
 
         // start and wait
         $proc->run();
-        // $process->run(null, ['MY_VAR' => $theValue]]);
+        // $process->run(null, ['MY_VAR' => $theValue]]); // with env vars.
 
+        $this->code = (int)$proc->getExitCode();
+
+        // on error
         if (!$proc->isSuccessful()) {
-            $errMsg = $proc->getErrorOutput() ?: $proc->getOutput();
-            throw new GitException("Git Error: $errMsg", $proc->getExitCode(), $cmdLine);
+            $this->error = trim($proc->getErrorOutput());
+
+            if (!$this->isQuietRun()) {
+                $errMsg = $this->error ?: $proc->getOutput();
+                throw new GitException('Git Error: ' . trim($errMsg), $this->code, $cmdLine);
+            }
         }
 
         $output = $proc->getOutput();
@@ -404,5 +416,24 @@ class CmdBuilder
     public function getOutput(): string
     {
         return $this->output;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isQuietRun(): bool
+    {
+        return $this->quietRun;
+    }
+
+    /**
+     * @param bool $quietRun
+     *
+     * @return self
+     */
+    public function setQuietRun(bool $quietRun): self
+    {
+        $this->quietRun = $quietRun;
+        return $this;
     }
 }

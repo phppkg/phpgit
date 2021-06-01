@@ -179,6 +179,9 @@ class Git
     /** @var string The git repo dir path. */
     private $directory;
 
+    /** @var bool see CmdBuilder.quietRun */
+    private $quietRun = false;
+
     /** @var bool see CmdBuilder.printCmd */
     private $printCmd = true;
 
@@ -213,30 +216,31 @@ class Git
     }
 
     /**
-     * @param string $cmd
+     * @param string $subCmd The git sub command
      * @param mixed  ...$args
      *
      * @return CmdBuilder
      */
-    public function newCmd(string $cmd, string ...$args): CmdBuilder
+    public function newCmd(string $subCmd, string ...$args): CmdBuilder
     {
-        return $this->getCommandBuilder($cmd, ...$args);
+        return $this->getCommandBuilder($subCmd, ...$args);
     }
 
     /**
      * Returns an instance of ProcessBuilder
      *
-     * @param string   $command
+     * @param string   $subCmd
      * @param string[] ...$args
      *
      * @return CmdBuilder
      */
-    public function getCommandBuilder(string $command = '', ...$args): CmdBuilder
+    public function getCommandBuilder(string $subCmd = '', ...$args): CmdBuilder
     {
-        return CmdBuilder::create($command, ...$args)
+        return CmdBuilder::create($subCmd, ...$args)
             ->setBin($this->bin)
             ->setWorkDir($this->directory)
             ->setTimeout($this->timeout)
+            ->setQuietRun($this->quietRun)
             ->setPrintCmd($this->printCmd);
     }
 
@@ -254,13 +258,22 @@ class Git
     }
 
     /**
+     * Get last tag name
+     *
+     * @param bool $refresh
+     *
      * @return string
      */
-    public function getLastTag(): string
+    public function getLastTagName(bool $refresh = false): string
     {
+        if ($refresh) {
+            $this->newCmd('fetch', '--tags')->run();
+        }
+
         // git for-each-ref refs/tags --sort=-taggerdate --format='%(refname)' --count=1
         // git for-each-ref refs/tags --sort=-committerdate --format '%(refname) %(objectname)'
         $cmdLine = 'git describe --abbrev=0 --tags';
+        // $cmdLine = 'git describe --tags $(git rev-list --tags --max-count=1)';
 
         return $this->runCmdLine($cmdLine, true);
     }
@@ -405,4 +418,23 @@ class Git
         $this->printCmd = $printCmd;
         return $this;
     }
+
+    /**
+     * @return bool
+     */
+    public function isQuietRun(): bool
+    {
+        return $this->quietRun;
+    }
+
+    /**
+     * @param bool $quietRun
+     *
+     * @return Git
+     */
+    public function setQuietRun(bool $quietRun): Git
+    {
+        $this->quietRun = $quietRun;
+        return $this;
+}
 }
