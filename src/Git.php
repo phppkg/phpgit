@@ -129,8 +129,8 @@ class Git
     public const PROTO_SSH  = 'ssh';
     public const PROTO_HTTP = 'http';
 
-    public const URL_GIT  = 'git';
-    public const URL_HTTP = 'http';
+    public const URL_GIT   = 'git';
+    public const URL_HTTP  = 'http';
     public const URL_HTTPS = 'https';
 
     public const GITHUB_HOST = 'github.com';
@@ -178,6 +178,9 @@ class Git
 
     /** @var string The git repo dir path. */
     private $directory;
+
+    /** @var bool see CmdBuilder.printCmd */
+    private $printCmd = true;
 
     /**
      * @param string $repoDir
@@ -231,9 +234,10 @@ class Git
     public function getCommandBuilder(string $command = '', ...$args): CmdBuilder
     {
         return CmdBuilder::create($command, ...$args)
-                         ->setBin($this->bin)
-                         ->setWorkDir($this->directory)
-                         ->setTimeout( $this->timeout);
+            ->setBin($this->bin)
+            ->setWorkDir($this->directory)
+            ->setTimeout($this->timeout)
+            ->setPrintCmd($this->printCmd);
     }
 
     /**
@@ -257,6 +261,17 @@ class Git
         // git for-each-ref refs/tags --sort=-taggerdate --format='%(refname)' --count=1
         // git for-each-ref refs/tags --sort=-committerdate --format '%(refname) %(objectname)'
         $cmdLine = 'git describe --abbrev=0 --tags';
+
+        return $this->runCmdLine($cmdLine, true);
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastCommit(): string
+    {
+        // latest commit id by: git log --pretty="%h %s" -n1 HEAD
+        $cmdLine = 'git log --pretty="%h %s" -n1 HEAD';
 
         return $this->runCmdLine($cmdLine, true);
     }
@@ -300,10 +315,9 @@ class Git
      *
      * @return Git
      */
-    public function setBin($bin): Git
+    public function setBin(string $bin): Git
     {
         $this->bin = $bin;
-
         return $this;
     }
 
@@ -317,7 +331,6 @@ class Git
     public function setRepository(string $directory): Git
     {
         $this->directory = $directory;
-
         return $this;
     }
 
@@ -331,7 +344,6 @@ class Git
     public function setRepoDir(string $directory): Git
     {
         $this->directory = $directory;
-
         return $this;
     }
 
@@ -372,6 +384,25 @@ class Git
     public function setTimeout(int $timeout): Git
     {
         $this->timeout = $timeout;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPrintCmd(): bool
+    {
+        return $this->printCmd;
+    }
+
+    /**
+     * @param bool $printCmd
+     *
+     * @return Git
+     */
+    public function setPrintCmd(bool $printCmd): Git
+    {
+        $this->printCmd = $printCmd;
         return $this;
     }
 }

@@ -182,7 +182,9 @@ class CmdBuilder
     public function run(bool $trimOutput = false): string
     {
         $cmdLine = $this->getCommandLine();
-        Color::println("> $cmdLine", 'ylw');
+        if ($this->printCmd) {
+            Color::println("> $cmdLine", 'ylw');
+        }
 
         $process = $this->createProcess();
 

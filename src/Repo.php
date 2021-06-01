@@ -77,6 +77,11 @@ class Repo
     private $currentBranch;
 
     /**
+     * @var string 'commitId message'
+     */
+    private $lastCommit;
+
+    /**
      * @var string
      */
     private $lastCommitId;
@@ -159,7 +164,7 @@ class Repo
     public function getRemoteInfo(string $name = '', string $type = 'fetch'): RemoteInfo
     {
         $name = $name ?: $this->defaultRemote;
-        $key = $name . '.' . $type;
+        $key  = $name . '.' . $type;
         if (isset($this->remoteInfos[$key])) {
             return $this->remoteInfos[$key];
         }
@@ -245,14 +250,17 @@ class Repo
     }
 
     /**
+     * @param bool $refresh
+     *
      * @return string
      */
-    public function getLastTagName(): string
+    public function getLastTagName(bool $refresh = false): string
     {
         $git = $this->ensureGit();
 
-        $cmdLine = 'git fetch --tags';
-        $git->runCmdLine($cmdLine);
+        if ($refresh) {
+            $git->runCmdLine('git fetch --tags');
+        }
 
         // $cmdLine = 'git describe --tags $(git rev-list --tags --max-count=1)';
         $cmdLine = 'git describe --abbrev=0 --tags';
@@ -274,6 +282,22 @@ class Repo
         $this->currentBranch = $this->ensureGit()->getCurrentBranch();
 
         return $this->currentBranch;
+    }
+
+    /**
+     * @param bool $refresh
+     *
+     * @return string
+     */
+    public function getLastCommit(bool $refresh = false): string
+    {
+        if (false === $refresh && null !== $this->lastCommit) {
+            return $this->lastCommit;
+        }
+
+        $this->lastCommit = $this->ensureGit()->getLastCommit();
+
+        return $this->lastCommit;
     }
 
     /**
@@ -316,7 +340,7 @@ class Repo
             } elseif (strpos($file, 'D ') === 0) {
                 yield substr($file, 3);
 
-              // new files
+                // new files
             } elseif (strpos($file, '?? ') === 0) {
                 yield substr($file, 3);
             }
@@ -324,9 +348,11 @@ class Repo
     }
 
     /**
+     * @param bool $refresh
+     *
      * @return string[]
      */
-    public function getInfo(): array
+    public function getInfo(bool $refresh = false): array
     {
         $remoteUrls = [];
         foreach ($this->getRemotes() as $name => $urls) {
@@ -334,13 +360,13 @@ class Repo
         }
 
         $repoInfo = [
-            'platformName' => $this->getPlatform(),
-            'currentBranch' => $this->getCurrentBranch(),
-            'lastCommitId'  => $this->getLastCommitId(),
+            'platformName'  => $this->getPlatform(),
+            'currentBranch' => $this->getCurrentBranch($refresh),
+            'lastCommit'    => $this->getLastCommit($refresh),
             'remoteList'    => $remoteUrls,
         ];
 
-        if ($tagName = $this->getLastTagName()) {
+        if ($tagName = $this->getLastTagName($refresh)) {
             $repoInfo['lastTagName'] = $tagName;
         }
 
@@ -384,6 +410,14 @@ class Repo
     public function getGit(): Git
     {
         return $this->ensureGit();
+    }
+
+    /**
+     * @param bool $printCmd
+     */
+    public function setPrintCmd(bool $printCmd): void
+    {
+        $this->ensureGit()->setPrintCmd($printCmd);
     }
 
     /**
