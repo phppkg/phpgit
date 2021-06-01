@@ -39,6 +39,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          git version
           composer install --no-progress
 #          composer require phpunit/phpunit ^8.0 --no-progress # default
 
@@ -46,4 +47,4 @@ jobs:
       # Docs: https://getcomposer.org/doc/articles/scripts.md
 
       - name: Run test suite
-        run: phpunit -v # vendor/bin/phpunit -v
+        run: phpunit -vv # vendor/bin/phpunit -v

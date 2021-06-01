@@ -193,7 +193,8 @@ class CmdBuilder
         // $process->run(null, ['MY_VAR' => $theValue]]);
 
         if (!$proc->isSuccessful()) {
-            throw new GitException('GIT error:' . $proc->getErrorOutput(), $proc->getExitCode(), $cmdLine);
+            $errMsg = $proc->getErrorOutput() ?: $proc->getOutput();
+            throw new GitException("Git Error: $errMsg", $proc->getExitCode(), $cmdLine);
         }
 
         $output = $proc->getOutput();
