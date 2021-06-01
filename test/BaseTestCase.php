@@ -25,13 +25,16 @@ abstract class BaseTestCase extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        $g = Git::new();
+        $git = Git::new();
+        $opt = [
+            'global' => true,
+        ];
 
         //  git config --global user.email "you@example.com"
         //  git config --global user.name "Your Name"
-        if (!$g->config->get('user.name')) {
-            $g->config->set('user.name', 'inhere');
-            $g->config->set('user.email', 'in.798@qq.com');
+        if (!$git->config->get('user.name', $opt)) {
+            $git->config->set('user.name', 'inhere', $opt);
+            $git->config->set('user.email', 'in.798@qq.com', $opt);
         }
     }
 

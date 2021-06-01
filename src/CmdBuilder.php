@@ -186,17 +186,17 @@ class CmdBuilder
             Color::println("> $cmdLine", 'ylw');
         }
 
-        $process = $this->createProcess();
+        $proc = $this->createProcess();
 
         // start and wait
-        $process->run();
+        $proc->run();
         // $process->run(null, ['MY_VAR' => $theValue]]);
 
-        if (!$process->isSuccessful()) {
-            throw new GitException($process->getErrorOutput(), $process->getExitCode(), $cmdLine);
+        if (!$proc->isSuccessful()) {
+            throw new GitException('GIT error:' . $proc->getErrorOutput(), $proc->getExitCode(), $cmdLine);
         }
 
-        $output = $process->getOutput();
+        $output = $proc->getOutput();
         $output = $trimOutput ? trim($output) : $output;
 
         $this->output = $output;
