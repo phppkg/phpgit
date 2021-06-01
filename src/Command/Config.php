@@ -72,10 +72,10 @@ class Config extends AbstractCommand
     public function getNames(array $options = []): array
     {
         $options = $this->resolve($options);
-        $builder = $this->getCommandBuilder()->add('--list', '--name-only');
+        $builder = $this->getCommandBuilder();
         $this->addFlags($builder, $options, ['global', 'system']);
 
-        $output = $this->run($builder);
+        $output = $builder->add('--list', '--name-only')->run();
         return $this->split($output, true);
     }
 
@@ -103,10 +103,10 @@ class Config extends AbstractCommand
     {
         // eg: git config --global --get user.name
         $options = $this->resolve($options);
-        $builder = $this->getCommandBuilder()->add('--get', $key);
+        $builder = $this->getCommandBuilder();
         $this->addFlags($builder, $options, ['global', 'system']);
 
-        return $builder->run(true);
+        return $builder->add('--get', $key)->run(true);
     }
 
     /**
