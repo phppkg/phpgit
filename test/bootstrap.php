@@ -20,7 +20,7 @@ spl_autoload_register(static function ($class): void {
         $file = dirname(__DIR__) . "/example/{$path}.php";
     } elseif (0 === strpos($class, 'PhpGitTest\\')) {
         $path = str_replace('\\', '/', substr($class, strlen('PhpGitTest\\')));
-        $file = __DIR__ . "/{$path}.php";
+        $file = __DIR__ . "/$path.php";
     } elseif (0 === strpos($class, 'PhpGit\\')) {
         $path = str_replace('\\', '/', substr($class, strlen('PhpGit\\')));
         $file = dirname(__DIR__) . "/src/{$path}.php";

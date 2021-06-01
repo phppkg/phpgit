@@ -9,6 +9,7 @@
 
 // namespace PhpGitTest;
 
+use PhpGit\Git;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -21,6 +22,18 @@ abstract class BaseTestCase extends TestCase
      * @var string
      */
     protected $directory;
+
+    public static function setUpBeforeClass(): void
+    {
+        $g = Git::new();
+
+        //  git config --global user.email "you@example.com"
+        //  git config --global user.name "Your Name"
+        if (!$g->config->get('user.name')) {
+            $g->config->set('user.name', 'inhere');
+            $g->config->set('user.email', 'in.798@qq.com');
+        }
+    }
 
     /**
      * {@inheritdoc}

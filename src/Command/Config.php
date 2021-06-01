@@ -23,7 +23,6 @@ class Config extends AbstractCommand
     /**
      * Returns all variables set in config file
      *
-     *
      * ##### Options
      *
      * - **global** (_boolean_) Read or write configuration options for the current user
@@ -34,7 +33,7 @@ class Config extends AbstractCommand
      * @return array
      * @throws GitException
      */
-    public function __invoke(array $options = [])
+    public function __invoke(array $options = []): array
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder()->add('--list')->add('--null');
@@ -59,6 +58,58 @@ class Config extends AbstractCommand
     }
 
     /**
+     * Get all config var names
+     *
+     * ##### Options
+     *
+     * - **global** (_boolean_) Read or write configuration options for the current user
+     * - **system** (_boolean_) Read or write configuration options for all users on the current machine
+     *
+     * @param array $options
+     *
+     * @return array
+     */
+    public function getNames(array $options = []): array
+    {
+        $options = $this->resolve($options);
+        $builder = $this->getCommandBuilder()->add('--list', '--name-only');
+        $this->addFlags($builder, $options, ['global', 'system']);
+
+        $output = $this->run($builder);
+        return $this->split($output, true);
+    }
+
+    /**
+     * Get config value by name
+     *
+     * #### Example
+     *
+     * ```php
+     * $git->config->get('user.name')
+     * $git->config->get('user.email')
+     * ```
+     *
+     * ##### Options
+     *
+     * - **global** (_boolean_) Read or write configuration options for the current user
+     * - **system** (_boolean_) Read or write configuration options for all users on the current machine
+     *
+     * @param string $key config name.
+     * @param array  $options
+     *
+     * @return string
+     */
+    public function get(string $key, array $options = []): string
+    {
+        // eg: git config --global --get user.name
+        $options = $this->resolve($options);
+        $builder = $this->getCommandBuilder()->add('--get', $key);
+        $this->addFlags($builder, $options, ['global', 'system']);
+
+        return $builder->run(true);
+    }
+
+    /**
      * Set an option
      *
      * ##### Options
@@ -73,7 +124,7 @@ class Config extends AbstractCommand
      * @return bool
      * @throws GitException
      */
-    public function set($name, $value, array $options = []): bool
+    public function set(string $name, string $value, array $options = []): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder();
@@ -102,7 +153,7 @@ class Config extends AbstractCommand
      * @return bool
      * @throws GitException
      */
-    public function add($name, $value, array $options = []): bool
+    public function add(string $name, string $value, array $options = []): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder();

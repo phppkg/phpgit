@@ -9,9 +9,8 @@
 
 use PhpGit\Exception\GitException;
 use PhpGit\Git;
-use PHPUnit\Framework\TestCase;
 
-class GitTest extends TestCase
+class GitTest extends BaseTestCase
 {
     public function testGetVersion(): void
     {
