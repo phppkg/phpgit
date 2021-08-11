@@ -135,23 +135,23 @@
         },
         {
             "name": "toolkit/cli-utils",
-            "version": "v1.2.5",
+            "version": "v1.2.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-toolkit/cli-utils.git",
-                "reference": "481c31b86187a57d3b7b60a834be386be6cdddff"
+                "reference": "909008ec32b33c6b248adb700f060ac27b588794"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-toolkit/cli-utils/zipball/481c31b86187a57d3b7b60a834be386be6cdddff",
-                "reference": "481c31b86187a57d3b7b60a834be386be6cdddff",
+                "url": "https://api.github.com/repos/php-toolkit/cli-utils/zipball/909008ec32b33c6b248adb700f060ac27b588794",
+                "reference": "909008ec32b33c6b248adb700f060ac27b588794",
                 "shasum": ""
             },
             "require": {
                 "php": ">7.1.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^7.5"
+                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.5"
             },
             "suggest": {
                 "inhere/console": "a lightweight php console application library."
@@ -170,7 +170,7 @@
                 {
                     "name": "inhere",
                     "email": "in.798@qq.com",
-                    "homepage": "http://www.yzone.net/"
+                    "homepage": "http://github.com/inhere"
                 }
             ],
             "description": "useful cli tool library of the php",
@@ -184,9 +184,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-toolkit/cli-utils/issues",
-                "source": "https://github.com/php-toolkit/cli-utils/tree/v1.2.5"
+                "source": "https://github.com/php-toolkit/cli-utils/tree/v1.2.10"
             },
-            "time": "2021-05-09T03:17:57+00:00"
+            "time": "2021-08-06T14:39:02+00:00"
         },
         {
             "name": "toolkit/stdlib",
