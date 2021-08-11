@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: [7.3]
+        php: [7.4]
 
     steps:
       - name: Checkout
@@ -24,6 +24,13 @@ jobs:
         run: |
           echo "RELEASE_TAG=${GITHUB_REF:10}" >> $GITHUB_ENV
           echo "RELEASE_NAME=$GITHUB_WORKFLOW" >> $GITHUB_ENV
+
+      # TODO
+#      - name: Generate changelog file
+#        uses: inherelab/action-changelog@main
+#        with:
+#          - config_file: .github/chlog-rules.yml
+#          - output_file: changelog.md
 
       - uses: meeDamian/github-release@2.0
         with:
