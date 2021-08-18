@@ -48,7 +48,7 @@ class Shortlog extends AbstractCommand
      * @return array
      * @throws Exception
      */
-    public function __invoke($commits = 'HEAD')
+    public function __invoke($commits = 'HEAD'): array
     {
         $builder = $this->getCommandBuilder()
             ->add('--numbered')

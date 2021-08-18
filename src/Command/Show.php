@@ -38,7 +38,7 @@ class Show extends AbstractCommand
      *
      * @return string
      */
-    public function __invoke($object, array $options = [])
+    public function __invoke(string $object, array $options = []): string
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder();
@@ -67,8 +67,6 @@ class Show extends AbstractCommand
             'abbrev-commit' => false
         ]);
 
-        $resolver->setAllowedTypes([
-            'format' => ['null', 'string'],
-        ]);
+        $resolver->setAllowedTypes('format', ['null', 'string']);
     }
 }

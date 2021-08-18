@@ -48,7 +48,7 @@ class Branch extends AbstractCommand
      * @return array
      * @throws GitException
      */
-    public function __invoke(array $options = [])
+    public function __invoke(array $options = []): array
     {
         return $this->getList($options);
     }
@@ -184,7 +184,7 @@ class Branch extends AbstractCommand
      * @return bool
      * @throws GitException
      */
-    public function move(string $branch, $newBranch, array $options = []): bool
+    public function move(string $branch, string $newBranch, array $options = []): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder();

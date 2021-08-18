@@ -41,7 +41,7 @@ class Archive extends AbstractCommand
      *
      * @return bool
      */
-    public function __invoke($file, $tree = null, $path = null, array $options = [])
+    public function __invoke(string $file, $tree = null, $path = null, array $options = []): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder();

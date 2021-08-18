@@ -230,7 +230,7 @@ class Git
      * Returns an instance of ProcessBuilder
      *
      * @param string   $subCmd
-     * @param string[] ...$args
+     * @param mixed ...$args
      *
      * @return CmdBuilder
      */

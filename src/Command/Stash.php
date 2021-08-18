@@ -29,7 +29,7 @@ class Stash extends AbstractCommand
      *
      * @return bool
      */
-    public function __invoke()
+    public function __invoke(): bool
     {
         $builder = $this->getCommandBuilder();
 
@@ -47,12 +47,12 @@ class Stash extends AbstractCommand
      * $git->stash->save('My stash');
      * ```
      *
-     * @param string  $message [optional] The description along with the stashed state
-     * @param array $options [optional] An array of options {@see Stash::setDefaultOptions}
+     * @param string $message [optional] The description along with the stashed state
+     * @param array  $options [optional] An array of options {@see Stash::setDefaultOptions}
      *
      * @return bool
      */
-    public function save($message = '', array $options = []): bool
+    public function save(string $message = '', array $options = []): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder()->add('save');
@@ -170,12 +170,12 @@ class Stash extends AbstractCommand
      * $git->stash->pop('stash@{0}');
      * ```
      *
-     * @param string|null $stash   The stash to pop
-     * @param array       $options [optional] An array of options {@see Stash::setDefaultOptions}
+     * @param string $stash   The stash to pop
+     * @param array  $options [optional] An array of options {@see Stash::setDefaultOptions}
      *
      * @return bool
      */
-    public function pop(string $stash = null, array $options = []): bool
+    public function pop(string $stash = '', array $options = []): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder()->add('pop');
@@ -200,12 +200,12 @@ class Stash extends AbstractCommand
      * $git->stash->apply('stash@{0}');
      * ```
      *
-     * @param string|null $stash   The stash to apply
-     * @param array       $options [optional] An array of options {@see Stash::setDefaultOptions}
+     * @param string $stash   The stash to apply
+     * @param array  $options [optional] An array of options {@see Stash::setDefaultOptions}
      *
      * @return bool
      */
-    public function apply(string $stash = null, array $options = []): bool
+    public function apply(string $stash = '', array $options = []): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder()->add('apply');
@@ -231,11 +231,11 @@ class Stash extends AbstractCommand
      * ```
      *
      * @param string      $name  The name of the branch
-     * @param string|null $stash The stash
+     * @param string $stash The stash
      *
      * @return bool
      */
-    public function branch(string $name, string $stash = null): bool
+    public function branch(string $name, string $stash = ''): bool
     {
         $builder = $this->getCommandBuilder()
             ->add('branch')

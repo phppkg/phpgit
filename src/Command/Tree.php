@@ -43,7 +43,7 @@ class Tree extends AbstractCommand
      *
      * @return array
      */
-    public function __invoke(string $branch = 'master', string $path = '')
+    public function __invoke(string $branch = 'master', string $path = ''): array
     {
         $objects = [];
         $builder = $this->getCommandBuilder();

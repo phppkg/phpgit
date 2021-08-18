@@ -40,7 +40,7 @@ class Checkout extends AbstractCommand
      * @return bool
      * @throws GitException
      */
-    public function __invoke($branch, array $options = [])
+    public function __invoke(string $branch, array $options = []): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder();
@@ -73,7 +73,7 @@ class Checkout extends AbstractCommand
      *
      * @return bool
      */
-    public function create($branch, $startPoint = null, array $options = []): bool
+    public function create(string $branch, $startPoint = null, array $options = []): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder('-b');
@@ -110,7 +110,7 @@ class Checkout extends AbstractCommand
      *
      * @return bool
      */
-    public function orphan($branch, $startPoint = null, array $options = []): bool
+    public function orphan(string $branch, $startPoint = null, array $options = []): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder();

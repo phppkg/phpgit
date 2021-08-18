@@ -108,7 +108,7 @@ abstract class AbstractCommand
     }
 
     /**
-     * @param string ...$args
+     * @param mixed ...$args
      *
      * @return CmdBuilder
      */

@@ -34,11 +34,11 @@ class SetHead extends AbstractCommand
      * ```
      *
      * @param string $name   The remote name
-     * @param null   $branch [optional] The symbolic-ref to set
+     * @param string $branch [optional] The symbolic-ref to set
      *
      * @return bool
      */
-    public function __invoke($name, $branch = null)
+    public function __invoke(string $name, string $branch = ''): bool
     {
         return $this->set($name, $branch);
     }

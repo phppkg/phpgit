@@ -47,7 +47,7 @@ class Describe extends AbstractCommand
      *
      * @return string
      */
-    public function __invoke($committish = null, array $options = [])
+    public function __invoke($committish = null, array $options = []): string
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder();

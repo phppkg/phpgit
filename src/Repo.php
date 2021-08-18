@@ -233,7 +233,7 @@ class Repo
     {
         $this->getRemotes();
 
-        return !isset($remotes[$name]);
+        return isset($remotes[$name]);
     }
 
     protected function loadDefaultRemoteInfo(): void

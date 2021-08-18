@@ -46,7 +46,7 @@ class GitClone extends AbstractCommand
      *
      * @return bool
      */
-    public function __invoke($repository, $path = null, array $options = [])
+    public function __invoke(string $repository, $path = null, array $options = []): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder()->add('--quiet');

@@ -38,7 +38,7 @@ class SetBranches extends AbstractCommand
      *
      * @return bool
      */
-    public function __invoke($name, array $branches)
+    public function __invoke(string $name, array $branches): bool
     {
         return $this->set($name, $branches);
     }
@@ -58,7 +58,7 @@ class SetBranches extends AbstractCommand
      *
      * @return bool
      */
-    public function set($name, array $branches): bool
+    public function set(string $name, array $branches): bool
     {
         $builder = $this->getCommandBuilder()
             ->add('set-branches')
@@ -88,7 +88,7 @@ class SetBranches extends AbstractCommand
      *
      * @return bool
      */
-    public function add($name, array $branches): bool
+    public function add(string $name, array $branches): bool
     {
         $builder = $this->getCommandBuilder()
             ->add('set-branches')

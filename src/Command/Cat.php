@@ -39,7 +39,7 @@ class Cat extends AbstractCommand
      * @return string
      * @throws GitException
      */
-    public function blob($object): string
+    public function blob(string $object): string
     {
         $builder = $this->getCommandBuilder()
             ->add('blob')
@@ -62,7 +62,7 @@ class Cat extends AbstractCommand
      * @return string
      * @throws GitException
      */
-    public function type($object): string
+    public function type(string $object): string
     {
         $builder = $this->getCommandBuilder()
             ->add('-t')
@@ -85,7 +85,7 @@ class Cat extends AbstractCommand
      * @return string
      * @throws GitException
      */
-    public function size($object): string
+    public function size(string $object): string
     {
         $builder = $this->getCommandBuilder()
             ->add('-s')

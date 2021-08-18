@@ -47,7 +47,7 @@ class Commit extends AbstractCommand
      * @return bool
      * @throws GitException
      */
-    public function __invoke($message, array $options = [])
+    public function __invoke(string $message, array $options = []): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder();

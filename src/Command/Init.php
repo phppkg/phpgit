@@ -40,7 +40,7 @@ class Init extends AbstractCommand
      * @return bool
      * @throws GitException
      */
-    public function __invoke($path, array $options = [])
+    public function __invoke(string $path, array $options = []): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder();

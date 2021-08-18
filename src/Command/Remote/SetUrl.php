@@ -40,12 +40,12 @@ class SetUrl extends AbstractCommand
      *
      * @param string $name    The name of remote
      * @param string $newUrl  The new URL
-     * @param null   $oldUrl  [optional] The old URL
+     * @param string $oldUrl  [optional] The old URL
      * @param array  $options [optional] An array of options {@see SetUrl::setDefaultOptions}
      *
      * @return bool
      */
-    public function __invoke(string $name, $newUrl, $oldUrl = null, array $options = [])
+    public function __invoke(string $name, string $newUrl, string $oldUrl = '', array $options = []): bool
     {
         return $this->set($name, $newUrl, $oldUrl, $options);
     }
@@ -66,12 +66,12 @@ class SetUrl extends AbstractCommand
      *
      * @param string $name    The name of remote
      * @param string $newUrl  The new URL
-     * @param null   $oldUrl  [optional] The old URL
+     * @param string $oldUrl  [optional] The old URL
      * @param array  $options [optional] An array of options {@see SetUrl::setDefaultOptions}
      *
      * @return bool
      */
-    public function set(string $name, $newUrl, $oldUrl = null, array $options = []): bool
+    public function set(string $name, string $newUrl, string $oldUrl = '', array $options = []): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder()
@@ -110,7 +110,7 @@ class SetUrl extends AbstractCommand
      *
      * @return bool
      */
-    public function add($name, $newUrl, array $options = []): bool
+    public function add(string $name, string $newUrl, array $options = []): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder()
@@ -146,7 +146,7 @@ class SetUrl extends AbstractCommand
      *
      * @return bool
      */
-    public function delete($name, $url, array $options = []): bool
+    public function delete(string $name, string $url, array $options = []): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder()

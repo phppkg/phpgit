@@ -40,7 +40,7 @@ class Mv extends AbstractCommand
      *
      * @return bool
      */
-    public function __invoke($source, $destination, array $options = [])
+    public function __invoke($source, string $destination, array $options = []): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder();

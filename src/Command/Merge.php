@@ -45,7 +45,7 @@ class Merge extends AbstractCommand
      *
      * @return bool
      */
-    public function __invoke($commit, $message = null, array $options = [])
+    public function __invoke($commit, $message = null, array $options = []): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder();

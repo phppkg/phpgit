@@ -35,7 +35,7 @@ class Reset extends AbstractCommand
      *
      * @return bool
      */
-    public function __invoke($paths, $commit = null)
+    public function __invoke($paths, $commit = null): bool
     {
         $builder = $this->getCommandBuilder();
 

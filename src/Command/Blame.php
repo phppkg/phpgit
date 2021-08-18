@@ -147,7 +147,7 @@ class Blame extends AbstractCommand
      *
      * @return array
      */
-    public function __invoke(string $file, string $hash = null)
+    public function __invoke(string $file, string $hash = null): array
     {
         // $blameLines = array();
         $builder = $this->getCommandBuilder()

@@ -25,7 +25,7 @@ use function preg_match;
  *
  * @method head($name, $branch)                                     Sets the default branch for the named remote
  * @method branches($name, $branches)                               Changes the list of branches tracked by the named remote
- * @method url($name, $newUrl, $oldUrl = null, $options = []) Sets the URL remote to $newUrl
+ * @method url($name, $newUrl, $oldUrl = null, $options = [])       Sets the URL remote to $newUrl
  */
 class Remote extends AbstractCommand
 {
@@ -91,7 +91,7 @@ class Remote extends AbstractCommand
      *
      * @return array
      */
-    public function __invoke(bool $refresh = false)
+    public function __invoke(bool $refresh = false): array
     {
         return $this->getList($refresh);
     }
@@ -117,7 +117,7 @@ class Remote extends AbstractCommand
      *
      * @return bool
      */
-    public function add($name, $url, array $options = []): bool
+    public function add(string $name, string $url, array $options = []): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder()->add('add');
@@ -146,7 +146,7 @@ class Remote extends AbstractCommand
      *
      * @return bool
      */
-    public function rename($name, $newName): bool
+    public function rename(string $name, string $newName): bool
     {
         $builder = $this->getCommandBuilder()
             ->add('rename')
@@ -172,7 +172,7 @@ class Remote extends AbstractCommand
      *
      * @return bool
      */
-    public function rm($name): bool
+    public function rm(string $name): bool
     {
         $builder = $this->getCommandBuilder()
             ->add('rm')
@@ -212,11 +212,9 @@ class Remote extends AbstractCommand
      *
      * @return string
      */
-    public function show($name): string
+    public function show(string $name): string
     {
-        $builder = $this->getCommandBuilder()
-            ->add('show')
-            ->add($name);
+        $builder = $this->getCommandBuilder()->add('show')->add($name);
 
         return $this->run($builder);
     }
@@ -230,11 +228,11 @@ class Remote extends AbstractCommand
      * $git->remote->prune('origin');
      * ```
      *
-     * @param null $name The remote name
+     * @param string $name The remote name
      *
      * @return bool
      */
-    public function prune($name = null): bool
+    public function prune(string $name = ''): bool
     {
         $builder = $this->getCommandBuilder()
             ->add('prune');

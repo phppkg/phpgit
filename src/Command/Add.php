@@ -42,7 +42,7 @@ class Add extends AbstractCommand
      * @return bool
      * @throws GitException
      */
-    public function __invoke($file, array $options = [])
+    public function __invoke($file, array $options = []): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder();

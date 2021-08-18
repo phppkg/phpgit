@@ -56,7 +56,7 @@ class Log extends AbstractCommand
      *
      * @return array
      */
-    public function __invoke($revRange = '', $path = null, array $options = [])
+    public function __invoke(string $revRange = '', $path = null, array $options = []): array
     {
         $commits = [];
         $options = $this->resolve($options);

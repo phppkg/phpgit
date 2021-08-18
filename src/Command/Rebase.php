@@ -41,7 +41,7 @@ class Rebase extends AbstractCommand
      *
      * @return bool
      */
-    public function __invoke($upstream = null, $branch = null, array $options = [])
+    public function __invoke($upstream = null, $branch = null, array $options = []): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder();
@@ -120,8 +120,6 @@ class Rebase extends AbstractCommand
             'force-rebase' => false
         ]);
 
-        $resolver->setAllowedTypes([
-            'onto' => ['null', 'string']
-        ]);
+        $resolver->setAllowedTypes('onto', ['null', 'string']);
     }
 }

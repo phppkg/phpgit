@@ -40,7 +40,7 @@ class Rm extends AbstractCommand
      *
      * @return bool
      */
-    public function __invoke($file, array $options = [])
+    public function __invoke($file, array $options = []): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder();

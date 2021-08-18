@@ -34,7 +34,7 @@ class Push extends AbstractCommand
      *
      * @return bool
      */
-    public function __invoke($repository = null, $refspec = null, array $options = [])
+    public function __invoke($repository = null, $refspec = null, array $options = []): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder();
