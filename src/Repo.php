@@ -231,9 +231,7 @@ class Repo
      */
     public function hasRemote(string $name): bool
     {
-        $this->getRemotes();
-
-        return isset($remotes[$name]);
+        return isset($this->getRemotes()[$name]);
     }
 
     protected function loadDefaultRemoteInfo(): void
