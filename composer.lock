@@ -220,16 +220,16 @@
         },
         {
             "name": "toolkit/cli-utils",
-            "version": "v1.2.10",
+            "version": "v1.2.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-toolkit/cli-utils.git",
-                "reference": "909008ec32b33c6b248adb700f060ac27b588794"
+                "reference": "a134fba16df00a56b4b255c3bc0313dbb7271898"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-toolkit/cli-utils/zipball/909008ec32b33c6b248adb700f060ac27b588794",
-                "reference": "909008ec32b33c6b248adb700f060ac27b588794",
+                "url": "https://api.github.com/repos/php-toolkit/cli-utils/zipball/a134fba16df00a56b4b255c3bc0313dbb7271898",
+                "reference": "a134fba16df00a56b4b255c3bc0313dbb7271898",
                 "shasum": ""
             },
             "require": {
@@ -269,9 +269,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-toolkit/cli-utils/issues",
-                "source": "https://github.com/php-toolkit/cli-utils/tree/v1.2.10"
+                "source": "https://github.com/php-toolkit/cli-utils/tree/v1.2.12"
             },
-            "time": "2021-08-06T14:39:02+00:00"
+            "time": "2021-08-25T04:31:30+00:00"
         },
         {
             "name": "toolkit/stdlib",
