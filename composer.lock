@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7dd6fb8f9ca628c388471646fcfe0b0f",
+    "content-hash": "9631ce56534a4af6f7e774e3b1fc1be3",
     "packages": [
         {
             "name": "symfony/options-resolver",
@@ -220,22 +220,24 @@
         },
         {
             "name": "toolkit/cli-utils",
-            "version": "v1.2.12",
+            "version": "v1.2.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-toolkit/cli-utils.git",
-                "reference": "a134fba16df00a56b4b255c3bc0313dbb7271898"
+                "reference": "8e716ecfab6cbd9c4bf323e9532e7d441615e302"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-toolkit/cli-utils/zipball/a134fba16df00a56b4b255c3bc0313dbb7271898",
-                "reference": "a134fba16df00a56b4b255c3bc0313dbb7271898",
+                "url": "https://api.github.com/repos/php-toolkit/cli-utils/zipball/8e716ecfab6cbd9c4bf323e9532e7d441615e302",
+                "reference": "8e716ecfab6cbd9c4bf323e9532e7d441615e302",
                 "shasum": ""
             },
             "require": {
                 "php": ">7.1.0"
             },
             "require-dev": {
+                "ext-posix": "*",
+                "ext-readline": "*",
                 "phpunit/phpunit": "^7.5 || ^8.5 || ^9.5"
             },
             "suggest": {
@@ -269,9 +271,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-toolkit/cli-utils/issues",
-                "source": "https://github.com/php-toolkit/cli-utils/tree/v1.2.12"
+                "source": "https://github.com/php-toolkit/cli-utils/tree/v1.2.13"
             },
-            "time": "2021-08-25T04:31:30+00:00"
+            "time": "2021-09-14T13:22:09+00:00"
         },
         {
             "name": "toolkit/stdlib",
