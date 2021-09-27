@@ -3,7 +3,7 @@
  * phpGit - A Git wrapper for PHP
  *
  * @author   https://github.com/inhere
- * @link     https://github.com/phpcom-lab/phpgit
+ * @link     https://github.com/phppkg/phpgit
  * @license  MIT
  */
 
@@ -68,7 +68,7 @@ class StatusTest extends BaseTestCase
         $filesystem = new Filesystem();
 
         $git = new Git();
-        $git->clone('https://github.com/phpcom-lab/phpgit.git', $this->directory);
+        $git->clone('https://github.com/phppkg/phpgit.git', $this->directory);
         $git->setRepository($this->directory);
 
         $filesystem->dumpFile($this->directory . '/test.txt', '1');

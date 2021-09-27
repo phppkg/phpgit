@@ -1,8 +1,8 @@
 {
-    "name": "phpcom-lab/phpgit",
+    "name": "phppkg/phpgit",
     "type": "library",
     "description": "A Git wrapper for PHP 7.1+",
-    "homepage": "https://github/phpcom-lab/phpgit.git",
+    "homepage": "https://github/phppkg/phpgit.git",
     "license": "MIT",
     "minimum-stability": "stable",
     "authors": [

@@ -3,7 +3,7 @@
  * phpGit - A Git wrapper for PHP
  *
  * @author   https://github.com/inhere
- * @link     https://github.com/phpcom-lab/phpgit
+ * @link     https://github.com/phppkg/phpgit
  * @license  MIT
  */
 
@@ -30,7 +30,7 @@ class SetUrl extends AbstractCommand
      * ```php
      * $git = new PhpGit\Git();
      * $git->setRepository('/path/to/repo');
-     * $git->remote->add('origin', 'https://github.com/phpcom-lab/phpgit.git');
+     * $git->remote->add('origin', 'https://github.com/phppkg/phpgit.git');
      * $git->remote->url('origin', 'https://github.com/text/Text.git');
      * ```
      *
@@ -56,7 +56,7 @@ class SetUrl extends AbstractCommand
      * ```php
      * $git = new PhpGit\Git();
      * $git->setRepository('/path/to/repo');
-     * $git->remote->add('origin', 'https://github.com/phpcom-lab/phpgit.git');
+     * $git->remote->add('origin', 'https://github.com/phppkg/phpgit.git');
      * $git->remote->url->set('origin', 'https://github.com/text/Text.git');
      * ```
      *
@@ -96,7 +96,7 @@ class SetUrl extends AbstractCommand
      * ```php
      * $git = new PhpGit\Git();
      * $git->setRepository('/path/to/repo');
-     * $git->remote->add('origin', 'https://github.com/phpcom-lab/phpgit.git');
+     * $git->remote->add('origin', 'https://github.com/phppkg/phpgit.git');
      * $git->remote->url->add('origin', 'https://github.com/text/Text.git');
      * ```
      *
@@ -132,7 +132,7 @@ class SetUrl extends AbstractCommand
      * ```php
      * $git = new PhpGit\Git();
      * $git->setRepository('/path/to/repo');
-     * $git->remote->add('origin', 'https://github.com/phpcom-lab/phpgit.git');
+     * $git->remote->add('origin', 'https://github.com/phppkg/phpgit.git');
      * $git->remote->url->delete('origin', 'https://github.com');
      * ```
      *

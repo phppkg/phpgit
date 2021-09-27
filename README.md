@@ -1,10 +1,12 @@
 # PhpGit
 
-[![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/phpcom-lab/phpgit)](https://github.com/phpcom-lab/phpgit)
-[![Github Actions Status](https://github.com/phpcom-lab/phpgit/workflows/Unit-tests/badge.svg)](https://github.com/phpcom-lab/phpgit/actions)
+[![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/phppkg/phpgit)](https://github.com/phppkg/phpgit)
+[![Github Actions Status](https://github.com/phppkg/phpgit/workflows/Unit-tests/badge.svg)](https://github.com/phppkg/phpgit/actions)
 [![Php Version](https://img.shields.io/badge/php-%3E7.1.0-brightgreen.svg?maxAge=2592000)](https://packagist.org/packages/toolkit/sys-utils)
 
 PhpGit - A Git wrapper for PHP 7.1+
+
+> The project is forked from https://github.com/kzykhys/PHPGit
 
 ## Requirements
 
@@ -18,7 +20,7 @@ Update your composer.json and run `composer update`
 ``` json
 {
     "require": {
-        "phpcom-lab/phpgit": "dev-master"
+        "phppkg/phpgit": "dev-master"
     }
 }
 ```
@@ -68,10 +70,10 @@ var_dump($info);
 object(PhpGit\Info\RemoteInfo)#35 (8) {
   ["type"]=> string(4) "http"
   ["name"]=> string(6) "origin"
-  ["url"]=> string(34) "https://github.com/phpcom-lab/phpgit.git"
+  ["url"]=> string(34) "https://github.com/phppkg/phpgit.git"
   ["scheme"]=> string(5) "https"
   ["host"]=> string(10) "github.com"
-  ["path"]=> string(11) "phpcom-lab/phpgit"
+  ["path"]=> string(11) "phppkg/phpgit"
   ["group"]=> string(4) "ulue"
   ["repo"]=> string(6) "phpgit"
 }
@@ -144,21 +146,21 @@ will see:
 ```text
 > git log v0.2.1...HEAD --reverse --pretty=format:"%H | %s | %cn" --no-merges
 > git remote -v
-[INFO] repo URL:https://github.com/phpcom-lab/phpgit
+[INFO] repo URL:https://github.com/phppkg/phpgit
 [INFO] parse logs and generate changelog
 
 ### Fixed
 
- - fix get latest tag error on windows https://github.com/phpcom-lab/phpgit/commit/b9892b0ec363e405fcb76b08ea971fb651b4d2dc
+ - fix get latest tag error on windows https://github.com/phppkg/phpgit/commit/b9892b0ec363e405fcb76b08ea971fb651b4d2dc
 
 ### Update
 
- - up: rename package org to phpcom-lab https://github.com/phpcom-lab/phpgit/commit/990e55c6beddf654819c323c2a18d329074399f9
- - update some info https://github.com/phpcom-lab/phpgit/commit/"1110de8b5ef0406c837bcd65f607b6f9483c9154
+ - up: rename package org to phppkg https://github.com/phppkg/phpgit/commit/990e55c6beddf654819c323c2a18d329074399f9
+ - update some info https://github.com/phppkg/phpgit/commit/"1110de8b5ef0406c837bcd65f607b6f9483c9154
 
 ### Feature
 
- - feat: add util for quick generate change log https://github.com/phpcom-lab/phpgit/commit/50962c12d3f16cdbbd8c1f21bc17ff920842365e
+ - feat: add util for quick generate change log https://github.com/phppkg/phpgit/commit/50962c12d3f16cdbbd8c1f21bc17ff920842365e
 
 ```
 

@@ -3,7 +3,7 @@
  * phpGit - A Git wrapper for PHP
  *
  * @author   https://github.com/inhere
- * @link     https://github.com/phpcom-lab/phpgit
+ * @link     https://github.com/phppkg/phpgit
  * @license  MIT
  */
 
@@ -17,7 +17,7 @@ class FetchTest extends BaseTestCase
         $git->init($this->directory);
         $git->setRepository($this->directory);
 
-        $git->remote->add('origin', 'https://github.com/phpcom-lab/phpgit.git');
+        $git->remote->add('origin', 'https://github.com/phppkg/phpgit.git');
         $git->fetch('origin', '+refs/heads/*:refs/remotes/origin/*');
 
         $tags = $git->tag();
@@ -30,7 +30,7 @@ class FetchTest extends BaseTestCase
         $git->init($this->directory);
         $git->setRepository($this->directory);
 
-        $git->remote->add('origin', 'https://github.com/phpcom-lab/phpgit.git');
+        $git->remote->add('origin', 'https://github.com/phppkg/phpgit.git');
         $git->fetch->all();
 
         $tags = $git->tag();

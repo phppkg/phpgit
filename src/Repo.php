@@ -3,7 +3,7 @@
  * phpGit - A Git wrapper for PHP
  *
  * @author   https://github.com/inhere
- * @link     https://github.com/phpcom-lab/phpgit
+ * @link     https://github.com/phppkg/phpgit
  * @license  MIT
  */
 
@@ -198,8 +198,8 @@ class Repo
         }
 
         // 'origin' => array (
-        //     'fetch' => 'https://github.com/phpcom-lab/phpgit.git',
-        //     'push' => 'git@github.com:phpcom-lab/phpgit.git',
+        //     'fetch' => 'https://github.com/phppkg/phpgit.git',
+        //     'push' => 'git@github.com:phppkg/phpgit.git',
         //  ),
         if ($type === 'fetch') {
             return $remotes[$name]['fetch'] ?? '';

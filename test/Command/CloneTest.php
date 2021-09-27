@@ -3,7 +3,7 @@
  * phpGit - A Git wrapper for PHP
  *
  * @author   https://github.com/inhere
- * @link     https://github.com/phpcom-lab/phpgit
+ * @link     https://github.com/phppkg/phpgit
  * @license  MIT
  */
 
@@ -15,7 +15,7 @@ class CloneTest extends BaseTestCase
     public function testClone(): void
     {
         $git = new Git();
-        $git->clone('https://github.com/phpcom-lab/phpgit.git', $this->directory);
+        $git->clone('https://github.com/phppkg/phpgit.git', $this->directory);
         $git->setRepository($this->directory);
 
         $this->assertFileExists($this->directory . '/.git');
@@ -24,7 +24,7 @@ class CloneTest extends BaseTestCase
         $filesystem->remove($this->directory);
 
         $git->setRepository('.');
-        $git->clone('https://github.com/phpcom-lab/phpgit.git', $this->directory, ['shared' => true]);
+        $git->clone('https://github.com/phppkg/phpgit.git', $this->directory, ['shared' => true]);
 
         $this->assertFileExists($this->directory . '/.git');
     }
