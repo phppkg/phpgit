@@ -277,21 +277,22 @@
         },
         {
             "name": "toolkit/stdlib",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-toolkit/stdlib.git",
-                "reference": "bf3d34ca97941b8c6e38cdbbb663f92ce5179f16"
+                "reference": "6c87e814d397bf10fcb87fc2fc48c1b6c2d9c9db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-toolkit/stdlib/zipball/bf3d34ca97941b8c6e38cdbbb663f92ce5179f16",
-                "reference": "bf3d34ca97941b8c6e38cdbbb663f92ce5179f16",
+                "url": "https://api.github.com/repos/php-toolkit/stdlib/zipball/6c87e814d397bf10fcb87fc2fc48c1b6c2d9c9db",
+                "reference": "6c87e814d397bf10fcb87fc2fc48c1b6c2d9c9db",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
-                "php": ">7.1.0"
+                "php": ">7.1.0",
+                "symfony/polyfill-php80": "~1.0"
             },
             "suggest": {
                 "inhere/php-validate": "Very lightweight data validate tool"
@@ -328,9 +329,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-toolkit/stdlib/issues",
-                "source": "https://github.com/php-toolkit/stdlib/tree/v1.1.0"
+                "source": "https://github.com/php-toolkit/stdlib/tree/v1.1.1"
             },
-            "time": "2021-10-10T11:25:14+00:00"
+            "time": "2021-10-21T09:58:10+00:00"
         }
     ],
     "packages-dev": [
