@@ -220,16 +220,16 @@
         },
         {
             "name": "toolkit/cli-utils",
-            "version": "v1.2.13",
+            "version": "v1.2.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-toolkit/cli-utils.git",
-                "reference": "8e716ecfab6cbd9c4bf323e9532e7d441615e302"
+                "reference": "c1e9e0d25d32400536d9b5496c02b1eee19c8c29"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-toolkit/cli-utils/zipball/8e716ecfab6cbd9c4bf323e9532e7d441615e302",
-                "reference": "8e716ecfab6cbd9c4bf323e9532e7d441615e302",
+                "url": "https://api.github.com/repos/php-toolkit/cli-utils/zipball/c1e9e0d25d32400536d9b5496c02b1eee19c8c29",
+                "reference": "c1e9e0d25d32400536d9b5496c02b1eee19c8c29",
                 "shasum": ""
             },
             "require": {
@@ -241,7 +241,8 @@
                 "phpunit/phpunit": "^7.5 || ^8.5 || ^9.5"
             },
             "suggest": {
-                "inhere/console": "a lightweight php console application library."
+                "inhere/console": "a lightweight php console application library.",
+                "toolkit/pflag": "Command line flag parse library of the php"
             },
             "type": "library",
             "autoload": {
@@ -271,9 +272,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-toolkit/cli-utils/issues",
-                "source": "https://github.com/php-toolkit/cli-utils/tree/v1.2.13"
+                "source": "https://github.com/php-toolkit/cli-utils/tree/v1.2.14"
             },
-            "time": "2021-09-14T13:22:09+00:00"
+            "time": "2021-10-30T07:02:24+00:00"
         },
         {
             "name": "toolkit/stdlib",
