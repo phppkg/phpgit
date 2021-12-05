@@ -36,13 +36,13 @@ class Add extends AbstractCommand
      * - **force**          (_boolean_) Allow adding otherwise ignored files
      * - **ignore-errors**  (_boolean_) Do not abort the operation
      *
-     * @param string|array|Traversable $file    Files to add content from
+     * @param Traversable|array|string $file    Files to add content from
      * @param array                    $options [optional] An array of options {@see Add::setDefaultOptions}
      *
      * @return bool
      * @throws GitException
      */
-    public function __invoke($file, array $options = []): bool
+    public function __invoke(Traversable|array|string $file, array $options = []): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder();

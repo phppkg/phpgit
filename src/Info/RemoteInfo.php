@@ -13,7 +13,6 @@ use PhpGit\Concern\AbstractInfo;
 use PhpGit\Git;
 use PhpGit\GitUtil;
 use function sprintf;
-use function strpos;
 
 /**
  * Class RemoteMeta
@@ -28,7 +27,7 @@ class RemoteInfo extends AbstractInfo
      *
      * @var string
      */
-    public $name;
+    public string $name = '';
 
     /**
      * The repo remote URL address
@@ -38,49 +37,49 @@ class RemoteInfo extends AbstractInfo
      *
      * @var string
      */
-    public $url = '';
+    public string $url = '';
 
     // ----------- parts of the url
 
     /**
      * @var string
      */
-    public $type = Git::URL_GIT;
+    public string $type = Git::URL_GIT;
 
     /**
      * The url scheme. eg: git, http, https
      *
      * @var string
      */
-    public $scheme;
+    public string $scheme = '';
 
     /**
      * repo host. eg: github.com
      *
      * @var string
      */
-    public $host;
+    public string $host = '';
 
     /**
      * repo path. `path = group/repo`
      *
      * @var string
      */
-    public $path;
+    public string $path = '';
 
     /**
      * group name
      *
      * @var string
      */
-    public $group;
+    public string $group;
 
     /**
      * repo name
      *
      * @var string
      */
-    public $repo;
+    public string $repo;
 
     /**
      * @param string $name
@@ -147,7 +146,7 @@ class RemoteInfo extends AbstractInfo
     public function getHttpUrl(bool $withSuffix = false): string
     {
         $scheme = $this->scheme;
-        if (strpos($scheme, Git::URL_HTTP) === false) {
+        if (!str_contains($scheme, Git::URL_HTTP)) {
             $scheme = Git::URL_HTTP;
         }
 

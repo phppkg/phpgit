@@ -14,7 +14,6 @@ use function array_merge;
 use function defined;
 use function explode;
 use function parse_url;
-use function strpos;
 use function substr;
 
 /**
@@ -76,7 +75,7 @@ class GitUtil
     public static function parseRemoteUrl(string $url): array
     {
         // eg: git@gitlab.my.com:group/some-lib.git
-        if (strpos($url, 'git@') === 0) {
+        if (str_starts_with($url, 'git@')) {
             $type = 'git';
 
             // remove suffix

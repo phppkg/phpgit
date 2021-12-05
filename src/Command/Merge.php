@@ -39,13 +39,13 @@ class Merge extends AbstractCommand
      * - **strategy**            (_string_)  Use the given merge strategy
      * - **strategy-option**     (_string_)  Pass merge strategy specific option through to the merge strategy
      *
-     * @param string|array|Traversable $commit  Commits to merge into our branch
+     * @param Traversable|array|string $commit  Commits to merge into our branch
      * @param null                     $message [optional] Commit message to be used for the merge commit
      * @param array                    $options [optional] An array of options {@see Merge::setDefaultOptions}
      *
      * @return bool
      */
-    public function __invoke($commit, $message = null, array $options = []): bool
+    public function __invoke(Traversable|array|string $commit, $message = null, array $options = []): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder();

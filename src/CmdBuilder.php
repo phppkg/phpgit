@@ -29,43 +29,43 @@ class CmdBuilder
     /**
      * @var string
      */
-    private $bin = 'git';
+    private string $bin = 'git';
 
     /**
      * @var string
      */
-    private $workDir = '';
+    private string $workDir = '';
 
     /**
      * Dry run all commands
      *
      * @var bool
      */
-    protected $dryRun = false;
+    protected bool $dryRun = false;
 
     /**
      * @var bool
      */
-    protected $printCmd = true;
+    protected bool $printCmd = true;
 
     /**
      * @var bool
      */
-    protected $quietRun = false;
+    protected bool $quietRun = false;
 
     /**
      * git command. eg: clone, fetch
      *
      * @var string
      */
-    private $command;
+    private string $command;
 
     /**
      * git command args
      *
      * @var array
      */
-    private $args = [];
+    private array $args = [];
 
     /**
      * Process options
@@ -75,7 +75,7 @@ class CmdBuilder
      *
      * @var array
      */
-    private $options = [];
+    private array $options = [];
 
     /**
      * Direct set full command line. eg: `git symbolic-ref --short -q HEAD`
@@ -84,22 +84,22 @@ class CmdBuilder
      *
      * @var string
      */
-    private $commandLine = '';
+    private string $commandLine = '';
 
     /**
      * @var int
      */
-    protected $code = 0;
+    protected int $code = 0;
 
     /**
      * @var string
      */
-    protected $error = '';
+    protected string $error = '';
 
     /**
      * @var string
      */
-    private $output = '';
+    private string $output = '';
 
     /**
      * @param string $command
@@ -247,12 +247,12 @@ class CmdBuilder
     }
 
     /**
-     * @param string|int      $arg
+     * @param int|string $arg
      * @param bool|int|string $cond
      *
      * @return $this
      */
-    public function addIf($arg, $cond): self
+    public function addIf(int|string $arg, bool|int|string $cond): self
     {
         if ($cond) {
             $this->args[] = $arg;
@@ -363,7 +363,7 @@ class CmdBuilder
      *
      * @return CmdBuilder
      */
-    public function setOption(string $option, $value): self
+    public function setOption(string $option, mixed $value): self
     {
         $this->options[$option] = $value;
         return $this;

@@ -109,9 +109,9 @@ class Status extends AbstractCommand
      *
      * @param array $options [optional] An array of options {@see Status::setDefaultOptions}
      *
-     * @return mixed
+     * @return array
      */
-    public function __invoke(array $options = [])
+    public function __invoke(array $options = []): array
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder();

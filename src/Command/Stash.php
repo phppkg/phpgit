@@ -148,9 +148,9 @@ class Stash extends AbstractCommand
      *
      * @param string|null $stash The stash to drop
      *
-     * @return mixed
+     * @return string
      */
-    public function drop(string $stash = null)
+    public function drop(string $stash = null): string
     {
         $builder = $this->getCommandBuilder()->add('drop');
 

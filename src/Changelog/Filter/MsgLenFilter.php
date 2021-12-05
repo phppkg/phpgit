@@ -15,7 +15,7 @@ final class MsgLenFilter
     /**
      * @var int
      */
-    protected $minLen;
+    protected int $minLen;
 
     /**
      * Class constructor.

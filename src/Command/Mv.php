@@ -9,7 +9,6 @@
 
 namespace PhpGit\Command;
 
-use Iterator;
 use PhpGit\Concern\AbstractCommand;
 use Symfony\Component\OptionsResolver\Options;
 use Traversable;
@@ -34,13 +33,13 @@ class Mv extends AbstractCommand
      *
      * - **force** (_boolean_) Force renaming or moving of a file even if the target exists
      *
-     * @param string|array|Iterator $source      The files to move
+     * @param Traversable|array|string $source      The files to move
      * @param string                $destination The destination
      * @param array                 $options     [optional] An array of options {@see Mv::setDefaultOptions}
      *
      * @return bool
      */
-    public function __invoke($source, string $destination, array $options = []): bool
+    public function __invoke(Traversable|array|string $source, string $destination, array $options = []): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder();

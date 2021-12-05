@@ -23,7 +23,7 @@ class TagsInfo extends AbstractInfo implements \Countable
     /**
      * @var array
      */
-    public $tags = [];
+    public array $tags = [];
 
     /**
      * @return string

@@ -30,12 +30,12 @@ class Reset extends AbstractCommand
      * $git->reset();
      * ```
      *
-     * @param string|array|Traversable $paths  The paths to reset
-     * @param null                     $commit The commit
+     * @param Traversable|array|string $paths  The paths to reset
+     * @param string|null    $commit The commit
      *
      * @return bool
      */
-    public function __invoke($paths, $commit = null): bool
+    public function __invoke(Traversable|array|string $paths, ?string $commit = null): bool
     {
         $builder = $this->getCommandBuilder();
 
@@ -53,7 +53,7 @@ class Reset extends AbstractCommand
 
         try {
             $this->run($builder);
-        } catch (GitException $e) {
+        } catch (GitException) {
             // Confirm exit code
         }
 

@@ -15,13 +15,13 @@ require __DIR__ . '/BaseTestCase.php';
 spl_autoload_register(static function ($class): void {
     $file = '';
 
-    if (0 === strpos($class, 'PhpGit\Example\\')) {
+    if (str_starts_with($class, 'PhpGit\Example\\')) {
         $path = str_replace('\\', '/', substr($class, strlen('PhpGit\Example\\')));
         $file = dirname(__DIR__) . "/example/{$path}.php";
-    } elseif (0 === strpos($class, 'PhpGitTest\\')) {
+    } elseif (str_starts_with($class, 'PhpGitTest\\')) {
         $path = str_replace('\\', '/', substr($class, strlen('PhpGitTest\\')));
         $file = __DIR__ . "/$path.php";
-    } elseif (0 === strpos($class, 'PhpGit\\')) {
+    } elseif (str_starts_with($class, 'PhpGit\\')) {
         $path = str_replace('\\', '/', substr($class, strlen('PhpGit\\')));
         $file = dirname(__DIR__) . "/src/{$path}.php";
     }

@@ -20,7 +20,7 @@ class GitException extends RuntimeException
     /**
      * @var string
      */
-    protected $commandLine;
+    protected string $commandLine;
 
     /**
      * Construct the exception. Note: The message is NOT binary safe.

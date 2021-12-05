@@ -94,6 +94,7 @@ class MergeTest extends BaseTestCase
             $git->merge('develop');
             $this->fail('$git->merge("develop") should fail');
         } catch (Exception $e) {
+            $this->assertNotEmpty($e->getMessage());
         }
 
         $git->merge->abort();

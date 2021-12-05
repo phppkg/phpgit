@@ -13,7 +13,6 @@ use DateTime;
 use Exception;
 use PhpGit\Concern\AbstractCommand;
 use Traversable;
-use function strpos;
 
 /**
  * Summarize 'git log' output - `git shortlog`
@@ -43,12 +42,12 @@ class Shortlog extends AbstractCommand
      * ]
      * ```
      *
-     * @param string|array|Traversable $commits [optional] Defaults to HEAD
+     * @param Traversable|array|string $commits [optional] Defaults to HEAD
      *
      * @return array
      * @throws Exception
      */
-    public function __invoke($commits = 'HEAD'): array
+    public function __invoke(Traversable|array|string $commits = 'HEAD'): array
     {
         $builder = $this->getCommandBuilder()
             ->add('--numbered')
@@ -73,7 +72,7 @@ class Shortlog extends AbstractCommand
         $author = null;
 
         foreach ($lines as $line) {
-            if (strpos($line, ' ') !== 0) {
+            if (!str_starts_with($line, ' ')) {
                 if (preg_match('/([^<>]*? <[^<>]+>)/', $line, $matches)) {
                     $author          = $matches[1];
                     $result[$author] = [];
@@ -110,11 +109,11 @@ class Shortlog extends AbstractCommand
      * ]
      * ```
      *
-     * @param string|array $commits [optional] Defaults to HEAD
+     * @param array|string $commits [optional] Defaults to HEAD
      *
      * @return array
      */
-    public function summary($commits = 'HEAD'): array
+    public function summary(array|string $commits = 'HEAD'): array
     {
         $builder = $this->getCommandBuilder()
             ->add('--numbered')

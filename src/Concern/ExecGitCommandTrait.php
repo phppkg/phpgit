@@ -18,7 +18,7 @@ trait ExecGitCommandTrait
      *
      * @var AbstractCommand[]
      */
-    private $commands = [];
+    private array $commands = [];
 
     /**
      * @return Git
@@ -31,7 +31,7 @@ trait ExecGitCommandTrait
      *
      * @return mixed
      */
-    public function exec(string $name, ...$args)
+    public function exec(string $name, ...$args): mixed
     {
         if (isset(self::COMMANDS[$name])) {
             // lazy load command
@@ -97,7 +97,7 @@ trait ExecGitCommandTrait
      * @param string $name
      * @param mixed  $value
      */
-    public function __set(string $name, $value): void
+    public function __set(string $name, mixed $value): void
     {
         throw new RuntimeException('unsupported set the property ' . $name);
     }

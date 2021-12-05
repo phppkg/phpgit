@@ -15,7 +15,7 @@ final class WordsLenFilter
     /**
      * @var int
      */
-    protected $minNum;
+    protected int $minNum;
 
     /**
      * Class constructor.

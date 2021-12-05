@@ -30,7 +30,7 @@ abstract class AbstractCommand
     /**
      * @var Git
      */
-    protected $git;
+    protected Git $git;
 
     /**
      * @param Git $git

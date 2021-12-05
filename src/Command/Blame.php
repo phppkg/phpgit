@@ -52,35 +52,35 @@ class Blame extends AbstractCommand
      *
      * @var int
      */
-    protected $fileLineNumber = 0;
+    protected int $fileLineNumber = 0;
 
     /**
      * Define the current position in the git blame output.
      *
      * @var int
      */
-    protected $outputIndex = -1;
+    protected int $outputIndex = -1;
 
     /**
      * Counter used to understand where we are in the porcelain block.
      *
      * @var int
      */
-    protected $blockCounter = 0;
+    protected int $blockCounter = 0;
 
     /**
      * Contain the git blame output.
      *
      * @var array
      */
-    protected $gitOutput = [];
+    protected array $gitOutput = [];
 
     /**
      * Define the current file line number we are parsing.
      *
      * @var int
      */
-    protected $status = self::IS_START;
+    protected int $status = self::IS_START;
 
     /**
      * Blame lines
@@ -102,20 +102,22 @@ class Blame extends AbstractCommand
      * ]
      * ```
      */
-    protected $blameLines = [];
+    protected array $blameLines = [];
 
     /**
      * @var string|null
      */
-    private $currentLine;
+    private ?string $currentLine = null;
 
     /**
      * @var string|null
      */
-    private $nextLine;
+    private ?string $nextLine = null;
 
     /**
      * Returns the commit logs
+     *
+     * ## Usage
      *
      * ``` php
      * $git = new PHPGit\Git();
@@ -124,7 +126,7 @@ class Blame extends AbstractCommand
      * $lines = $git->blame('/file_to_blame', '1a821f3f8483747fd045eb1f5a31c3cc3063b02b');
      * ```
      *
-     * ##### Output Example
+     * **Output Example**
      *
      * ``` php
      * [

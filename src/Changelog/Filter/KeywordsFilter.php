@@ -14,11 +14,11 @@ final class KeywordsFilter
     /**
      * @var string[]
      */
-    private $keywords;
+    private array $keywords;
     /**
      * @var bool
      */
-    private $exclude;
+    private bool $exclude;
 
     /**
      * Class constructor.

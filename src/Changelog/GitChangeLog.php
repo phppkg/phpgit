@@ -12,10 +12,8 @@ use function file_put_contents;
 use function implode;
 use function is_array;
 use function is_callable;
-use function is_object;
 use function is_string;
 use function md5;
-use function strpos;
 use function trim;
 
 /**
@@ -56,7 +54,7 @@ class GitChangeLog
     /**
      * @var bool
      */
-    private $parsed = false;
+    private bool $parsed = false;
 
     /**
      * Not output group name line.
@@ -66,26 +64,26 @@ class GitChangeLog
      *
      * @var bool
      */
-    protected $noGroup = false;
+    protected bool $noGroup = false;
 
     /**
      * Ignore repeated log by message
      *
      * @var bool
      */
-    protected $igrRepeat = true;
+    protected bool $igrRepeat = true;
 
     /**
      * Title string for formatted text. eg: ## Change Log
      *
      * @var string
      */
-    protected $title = "## Change Log";
+    protected string $title = "## Change Log";
 
     /**
      * @var string
      */
-    protected $repoUrl = '';
+    protected string $repoUrl = '';
 
     /**
      * The git log output. eg: `git log --pretty="format:%H"`
@@ -95,7 +93,7 @@ class GitChangeLog
      *
      * @var string
      */
-    protected $logOutput = '';
+    protected string $logOutput = '';
 
     /**
      * built-in log format string on the `git log --pretty="format:%H"`.
@@ -103,14 +101,14 @@ class GitChangeLog
      *
      * @var string
      */
-    protected $logFormat = self::LOG_FMT_HS;
+    protected string $logFormat = self::LOG_FMT_HS;
 
     /**
      * The log line filters
      *
      * @var callable[]
      */
-    protected $lineFilters = [];
+    protected array $lineFilters = [];
 
     /**
      * @var callable|LineParserInterface
@@ -122,7 +120,7 @@ class GitChangeLog
      *
      * @var callable[]
      */
-    protected $itemFilters = [];
+    protected array $itemFilters = [];
 
     /**
      * The item formatter. format each item to string
@@ -145,31 +143,31 @@ class GitChangeLog
      *
      * @var array
      */
-    protected $logItems = [];
+    protected array $logItems = [];
 
     /**
      * formatted lines by $itemFormatter
      *
      * @var array
      */
-    protected $formatted = [];
+    protected array $formatted = [];
 
     /**
      * Valid commit log count after parse and formatted.
      *
      * @var int
      */
-    private $logCount = 0;
+    private int $logCount = 0;
 
     /**
      * @var bool
      */
-    private $generated = false;
+    private bool $generated = false;
 
     /**
      * @var string
      */
-    private $changelog = '';
+    private string $changelog = '';
 
     /**
      * @return static
@@ -218,7 +216,7 @@ class GitChangeLog
 
         $isParser = false;
         if ($parser = $this->lineParser) {
-            $isParser = is_object($parser) && $parser instanceof LineParserInterface;
+            $isParser = $parser instanceof LineParserInterface;
         }
 
         $messages = [];
@@ -403,7 +401,7 @@ class GitChangeLog
         }
 
         $groupNames  = [];
-        $isFormatter = is_object($formatter) && $formatter instanceof ItemFormatterInterface;
+        $isFormatter = $formatter instanceof ItemFormatterInterface;
 
         $otherGroup = '';
         foreach ($this->logItems as $item) {
@@ -434,7 +432,7 @@ class GitChangeLog
             }
 
             // if returned group name add suffix or prefix
-            if (!$otherGroup && strpos($group, self::OTHER_GROUP) !== false) {
+            if (!$otherGroup && str_contains($group, self::OTHER_GROUP)) {
                 $otherGroup = $group;
             }
 
@@ -496,9 +494,9 @@ class GitChangeLog
     /**
      * @param callable|ItemFormatterInterface $itemFormatter
      */
-    public function setItemFormatter($itemFormatter): void
+    public function setItemFormatter(callable|ItemFormatterInterface $itemFormatter): void
     {
-        if (is_object($itemFormatter) && $itemFormatter instanceof ItemFormatterInterface) {
+        if ($itemFormatter instanceof ItemFormatterInterface) {
             $this->itemFormatter = $itemFormatter;
         } elseif (is_callable($itemFormatter)) {
             $this->itemFormatter = $itemFormatter;
@@ -510,9 +508,9 @@ class GitChangeLog
     /**
      * @param callable|LineParserInterface $lineParser
      */
-    public function setLineParser($lineParser): void
+    public function setLineParser(callable|LineParserInterface $lineParser): void
     {
-        if (is_object($lineParser) && $lineParser instanceof LineParserInterface) {
+        if ($lineParser instanceof LineParserInterface) {
             $this->lineParser = $lineParser;
         } elseif (is_callable($lineParser)) {
             $this->lineParser = $lineParser;

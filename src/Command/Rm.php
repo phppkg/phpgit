@@ -35,12 +35,12 @@ class Rm extends AbstractCommand
      * - **cached**    (_boolean_) Unstage and remove paths only from the index
      * - **recursive** (_boolean_) Allow recursive removal when a leading directory name is given
      *
-     * @param string|array|Traversable $file    Files to remove. Fileglobs (e.g.  *.c) can be given to remove all matching files.
+     * @param Traversable|array|string $file    Files to remove. Fileglobs (e.g.  *.c) can be given to remove all matching files.
      * @param array                    $options [optional] An array of options {@see Rm::setDefaultOptions}
      *
      * @return bool
      */
-    public function __invoke($file, array $options = []): bool
+    public function __invoke(Traversable|array|string $file, array $options = []): bool
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder();
@@ -72,12 +72,12 @@ class Rm extends AbstractCommand
      * - **force**     (_boolean_) Override the up-to-date check
      * - **recursive** (_boolean_) Allow recursive removal when a leading directory name is given
      *
-     * @param string|array|Traversable $file    Files to remove. Fileglobs (e.g.  *.c) can be given to remove all matching files.
+     * @param Traversable|array|string $file    Files to remove. Fileglobs (e.g.  *.c) can be given to remove all matching files.
      * @param array                    $options [optional] An array of options {@see Rm::setDefaultOptions}
      *
      * @return bool
      */
-    public function cached($file, array $options = []): bool
+    public function cached(Traversable|array|string $file, array $options = []): bool
     {
         $options['cached'] = true;
 

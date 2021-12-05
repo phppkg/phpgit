@@ -21,7 +21,7 @@ abstract class BaseTestCase extends TestCase
     /**
      * @var string
      */
-    protected $directory;
+    protected string $directory = '';
 
     public static function setUpBeforeClass(): void
     {

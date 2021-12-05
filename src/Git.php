@@ -171,19 +171,19 @@ class Git
     ];
 
     /** @var string */
-    private $bin = 'git';
+    private string $bin = 'git';
 
     /** @var integer */
-    private $timeout = 60;
+    private int $timeout = 60;
 
     /** @var string The git repo dir path. */
-    private $directory;
+    private string $directory;
 
     /** @var bool see CmdBuilder.quietRun */
-    private $quietRun = false;
+    private bool $quietRun = false;
 
     /** @var bool see CmdBuilder.printCmd */
-    private $printCmd = true;
+    private bool $printCmd = true;
 
     /**
      * @param string $repoDir

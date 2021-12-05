@@ -128,12 +128,12 @@ class Tag extends AbstractCommand
     /**
      * Delete existing tags with the given names
      *
-     * @param string|array|Traversable $tag The name of the tag to create
+     * @param Traversable|array|string $tag The name of the tag to create
      *
      * @return bool
      * @throws GitException
      */
-    public function delete($tag): bool
+    public function delete(Traversable|array|string $tag): bool
     {
         $builder = $this->getCommandBuilder('-d');
         if (!is_array($tag) && !($tag instanceof Traversable)) {
@@ -152,12 +152,12 @@ class Tag extends AbstractCommand
     /**
      * Verify the gpg signature of the given tag names
      *
-     * @param string|array|Traversable $tag The name of the tag to create
+     * @param Traversable|array|string $tag The name of the tag to create
      *
      * @return bool
      * @throws GitException
      */
-    public function verify($tag): bool
+    public function verify(Traversable|array|string $tag): bool
     {
         $builder = $this->getCommandBuilder()
             ->add('-v');

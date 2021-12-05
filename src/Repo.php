@@ -13,7 +13,6 @@ use Generator;
 use PhpGit\Info\BranchInfo;
 use PhpGit\Info\RemoteInfo;
 use Toolkit\Cli\Cli;
-use function strpos;
 
 /**
  * Class Repo
@@ -27,11 +26,11 @@ class Repo
     public const PLATFORM_CUSTOM = 'custom';
 
     /**
-     * @var Git
+     * @var Git|null
      */
-    private $git;
+    private ?Git $git = null;
 
-    /**
+    /*
      * @var Info
      */
     // private $info;
@@ -39,52 +38,52 @@ class Repo
     /**
      * @var string
      */
-    private $repoDir;
+    private string $repoDir;
 
     /**
      * @var string
      */
-    private $defaultRemote = Git::DEFAULT_REMOTE;
+    private string $defaultRemote = Git::DEFAULT_REMOTE;
 
     /**
      * @var string[][]
      */
-    private $remotes = [];
+    private array $remotes = [];
 
     /**
      * @var RemoteInfo[]
      */
-    private $remoteInfos = [];
+    private array $remoteInfos = [];
 
     /**
      * @var string[]
      */
-    private $branchNames = [];
+    private array $branchNames = [];
 
     /**
      * @var BranchInfo[]
      */
-    private $branchInfos = [];
+    private array $branchInfos = [];
 
     /**
      * @var string
      */
-    private $platform;
+    private string $platform = '';
 
     /**
      * @var string
      */
-    private $currentBranch;
+    private string $currentBranch = '';
 
     /**
      * @var string 'commitId message'
      */
-    private $lastCommit;
+    private string $lastCommit = '';
 
     /**
      * @var string
      */
-    private $lastCommitId;
+    private string $lastCommitId = '';
 
     /**
      * @param string $repoDir
@@ -148,7 +147,7 @@ class Repo
      *
      * @return mixed
      */
-    public function exec(string $cmd, ...$args)
+    public function exec(string $cmd, ...$args): mixed
     {
         $git = $this->ensureGit();
 
@@ -238,9 +237,9 @@ class Repo
     {
         $info = $this->getRemoteInfo();
 
-        if (strpos($info->host, self::PLATFORM_GITHUB) !== false) {
+        if (str_contains($info->host, self::PLATFORM_GITHUB)) {
             $this->platform = self::PLATFORM_GITHUB;
-        } elseif (strpos($info->host, self::PLATFORM_GITLAB) !== false) {
+        } elseif (str_contains($info->host, self::PLATFORM_GITLAB)) {
             $this->platform = self::PLATFORM_GITLAB;
         } else {
             $this->platform = self::PLATFORM_CUSTOM;
@@ -324,15 +323,15 @@ class Repo
             $file = trim($file);
 
             // modified files
-            if (strpos($file, 'M ') === 0) {
+            if (str_starts_with($file, 'M ')) {
                 yield substr($file, 2);
 
                 // deleted files
-            } elseif (strpos($file, 'D ') === 0) {
+            } elseif (str_starts_with($file, 'D ')) {
                 yield substr($file, 3);
 
                 // new files
-            } elseif (strpos($file, '?? ') === 0) {
+            } elseif (str_starts_with($file, '?? ')) {
                 yield substr($file, 3);
             }
         }

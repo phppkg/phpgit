@@ -28,14 +28,14 @@ class Pull extends AbstractCommand
      * $git->pull('origin', 'master');
      * ```
      *
-     * @param null  $repository   The "remote" repository that is the source of a fetch or pull operation
-     * @param null  $refspec      The format of a <refspec> parameter is an optional plus +,
+     * @param string|null  $repository   The "remote" repository that is the source of a fetch or pull operation
+     * @param string|null  $refspec      The format of a <refspec> parameter is an optional plus +,
      *                            followed by the source ref <src>, followed by a colon :, followed by the destination ref <dst>
      * @param array $options      [optional] An array of options {@see Pull::setDefaultOptions}
      *
-     * @return bool
+     * @return string
      */
-    public function __invoke($repository = null, $refspec = null, array $options = []): bool
+    public function __invoke(?string $repository = null, ?string $refspec = null, array $options = []): string
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder();
@@ -48,9 +48,7 @@ class Pull extends AbstractCommand
             }
         }
 
-        $this->run($builder);
-
-        return true;
+        return $this->run($builder);
     }
 
     /**
