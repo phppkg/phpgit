@@ -2,15 +2,21 @@
 
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/phppkg/phpgit)](https://github.com/phppkg/phpgit)
 [![Github Actions Status](https://github.com/phppkg/phpgit/workflows/Unit-tests/badge.svg)](https://github.com/phppkg/phpgit/actions)
-[![Php Version](https://img.shields.io/badge/php-%3E7.1.0-brightgreen.svg?maxAge=2592000)](https://packagist.org/packages/phppkg/phpgit)
+[![Php Version](https://img.shields.io/badge/php-%3E8.0-brightgreen.svg?maxAge=2592000)](https://packagist.org/packages/phppkg/phpgit)
 
-PhpGit - A Git wrapper for PHP 7.1+
+PhpGit - A Git wrapper library for PHP 8.0+
 
 > The project is forked from https://github.com/kzykhys/PHPGit
 
+**Features**
+
+- Quick run git commands, eg: `clone,add,commit,merge`
+- Git repo info fetch.
+- Generate changelog by git log
+
 ## Requirements
 
-* PHP 7.1+
+* PHP 8.0+
 * Git
 
 ## Installation
@@ -33,15 +39,19 @@ Update your composer.json and run `composer update`
 require __DIR__ . '/vendor/autoload.php';
 
 $git = PhpGit\Git::new();
-$git->clone('https://github.com/kzykhys/PhpGit.git', '/path/to/repo');
+$git->clone('https://github.com/phppkg/PhpGit.git', '/path/to/repo');
 $git->setRepository('/path/to/repo');
 $git->remote->add('production', 'git://example.com/your/repo.git');
+
 $git->add('README.md');
 $git->commit('Adds README.md');
+
 $git->checkout('release');
 $git->merge('master');
+
 $git->push();
 $git->push('production', 'release');
+
 $git->tag->create('v1.0.1', 'release');
 
 foreach ($git->tree('release') as $object) {

@@ -9,18 +9,18 @@ on:
 
 jobs:
   test:
-    name: Test on php ${{ matrix.php}} and ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+    name: Test on PHP-${{ matrix.php}}
+    runs-on: ubuntu-latest
     timeout-minutes: 10
     strategy:
       fail-fast: true
       matrix:
-        php: [7.3, 7.4, 8.0, 8.1] # 7.1
-        os: [ubuntu-latest, macOS-latest] # windows-latest,
-        include:
-          - os: 'ubuntu-latest'
-            php: '7.2'
-            phpunit: '8.5.13'
+        php: [8.0, 8.1] # 7.1
+#        os: [ubuntu-latest, macOS-latest] # windows-latest,
+#        include:
+#          - os: 'ubuntu-latest'
+#            php: '7.2'
+#            phpunit: '8.5.13'
 
     steps:
       - name: Checkout
@@ -41,7 +41,6 @@ jobs:
         run: |
           git version
           composer install --no-progress
-#          composer require phpunit/phpunit ^8.0 --no-progress # default
 
       # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
       # Docs: https://getcomposer.org/doc/articles/scripts.md
@@ -49,4 +48,4 @@ jobs:
       - name: Run test suite
         run: |
           git fetch --unshallow
-          phpunit -vv # vendor/bin/phpunit -v
+          phpunit --debug

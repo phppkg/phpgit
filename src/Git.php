@@ -18,7 +18,7 @@ use PhpGit\Exception\GitException;
  * [![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/phppkg/phpgit)](https://github.com/phppkg/phpgit)
  * [![Github Actions Status](https://github.com/phppkg/phpgit/workflows/Unit-tests/badge.svg)](https://github.com/phppkg/phpgit/actions)
  *
- * PhpGit - A Git wrapper for PHP7.1+
+ * PhpGit - A Git wrapper for PHP8.0+
  *
  * ## Requirements
  *
