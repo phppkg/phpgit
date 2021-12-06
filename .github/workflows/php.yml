@@ -48,4 +48,5 @@ jobs:
       - name: Run test suite
         run: |
           git fetch --unshallow
+          git pull
           phpunit --debug

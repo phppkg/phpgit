@@ -71,9 +71,9 @@ class Repo
     private string $platform = '';
 
     /**
-     * @var string
+     * @var string|null
      */
-    private string $currentBranch = '';
+    private ?string $currentBranch = null;
 
     /**
      * @var string 'commitId message'
