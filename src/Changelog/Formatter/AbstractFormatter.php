@@ -5,7 +5,7 @@ namespace PhpGit\Changelog\Formatter;
 use PhpGit\Changelog\ChangeLogUtil;
 use PhpGit\Changelog\GitChangeLog;
 use PhpGit\Changelog\ItemFormatterInterface;
-use function stripos;
+use function array_merge;
 
 /**
  * Class AbstractFormatter
@@ -15,22 +15,60 @@ use function stripos;
 abstract class AbstractFormatter implements ItemFormatterInterface
 {
     /**
+     * The group name match rules. key is the group name.
+     *
+     * @var array<string, array<string, string[]>>
+     * @see defaultRules()
+     */
+    protected array $rules = [];
+
+    /**
+     * Class constructor.
+     *
+     * @param array $rules
+     */
+    public function __construct(array $rules = [])
+    {
+        if ($rules) {
+            $this->rules = array_merge(self::defaultRules(), $rules);
+        } else {
+            $this->rules = self::defaultRules();
+        }
+    }
+
+    public static function defaultRules(): array
+    {
+        return [
+            'Refactor' => [
+                'startWiths' => ['break', 'refactor'],
+                'contains'   => [],
+            ],
+            'Update'   => [
+                'startWiths' => ['up', 'add', 'create', 'prof', 'perf', 'enhance'],
+                'contains'   => [],
+            ],
+            'Feature'  => [
+                'startWiths' => ['feat', 'support', 'new'],
+                'contains'   => [],
+            ],
+            'Fixed'    => [
+                'startWiths' => ['bug', 'fix', 'close'],
+                'contains'   => [' fix']
+            ]
+        ];
+    }
+
+    /**
      * @param string $msg
      *
      * @return string
      */
     public function matchGroup(string $msg): string
     {
-        if (ChangeLogUtil::isFixMsg($msg)) {
-            return 'Fixed';
-        }
-
-        if (stripos($msg, 'up') === 0 || stripos($msg, 'add') === 0 || stripos($msg, 'create') === 0) {
-            return 'Update';
-        }
-
-        if (stripos($msg, 'feat') === 0 || stripos($msg, 'support') === 0 || stripos($msg, 'new') === 0) {
-            return 'Feature';
+        foreach ($this->rules as $group => $rule) {
+            if (ChangeLogUtil::matchMsgByRule($msg, $rule)) {
+                return $group;
+            }
         }
 
         return GitChangeLog::OTHER_GROUP;
@@ -42,4 +80,20 @@ abstract class AbstractFormatter implements ItemFormatterInterface
      * @return string[] returns [group, line string]
      */
     abstract public function format(array $item): array;
+
+    /**
+     * @return array[]
+     */
+    public function getRules(): array
+    {
+        return $this->rules;
+    }
+
+    /**
+     * @param array[] $rules
+     */
+    public function setRules(array $rules): void
+    {
+        $this->rules = $rules;
+    }
 }

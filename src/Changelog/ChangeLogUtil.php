@@ -15,16 +15,29 @@ class ChangeLogUtil
 {
     /**
      * @param string $msg
+     * @param array{startWiths: list<string>, contains: list<string>} $rule
      *
      * @return bool
      */
-    public static function isFixMsg(string $msg): bool
+    public static function matchMsgByRule(string $msg, array $rule): bool
     {
-        if (stripos($msg, 'bug') === 0 || stripos($msg, 'close') === 0 || stripos($msg, 'fix') === 0) {
-            return true;
+        if (isset($rule['startWiths'])) {
+            foreach ($rule['startWiths'] as $start) {
+                if (stripos($msg, $start) === 0) {
+                    return true;
+                }
+            }
         }
 
-        return stripos($msg, ' fix') > 0;
+        if (isset($rule['contains'])) {
+            foreach ($rule['contains'] as $sub) {
+                if (stripos($msg, $sub) > 0) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -38,5 +51,4 @@ class ChangeLogUtil
     {
         return (is_dir($path) || !(!@mkdir($path, $mode, $recursive) && !is_dir($path))) && is_writable($path);
     }
-
 }
