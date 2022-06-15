@@ -2,10 +2,12 @@
 
 namespace PhpGit\Changelog;
 
+use PhpGit\Git;
 use function is_dir;
 use function is_writable;
 use function mkdir;
 use function stripos;
+use function strtolower;
 
 /**
  * Class ChangeLogUtil
@@ -51,4 +53,28 @@ class ChangeLogUtil
     {
         return (is_dir($path) || !(!@mkdir($path, $mode, $recursive) && !is_dir($path))) && is_writable($path);
     }
+
+    /**
+     * @param string $version
+     *
+     * @return string
+     */
+    public static function getVersion(string $version): string
+    {
+        $toLower = strtolower($version);
+        if ($toLower === 'head') {
+            return 'HEAD';
+        }
+
+        $descSortedTags = Git::new()->tag->tagsInfo('-version:refname');
+
+        if ($toLower === 'latest' || $toLower === 'last') {
+            $version = $descSortedTags->first();
+        } elseif ($toLower === 'prev' || $toLower === 'previous') {
+            $version = $descSortedTags->second();
+        }
+
+        return $version;
+    }
+
 }

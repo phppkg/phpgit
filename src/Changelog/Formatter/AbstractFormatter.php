@@ -41,19 +41,19 @@ abstract class AbstractFormatter implements ItemFormatterInterface
         return [
             'Refactor' => [
                 'startWiths' => ['break', 'refactor'],
-                'contains'   => [],
+                'contains'   => ['refactor:'],
             ],
             'Update'   => [
-                'startWiths' => ['up', 'add', 'create', 'prof', 'perf', 'enhance'],
+                'startWiths' => ['up', 'create', 'prof', 'perf', 'enhance'],
                 'contains'   => [],
             ],
             'Feature'  => [
-                'startWiths' => ['feat', 'support', 'new'],
+                'startWiths' => ['feat', 'support', 'add', 'new'],
                 'contains'   => [],
             ],
             'Fixed'    => [
                 'startWiths' => ['bug', 'fix', 'close'],
-                'contains'   => [' fix']
+                'contains'   => ['fix:']
             ]
         ];
     }
