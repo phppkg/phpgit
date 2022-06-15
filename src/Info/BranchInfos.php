@@ -57,7 +57,7 @@ class BranchInfos extends AbstractInfo
      */
     public static function fromString(string $str, bool $parse = true): self
     {
-        return self::fromStrings(Str::split2Array($str), $parse);
+        return self::fromStrings(Str::split2Array($str, "\n"), $parse);
     }
 
     /**
@@ -129,5 +129,29 @@ class BranchInfos extends AbstractInfo
     {
         $this->branchLines = array_map('trim', $branchLines);
         return $this;
+    }
+
+    /**
+     * @return BranchInfo|null
+     */
+    public function getCurrentBranch(): ?BranchInfo
+    {
+        return $this->currentBranch;
+    }
+
+    /**
+     * @return array
+     */
+    public function getLocalBranches(): array
+    {
+        return $this->localBranches;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRemoteBranches(): array
+    {
+        return $this->remoteBranches;
     }
 }
