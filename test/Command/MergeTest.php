@@ -7,11 +7,14 @@
  * @license  MIT
  */
 
+namespace PhpGitTest\Command;
+
 use PhpGit\Exception\GitException;
 use PhpGit\Git;
+use PhpGitTest\BasePhpGitTestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
-class MergeTest extends BaseTestCase
+class MergeTest extends BasePhpGitTestCase
 {
     public function testMerge(): void
     {

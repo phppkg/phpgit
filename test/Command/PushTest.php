@@ -7,12 +7,14 @@
  * @license  MIT
  */
 
+namespace PhpGitTest\Command;
+
 use PhpGit\Git;
+use PhpGitTest\BasePhpGitTestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
 
-
-class PushTest extends BaseTestCase
+class PushTest extends BasePhpGitTestCase
 {
     public function testPush(): void
     {

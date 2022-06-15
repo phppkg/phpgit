@@ -8,6 +8,7 @@
  */
 
 // namespace PhpGitTest;
+namespace PhpGitTest;
 
 use PhpGit\Git;
 use PHPUnit\Framework\TestCase;
@@ -16,7 +17,7 @@ use Symfony\Component\Filesystem\Filesystem;
 /**
  * @author Kazuyuki Hayashi <hayashi@siance.co.jp>
  */
-abstract class BaseTestCase extends TestCase
+abstract class BasePhpGitTestCase extends TestCase
 {
     /**
      * @var string

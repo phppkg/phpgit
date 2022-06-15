@@ -7,10 +7,13 @@
  * @license  MIT
  */
 
+namespace PhpGitTest\Command;
+
 use PhpGit\Git;
+use PhpGitTest\BasePhpGitTestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
-class CatTest extends BaseTestCase
+class CatTest extends BasePhpGitTestCase
 {
     public function testCatBlob(): void
     {

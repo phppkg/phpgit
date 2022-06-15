@@ -6,11 +6,13 @@
  * @link     https://github.com/phppkg/phpgit
  * @license  MIT
  */
+namespace PhpGitTest\Command;
 
 use PhpGit\Git;
+use PhpGitTest\BasePhpGitTestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
-class MvTest extends BaseTestCase
+class MvTest extends BasePhpGitTestCase
 {
     public function testMv(): void
     {

@@ -7,11 +7,12 @@
  * @license  MIT
  */
 
+namespace PhpGitTest\Command\Remote;
+
 use PhpGit\Git;
+use PhpGitTest\BasePhpGitTestCase;
 
-require_once __DIR__ . '/../../BaseTestCase.php';
-
-class SetBranchesTest extends BaseTestCase
+class SetBranchesTest extends BasePhpGitTestCase
 {
     public function testSetBranches(): void
     {

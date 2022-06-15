@@ -7,11 +7,13 @@
  * @license  MIT
  */
 
+namespace PhpGitTest\Command;
+
 use PhpGit\Git;
+use PhpGitTest\BasePhpGitTestCase;
 
 
-
-class RemoteTest extends BaseTestCase
+class RemoteTest extends BasePhpGitTestCase
 {
     public function testRemote(): void
     {

@@ -7,11 +7,18 @@
  * @license  MIT
  */
 
+namespace PhpGitTest\Command\Remote;
+
 use PhpGit\Git;
+use PhpGitTest\BasePhpGitTestCase;
 
-require_once __DIR__ . '/../../BaseTestCase.php';
-
-class SetUrlTest extends BaseTestCase
+/**
+ * class SetUrlTest
+ *
+ * @author inhere
+ * @date 2022/6/15
+ */
+class SetUrlTest extends BasePhpGitTestCase
 {
     public function testSetUrl(): void
     {

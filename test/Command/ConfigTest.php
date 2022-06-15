@@ -6,10 +6,12 @@
  * @link     https://github.com/phppkg/phpgit
  * @license  MIT
  */
+namespace PhpGitTest\Command;
 
 use PhpGit\Git;
+use PhpGitTest\BasePhpGitTestCase;
 
-class ConfigTest extends BaseTestCase
+class ConfigTest extends BasePhpGitTestCase
 {
     public function testConfigSetAndList(): void
     {

@@ -7,14 +7,17 @@
  * @license  MIT
  */
 
+namespace PhpGitTest\Command;
+
 use PhpGit\Exception\GitException;
 use PhpGit\Git;
+use PhpGitTest\BasePhpGitTestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * @author Kazuyuki Hayashi <hayashi@valnur.net>
  */
-class AddTest extends BaseTestCase
+class AddTest extends BasePhpGitTestCase
 {
     public function testAdd(): void
     {

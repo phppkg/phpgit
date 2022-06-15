@@ -7,11 +7,18 @@
  * @license  MIT
  */
 
+namespace PhpGitTest\Command\Remote;
+
 use PhpGit\Git;
+use PhpGitTest\BasePhpGitTestCase;
 
-require_once __DIR__ . '/../../BaseTestCase.php';
-
-class SetHeadTest extends BaseTestCase
+/**
+ * class SetHeadTest
+ *
+ * @author inhere
+ * @date 2022/6/15
+ */
+class SetHeadTest extends BasePhpGitTestCase
 {
     public function testSetHead(): void
     {

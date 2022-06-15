@@ -7,13 +7,16 @@
  * @license  MIT
  */
 
+namespace PhpGitTest\Command;
+
 use PhpGit\Git;
+use PhpGitTest\BasePhpGitTestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * @author Kazuyuki Hayashi <hayashi@valnur.net>
  */
-class ArchiveTest extends BaseTestCase
+class ArchiveTest extends BasePhpGitTestCase
 {
     public function testArchive(): void
     {

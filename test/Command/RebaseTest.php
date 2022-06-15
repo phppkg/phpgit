@@ -7,13 +7,20 @@
  * @license  MIT
  */
 
+namespace PhpGitTest\Command;
+
 use PhpGit\Exception\GitException;
 use PhpGit\Git;
+use PhpGitTest\BasePhpGitTestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
-
-
-class RebaseTest extends BaseTestCase
+/**
+ * class RebaseTest
+ *
+ * @author inhere
+ * @date 2022/6/15
+ */
+class RebaseTest extends BasePhpGitTestCase
 {
     public function testRebase(): void
     {

@@ -7,13 +7,15 @@
  * @license  MIT
  */
 
+namespace PhpGitTest\Command;
+
 use PhpGit\Exception\GitException;
 use PhpGit\Git;
+use PhpGitTest\BasePhpGitTestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
 
-
-class TagTest extends BaseTestCase
+class TagTest extends BasePhpGitTestCase
 {
     public function testTagDelete(): void
     {

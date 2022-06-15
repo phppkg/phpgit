@@ -7,10 +7,12 @@
  * @license  MIT
  */
 
+namespace PhpGitTest;
+
 use PhpGit\Exception\GitException;
 use PhpGit\Git;
 
-class GitTest extends BaseTestCase
+class GitTest extends BasePhpGitTestCase
 {
     public function testGetVersion(): void
     {

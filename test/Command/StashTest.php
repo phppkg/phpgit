@@ -7,12 +7,14 @@
  * @license  MIT
  */
 
+namespace PhpGitTest\Command;
+
 use PhpGit\Git;
+use PhpGitTest\BasePhpGitTestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
 
-
-class StashTest extends BaseTestCase
+class StashTest extends BasePhpGitTestCase
 {
     public function testStash(): void
     {

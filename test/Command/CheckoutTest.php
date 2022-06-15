@@ -7,10 +7,13 @@
  * @license  MIT
  */
 
+namespace PhpGitTest\Command;
+
 use PhpGit\Git;
+use PhpGitTest\BasePhpGitTestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
-class CheckoutTest extends BaseTestCase
+class CheckoutTest extends BasePhpGitTestCase
 {
     public function setUp(): void
     {

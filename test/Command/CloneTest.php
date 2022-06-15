@@ -6,11 +6,13 @@
  * @link     https://github.com/phppkg/phpgit
  * @license  MIT
  */
+namespace PhpGitTest\Command;
 
 use PhpGit\Git;
+use PhpGitTest\BasePhpGitTestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
-class CloneTest extends BaseTestCase
+class CloneTest extends BasePhpGitTestCase
 {
     public function testClone(): void
     {

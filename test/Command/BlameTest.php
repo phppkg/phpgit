@@ -4,9 +4,10 @@ namespace PhpGitTest\Command;
 
 use PhpGit\Command\Blame;
 use PhpGit\Git;
+use PhpGitTest\BasePhpGitTestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
-class BlameTest extends \BaseTestCase
+class BlameTest extends BasePhpGitTestCase
 {
     public function testBlame(): void
     {

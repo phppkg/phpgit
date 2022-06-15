@@ -7,13 +7,15 @@
  * @license  MIT
  */
 
+namespace PhpGitTest\Command;
+
 use PhpGit\Command\Status;
 use PhpGit\Git;
+use PhpGitTest\BasePhpGitTestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
 
-
-class StatusTest extends BaseTestCase
+class StatusTest extends BasePhpGitTestCase
 {
     public function testStatus(): void
     {

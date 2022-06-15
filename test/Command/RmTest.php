@@ -7,12 +7,14 @@
  * @license  MIT
  */
 
+namespace PhpGitTest\Command;
+
 use PhpGit\Git;
+use PhpGitTest\BasePhpGitTestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
 
-
-class RmTest extends BaseTestCase
+class RmTest extends BasePhpGitTestCase
 {
     public function testRm(): void
     {

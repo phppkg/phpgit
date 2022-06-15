@@ -7,12 +7,19 @@
  * @license  MIT
  */
 
+namespace PhpGitTest\Command;
+
 use PhpGit\Git;
+use PhpGitTest\BasePhpGitTestCase;
 use Symfony\Component\Filesystem\Filesystem;
 
-
-
-class ShowTest extends BaseTestCase
+/**
+ * class ShowTest
+ *
+ * @author inhere
+ * @date 2022/6/15
+ */
+class ShowTest extends BasePhpGitTestCase
 {
     public function testShow(): void
     {

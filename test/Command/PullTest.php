@@ -7,9 +7,12 @@
  * @license  MIT
  */
 
-use PhpGit\Git;
+namespace PhpGitTest\Command;
 
-class PullTest extends BaseTestCase
+use PhpGit\Git;
+use PhpGitTest\BasePhpGitTestCase;
+
+class PullTest extends BasePhpGitTestCase
 {
     public function testPull(): void
     {

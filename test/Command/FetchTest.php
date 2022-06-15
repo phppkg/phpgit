@@ -7,9 +7,12 @@
  * @license  MIT
  */
 
-use PhpGit\Git;
+namespace PhpGitTest\Command;
 
-class FetchTest extends BaseTestCase
+use PhpGit\Git;
+use PhpGitTest\BasePhpGitTestCase;
+
+class FetchTest extends BasePhpGitTestCase
 {
     public function testFetch(): void
     {
