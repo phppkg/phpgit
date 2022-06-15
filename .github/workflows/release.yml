@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: [8.0]
+        php: [8.1]
 
     steps:
       - name: Checkout
@@ -28,8 +28,7 @@ jobs:
       - name: Generate changelog file
         id: changelog
         run: |
-          wget -c -q https://github.com/inhere/kite/releases/latest/download/kite.phar
-          php kite.phar git cl prev last --style gh-release --no-merges --fetch-tags --unshallow --file changelog.md
+          php bin/chlog.php prev last --style ghr --no-merges -o changelog.md
           cat changelog.md
 
       # https://github.com/softprops/action-gh-release

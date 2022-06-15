@@ -135,7 +135,7 @@ Color::info('repo URL: ' . $repoUrl);
 
 // create object by output.
 $gcl = GitChangeLog::new($c->getOutput());
-$gcl->setLogFormat($logFmt);
+$gcl->setLogFormat($logFormat);
 $gcl->setRepoUrl($repoUrl);
 
 // you can set output style. default is markdown.
@@ -151,7 +151,7 @@ $str = $gcl->generate();
 echo $str;
 ```
 
-will see:
+Run example `php bin/chlog.php` will see:
 
 ```text
 > git log v0.2.1...HEAD --reverse --pretty=format:"%H | %s | %cn" --no-merges

@@ -3,3 +3,4 @@
 composer.phar
 *.cache
 .DS_Store
+/test/testdata

@@ -1,5 +1,5 @@
 options:
-  title: '## Chanage Log'
+  title: '## Change Log'
   style: gh-release
 filters:
   # message length >= 12
@@ -13,15 +13,15 @@ filters:
     exclude: true
 
 # not matched will use 'Other' group.
-groups:
+rules:
   - name: New
-    keywords: [add, new]
+    contains: [add, new]
   - name: Fixed
     startWiths: [add, new]
-    keywords: [add, new]
+    contains: [add, new]
   - name: Feat
     startWiths: [feat]
-    keywords: [feature]
+    contains: [feature]
   - name: Update
     startWiths: [update, 'up:']
-    keywords: [update]
+    contains: []
