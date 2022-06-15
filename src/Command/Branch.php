@@ -11,6 +11,7 @@ namespace PhpGit\Command;
 
 use PhpGit\Concern\AbstractCommand;
 use PhpGit\Exception\GitException;
+use PhpGit\GitUtil;
 use Symfony\Component\OptionsResolver\Options;
 
 /**
@@ -81,41 +82,10 @@ class Branch extends AbstractCommand
         $lines = preg_split('/\r?\n/', rtrim($output), -1, PREG_SPLIT_NO_EMPTY);
 
         $branches = [];
-        // $pattern  = '/(?<current>\*| ) (?<name>[^\s]+) +((?:->) (?<alias>[^\s]+)|(?<hash>[0-9a-z]{7}) (?<title>.*))/';
-        $pattern  = '/(?<current>\*| ) (?<name>[^\s]+) +((?:->) (?<alias>[^\s]+)|(?<hash>[0-9a-z]{4,41}) (?<title>.*))/';
         foreach ($lines as $line) {
-            $branch = [
-                'current' => '',
-                'name'    => '',
-                'title'   => '',
-                'alias'   => '',
-                'hash'    => ''
-            ];
+            $branch = GitUtil::parseBranchLine($line);
 
-            preg_match($pattern, $line, $matches);
-
-            // up from: https://github.com/kzykhys/PHPGit/pull/15/files
-            if (isset($matches['current'])) {
-                $branch['current'] = $matches['current'] === '*';
-            }
-
-            if (isset($matches['name'])) {
-                $branch['name'] = $matches['name'];
-            } else {
-                $matches['name'] = '';
-            }
-
-            if (isset($matches['hash'])) {
-                $branch['hash'] = $matches['hash'];
-            }
-            if (isset($matches['title'])) {
-                $branch['title'] = $matches['title'];
-            }
-            if (isset($matches['alias'])) {
-                $branch['alias'] = $matches['alias'];
-            }
-
-            $branches[$matches['name']] = $branch;
+            $branches[$branch['name']] = $branch;
         }
 
         return $branches;

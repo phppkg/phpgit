@@ -46,7 +46,7 @@ class Repo
     private string $defaultRemote = Git::DEFAULT_REMOTE;
 
     /**
-     * @var string[][]
+     * @var array{string: array}
      */
     private array $remotes = [];
 
@@ -210,7 +210,7 @@ class Repo
     /**
      * @param bool $refresh
      *
-     * @return array
+     * @return array{string: array}
      */
     public function getRemotes(bool $refresh = false): array
     {
@@ -281,7 +281,7 @@ class Repo
      */
     public function getLastCommit(bool $refresh = false): string
     {
-        if (false === $refresh && null !== $this->lastCommit) {
+        if (false === $refresh && '' !== $this->lastCommit) {
             return $this->lastCommit;
         }
 

@@ -104,7 +104,7 @@ use PhpGit\Exception\GitException;
  * @method commit(string $message = '', $options = [])                      Record changes to the repository
  * @method config($options = [])                                            List all variables set in config file
  * @method describe($committish = null, $options = [])                      Returns the most recent tag that is reachable from a commit
- * @method fetch(string $repository, $refspec = null, $options = [])        Fetches named heads or tags from one or more other repositories
+ * @method bool fetch(string $repository, $refspec = null, $options = [])        Fetches named heads or tags from one or more other repositories
  * @method init(string $path, $options = [])                                Create an empty git repository or reinitialize an existing one
  * @method log($path = null, $options = [])                                 Returns the commit logs
  * @method merge($commit, $message = null, $options = [])                   Incorporates changes from the named commits into the current branch

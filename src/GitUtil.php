@@ -13,8 +13,12 @@ use Symfony\Component\Process\Process;
 use function array_merge;
 use function defined;
 use function explode;
+use function ltrim;
 use function parse_url;
+use function preg_match;
+use function str_starts_with;
 use function substr;
+use function trim;
 
 /**
  * Class GitUtil
@@ -27,8 +31,8 @@ class GitUtil
      * This method is used to create a process object.
      *
      * @param string $command command of the `bin_name`
-     * @param array  $args    command args
-     * @param array  $options process options
+     * @param array $args command args
+     * @param array $options process options
      *                       - timeout
      *                       - bin_name
      *                       - work_dir
@@ -79,7 +83,7 @@ class GitUtil
             $type = 'git';
 
             // remove suffix
-            if (substr($url, -4) === '.git') {
+            if (str_ends_with($url, '.git')) {
                 $str = substr($url, 4, -4);
             } else {
                 $str = substr($url, 4);
@@ -107,7 +111,7 @@ class GitUtil
         $info['type'] = 'http';
 
         $uriPath = $info['path'];
-        if (substr($uriPath, -4) === '.git') {
+        if (str_ends_with($uriPath, '.git')) {
             $uriPath = substr($uriPath, 0, -4);
         }
 
@@ -119,5 +123,67 @@ class GitUtil
         $info['repo']  = $repo;
 
         return $info;
+    }
+
+    /**
+     * '/(?<current>\*| ) (?<name>[^\s]+) +((?:->) (?<alias>[^\s]+)|(?<hash>[0-9a-z]{7}) (?<message>.*))/'
+     */
+    public const PATTERN_BR_LINE = '/(?<current>\*| ) (?<name>[^\s]+) +((?:->) (?<alias>[^\s]+)|(?<hash>[0-9a-z]{4,41}) (?<message>.*))/';
+
+    /**
+     * @param string $line
+     * @param bool $verbose
+     *
+     * @return array{name: string, current: bool, alias: string, hash: string, message:string}
+     */
+    public static function parseBranchLine(string $line, bool $verbose = true): array
+    {
+        $branch = [
+            'current' => false,
+            'name'    => '',
+            'hash'    => '',
+            'message' => '', // hash message
+            'alias'   => '',
+        ];
+
+        $line = trim($line);
+        if (!$verbose) {
+            // eg:
+            // * current_branch
+            //  another_branch
+            if (str_starts_with($line, '*')) {
+                $branch['current'] = true;
+                // clear starts
+                $line = ltrim($line, '*\t ');
+            }
+
+            $branch['name'] = $line;
+            return $branch;
+        }
+
+        // is verbose. eg: * BRANCH_NAME  COMMIT_ID  COMMIT_MSG
+        preg_match(self::PATTERN_BR_LINE, $line, $matches);
+
+        // up from: https://github.com/kzykhys/PHPGit/pull/15/files
+        if (isset($matches['current'])) {
+            $branch['current'] = $matches['current'] === '*';
+        }
+
+        // full name with remote. eg: remotes/origin/NAME
+        if (isset($matches['name'])) {
+            $branch['name'] = $matches['name'];
+        }
+
+        if (isset($matches['alias'])) {
+            $branch['alias'] = $matches['alias'];
+        }
+        if (isset($matches['hash'])) {
+            $branch['hash'] = $matches['hash'];
+        }
+        if (isset($matches['message'])) {
+            $branch['message'] = $matches['message'];
+        }
+
+        return $branch;
     }
 }

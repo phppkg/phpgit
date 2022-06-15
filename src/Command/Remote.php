@@ -41,11 +41,9 @@ class Remote extends AbstractCommand
     ];
 
     /**
-     * @param bool $refresh
-     *
-     * @return array
+     * @return array{string: array}
      */
-    public function getList(bool $refresh = false): array
+    public function getList(): array
     {
         $builder = $this->getCommandBuilder('-v');
 
