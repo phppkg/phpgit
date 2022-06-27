@@ -25,6 +25,10 @@ jobs:
           echo "RELEASE_TAG=${GITHUB_REF:10}" >> $GITHUB_ENV
           echo "RELEASE_NAME=$GITHUB_WORKFLOW" >> $GITHUB_ENV
 
+      - name: Install dependencies
+        run: |
+          composer install --no-progress
+
       - name: Generate changelog file
         id: changelog
         run: |
