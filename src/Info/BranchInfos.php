@@ -73,6 +73,9 @@ class BranchInfos extends AbstractInfo
         return $parse ? $self->parse() : $self;
     }
 
+    /**
+     * @return $this
+     */
     public function parse(): self
     {
         if ($this->parsed) {

@@ -128,7 +128,7 @@ class GitUtil
     /**
      * '/(?<current>\*| ) (?<name>[^\s]+) +((?:->) (?<alias>[^\s]+)|(?<hash>[0-9a-z]{7}) (?<message>.*))/'
      */
-    public const PATTERN_BR_LINE = '/(?<current>\*| ) (?<name>[^\s]+) +((?:->) (?<alias>[^\s]+)|(?<hash>[0-9a-z]{4,41}) (?<message>.*))/';
+    public const PATTERN_BR_LINE = '/(?<current>\*| ) (?<name>\S+) +((?:->) (?<alias>\S+)|(?<hash>[0-9a-z]{4,41}) (?<message>.*))/';
 
     /**
      * @param string $line
@@ -146,11 +146,11 @@ class GitUtil
             'alias'   => '',
         ];
 
-        $line = trim($line);
         if (!$verbose) {
             // eg:
             // * current_branch
             //  another_branch
+            $line = trim($line);
             if (str_starts_with($line, '*')) {
                 $branch['current'] = true;
                 // clear starts
