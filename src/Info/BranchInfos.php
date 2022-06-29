@@ -102,7 +102,8 @@ class BranchInfos extends AbstractInfo
             $brInfo = BranchInfo::new($branch);
 
             if ($brInfo->isRemoted()) {
-                $this->remoteBranches[$brInfo->shortName] = $brInfo;
+                // fix: cannot use shortName, will override on have multi remote
+                $this->remoteBranches[$brInfo->name] = $brInfo;
             } else {
                 $this->localBranches[$brInfo->shortName] = $brInfo;
 

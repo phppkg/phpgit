@@ -33,7 +33,7 @@ TXT
         $brInfos = BranchInfos::fromString(<<<TXT
   fea/new_br001             73j824d the message 001
 * master                    7r60d4f the message 002
-  my_new_br                   6fb8dcd the message 003
+  my_new_br                 6fb8dcd the message 003
   remotes/origin/my_new_br   6fb8dcd the message 003
 TXT
 );
