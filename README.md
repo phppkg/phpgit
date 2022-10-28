@@ -4,19 +4,19 @@
 [![Github Actions Status](https://github.com/phppkg/phpgit/workflows/Unit-tests/badge.svg)](https://github.com/phppkg/phpgit/actions)
 [![Php Version](https://img.shields.io/badge/php-%3E8.0-brightgreen.svg?maxAge=2592000)](https://packagist.org/packages/phppkg/phpgit)
 
-PhpGit - A Git wrapper library for PHP 8.0+
+PhpGit - A Git wrapper library for PHP 8.1+
 
 > The project is forked from https://github.com/kzykhys/PHPGit
 
 **Features**
 
 - Quick run git commands, eg: `clone,add,commit,merge`
-- Git repo info fetch.
+- Git repo info fetch: `status` `branch` `remote`
 - Generate changelog by git log
 
 ## Requirements
 
-* PHP 8.0+
+* PHP 8.1+
 * Git
 
 ## Installation
