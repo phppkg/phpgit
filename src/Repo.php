@@ -341,7 +341,7 @@ class Repo
             $name = $remote . '/' . $name;
         }
 
-        return $bis->getBranchInfo($name, $from);
+        return $bis->getByName($name, $from);
     }
 
     /**

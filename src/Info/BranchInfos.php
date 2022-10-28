@@ -125,18 +125,6 @@ class BranchInfos extends AbstractInfo
     }
 
     /**
-     * @param string $name
-     *
-     * @return BranchInfo|null
-     */
-    public function findOne(string $name): ?BranchInfo
-    {
-        $list = $this->search($name);
-
-        return $list ? $list[0] : null;
-    }
-
-    /**
      * @param string $kw
      * @param int $limit
      *
@@ -176,7 +164,7 @@ class BranchInfos extends AbstractInfo
      *
      * @return BranchInfo|null
      */
-    public function getBranchInfo(string $name, string $from = self::FROM_LOCAL): ?BranchInfo
+    public function getByName(string $name, string $from = self::FROM_LOCAL): ?BranchInfo
     {
         if ($from === self::FROM_LOCAL) {
             return $this->localBranches[$name] ?? null;
