@@ -13,6 +13,7 @@ namespace PhpGitTest;
 use PhpGit\Git;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
+use function class_exists;
 
 /**
  * @author Kazuyuki Hayashi <hayashi@siance.co.jp>
@@ -52,7 +53,9 @@ abstract class BasePhpGitTestCase extends TestCase
      */
     public function tearDown(): void
     {
-        $filesystem = new Filesystem();
-        $filesystem->remove($this->directory);
+        if (class_exists(Filesystem::class)) {
+            $filesystem = new Filesystem();
+            $filesystem->remove($this->directory);
+        }
     }
 }

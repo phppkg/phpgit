@@ -13,6 +13,7 @@ use PhpGit\Concern\AbstractInfo;
 use PhpGit\GitUtil;
 use Toolkit\Stdlib\Str;
 use function array_map;
+use function count;
 use function str_contains;
 use function trim;
 
@@ -23,6 +24,9 @@ use function trim;
  */
 class BranchInfos extends AbstractInfo
 {
+    public const FROM_LOCAL = 'local';
+    public const FROM_REMOTE = 'remote';
+
     /**
      * @var bool
      */
@@ -41,11 +45,15 @@ class BranchInfos extends AbstractInfo
     protected ?BranchInfo $currentBranch;
 
     /**
+     * local branches. key is short name: master
+     *
      * @var array{string: BranchInfo}
      */
     protected array $localBranches = [];
 
     /**
+     * remote branches. key is full name: origin/master
+     *
      * @var array{string: BranchInfo}
      */
     protected array $remoteBranches = [];
@@ -114,6 +122,71 @@ class BranchInfos extends AbstractInfo
         }
 
         return $this;
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return BranchInfo|null
+     */
+    public function findOne(string $name): ?BranchInfo
+    {
+        $list = $this->search($name);
+
+        return $list ? $list[0] : null;
+    }
+
+    /**
+     * @param string $kw
+     * @param int $limit
+     *
+     * @return BranchInfo[]
+     */
+    public function search(string $kw, int $limit = 3): array
+    {
+        $list = [];
+        foreach ($this->localBranches as $name => $branch) {
+            if (str_contains($name, $kw)) {
+                $list[] = $branch;
+            }
+
+            if (count($list) >= $limit) {
+                break;
+            }
+        }
+
+        if (count($list) < $limit) {
+            foreach ($this->remoteBranches as $name => $branch) {
+                if (str_contains($name, $kw)) {
+                    $list[] = $branch;
+                }
+
+                if (count($list) >= $limit) {
+                    break;
+                }
+            }
+        }
+
+        return $list;
+    }
+
+    /**
+     * @param string $name
+     * @param string $from
+     *
+     * @return BranchInfo|null
+     */
+    public function getBranchInfo(string $name, string $from = self::FROM_LOCAL): ?BranchInfo
+    {
+        if ($from === self::FROM_LOCAL) {
+            return $this->localBranches[$name] ?? null;
+        }
+
+        if ($from === self::FROM_REMOTE) {
+            return $this->remoteBranches[$name] ?? null;
+        }
+
+        return $this->localBranches[$name] ?? ($this->remoteBranches[$name] ?? null);
     }
 
     /**

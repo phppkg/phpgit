@@ -87,6 +87,7 @@ class BranchInfo extends AbstractInfo
 
         // is remote branch
         if (str_starts_with($this->name, self::REMOTE_PREFIX)) {
+            // $this->name = substr($name, 8);
             [
                 $this->remote,
                 $this->shortName

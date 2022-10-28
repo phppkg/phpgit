@@ -40,7 +40,20 @@ class Remote extends AbstractCommand
         'branches' => Remote\SetBranches::class,
     ];
 
-    /**
+    /***
+     * Returns an array of existing remotes
+     *
+     * ### Output Example
+     *
+     * ``` php
+     * [
+     *     'origin' => [
+     *         'fetch' => 'https://github.com/phppkg/phpgit.git',
+     *         'push'  => 'https://github.com/phppkg/phpgit.git'
+     *     ]
+     * ]
+     * ```
+     *
      * @return array{string: array}
      */
     public function getList(): array
@@ -74,7 +87,7 @@ class Remote extends AbstractCommand
      * $remotes = $git->remote();
      * ```
      *
-     * ##### Output Example
+     * ### Output Example
      *
      * ``` php
      * [
@@ -85,13 +98,11 @@ class Remote extends AbstractCommand
      * ]
      * ```
      *
-     * @param bool $refresh
-     *
      * @return array
      */
-    public function __invoke(bool $refresh = false): array
+    public function __invoke(): array
     {
-        return $this->getList($refresh);
+        return $this->getList();
     }
 
     /**

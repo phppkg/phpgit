@@ -111,6 +111,7 @@ class Fetch extends AbstractCommand
             'keep'   => false,
             'prune'  => false,
             'tags'   => false,
+            'no-tags' => false, // no-tags
         ]);
     }
 }

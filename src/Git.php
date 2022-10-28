@@ -436,5 +436,5 @@ class Git
     {
         $this->quietRun = $quietRun;
         return $this;
-}
+    }
 }

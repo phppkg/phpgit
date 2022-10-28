@@ -11,7 +11,9 @@ namespace PhpGit;
 
 use Generator;
 use PhpGit\Info\BranchInfo;
+use PhpGit\Info\BranchInfos;
 use PhpGit\Info\RemoteInfo;
+use PhpGit\Info\StatusInfo;
 use Toolkit\Cli\Cli;
 
 /**
@@ -61,9 +63,9 @@ class Repo
     private array $branchNames = [];
 
     /**
-     * @var BranchInfo[]
+     * @var BranchInfos|null
      */
-    private array $branchInfos = [];
+    private BranchInfos|null $branchInfos = null;
 
     /**
      * @var string
@@ -84,6 +86,11 @@ class Repo
      * @var string
      */
     private string $lastCommitId = '';
+
+    /**
+     * @var StatusInfo|null
+     */
+    private ?StatusInfo $statusInfo = null;
 
     /**
      * @param string $repoDir
@@ -120,7 +127,7 @@ class Repo
 
     /**
      * @param string $cmd
-     * @param mixed  ...$args
+     * @param mixed ...$args
      *
      * @return CmdBuilder
      */
@@ -131,7 +138,7 @@ class Repo
 
     /**
      * @param string $cmd
-     * @param mixed  ...$args
+     * @param mixed ...$args
      */
     public function execAndOutput(string $cmd, ...$args): void
     {
@@ -143,15 +150,32 @@ class Repo
 
     /**
      * @param string $cmd
-     * @param mixed  ...$args
+     * @param mixed ...$args
      *
      * @return mixed
      */
     public function exec(string $cmd, ...$args): mixed
     {
-        $git = $this->ensureGit();
+        return $this->ensureGit()->exec($cmd, ...$args);
+    }
 
-        return $git->exec($cmd, ...$args);
+    /**
+     * @param bool $refresh
+     *
+     * @return StatusInfo
+     */
+    public function getStatusInfo(bool $refresh = false): StatusInfo
+    {
+        if (!$refresh && null !== $this->statusInfo) {
+            return $this->statusInfo;
+        }
+
+        $text = $this->ensureGit()
+            ->newCmd('status', '-bs', '-u')
+            ->run(true);
+
+        $this->statusInfo = StatusInfo::fromString($text);
+        return $this->statusInfo;
     }
 
     /**
@@ -210,7 +234,12 @@ class Repo
     /**
      * @param bool $refresh
      *
-     * @return array{string: array}
+     * @return array = [
+     *     'origin' => [
+     *          'fetch' => 'https://github.com/phppkg/phpgit.git',
+     *          'push' => 'git@github.com:phppkg/phpgit.git',
+     *      ]
+     * ]
      */
     public function getRemotes(bool $refresh = false): array
     {
@@ -253,9 +282,13 @@ class Repo
      */
     public function getLastTagName(bool $refresh = false): string
     {
-        $git = $this->ensureGit()->setQuietRun(true);
+        $git = $this->ensureGit();
+        $val = $git->isQuietRun();
 
-        return $git->getLastTagName($refresh);
+        $str = $git->setQuietRun(true)->getLastTagName($refresh);
+        $git->setQuietRun($val);
+
+        return $str;
     }
 
     /**
@@ -272,6 +305,43 @@ class Repo
         $this->currentBranch = $this->ensureGit()->getCurrentBranch();
 
         return $this->currentBranch;
+    }
+
+    /**
+     * @param bool $refresh
+     *
+     * @return BranchInfos
+     */
+    public function getBranchInfos(bool $refresh = false): BranchInfos
+    {
+        if ($refresh || !$this->branchInfos) {
+            $str = $this->newCmd('branch', '-v', '--abbrev=7')
+                ->setQuietRun(true)
+                ->run(true);
+
+            $this->branchInfos = BranchInfos::fromString($str);
+        }
+
+        return $this->branchInfos;
+    }
+
+    /**
+     * @param string $name
+     * @param string $remote
+     *
+     * @return BranchInfo
+     */
+    public function getBranchInfo(string $name, string $remote = ''): BranchInfo
+    {
+        $bis = $this->getBranchInfos();
+
+        $from = BranchInfos::FROM_LOCAL;
+        if ($remote) {
+            $from = BranchInfos::FROM_REMOTE;
+            $name = $remote . '/' . $name;
+        }
+
+        return $bis->getBranchInfo($name, $from);
     }
 
     /**
@@ -297,7 +367,7 @@ class Repo
      */
     public function getLastCommitId(bool $refresh = false): string
     {
-        if (false === $refresh && null !== $this->lastCommitId) {
+        if (false === $refresh && $this->lastCommitId) {
             return $this->lastCommitId;
         }
 
@@ -437,4 +507,5 @@ class Repo
 
         return $this->platform;
     }
+
 }
