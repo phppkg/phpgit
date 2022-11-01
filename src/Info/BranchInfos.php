@@ -12,8 +12,9 @@ namespace PhpGit\Info;
 use PhpGit\Concern\AbstractInfo;
 use PhpGit\GitUtil;
 use Toolkit\Stdlib\Str;
-use function array_map;
 use function count;
+use function in_array;
+use function is_string;
 use function str_contains;
 use function trim;
 
@@ -24,20 +25,14 @@ use function trim;
  */
 class BranchInfos extends AbstractInfo
 {
-    public const FROM_LOCAL = 'local';
-    public const FROM_REMOTE = 'remote';
+    public const FROM_ALL    = 'ALL';
+    public const FROM_LOCAL  = 'LOCAL';
+    public const FROM_REMOTE = 'REMOTE';
 
     /**
      * @var bool
      */
     protected bool $parsed = false;
-
-    /**
-     * raw branch lines by git branch
-     *
-     * @var string[]
-     */
-    protected array $branchLines = [];
 
     /**
      * @var ?BranchInfo
@@ -63,9 +58,9 @@ class BranchInfos extends AbstractInfo
      *
      * @return static
      */
-    public static function fromString(string $str, bool $parse = true): self
+    public static function fromString(string $str): self
     {
-        return self::fromStrings(Str::split2Array($str, "\n"), $parse);
+        return self::fromStrings(Str::split2Array($str, "\n"));
     }
 
     /**
@@ -73,35 +68,34 @@ class BranchInfos extends AbstractInfo
      *
      * @return static
      */
-    public static function fromStrings(array $lines, bool $parse = true): self
+    public static function fromStrings(array $lines): self
     {
-        $self = new self();
-        $self->setBranchLines($lines);
-
-        return $parse ? $self->parse() : $self;
+        return (new self())->parse($lines);
     }
 
     /**
+     * @param array $lines
+     *
      * @return $this
      */
-    public function parse(): self
+    public function parse(array $lines): self
     {
         if ($this->parsed) {
             return $this;
         }
 
         $this->parsed = true;
-        if (!$this->branchLines) {
+        if (!$lines) {
             return $this;
         }
 
         $verbose   = false;
-        $firstLine = $this->branchLines[0];
+        $firstLine = $lines[0];
         if (str_contains(trim($firstLine, " *\t\n\r\0\x0B"), ' ')) {
             $verbose = true;
         }
 
-        foreach ($this->branchLines as $line) {
+        foreach ($lines as $line) {
             $branch = GitUtil::parseBranchLine($line, $verbose);
             if (!$branch['name']) {
                 continue;
@@ -160,40 +154,117 @@ class BranchInfos extends AbstractInfo
 
     /**
      * @param string $name
-     * @param string $from
+     * @param string|array $from keywords {@see FROM_LOCAL} or remote names
+     *
+     * @return bool
+     */
+    public function hasBranch(string $name, string|array $from = self::FROM_LOCAL): bool
+    {
+        if (is_string($from)) {
+            if ($from === self::FROM_LOCAL) {
+                return isset($this->localBranches[$name]);
+            }
+
+            if ($from === self::FROM_ALL) {
+                if (isset($this->localBranches[$name])) {
+                    return true;
+                }
+                return $this->hasRemoteBranch($name);
+            }
+
+            if ($from === self::FROM_REMOTE) {
+                return $this->hasRemoteBranch($name);
+            }
+
+            $remotes = [$from];
+        } else {
+            $remotes = $from;
+        }
+
+        return $this->hasRemoteBranch($name, $remotes);
+    }
+
+    /**
+     * @param string $name name without remote.
+     *
+     * @return bool
+     */
+    public function hasLocalBranch(string $name): bool
+    {
+        return isset($this->localBranches[$name]);
+    }
+
+    /**
+     * @param string $name name without remote.
+     * @param string|array $remotes remote names
+     *
+     * @return bool
+     */
+    public function hasRemoteBranch(string $name, string|array $remotes = ''): bool
+    {
+        if ($remotes && is_string($remotes)) {
+            $remotes = [$remotes];
+        }
+
+        foreach ($this->remoteBranches as $branch) {
+            if (!$remotes || in_array($branch->remote, $remotes, true)) {
+                if ($branch->shortName === $name) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @param string $name
+     * @param string|array $from keywords {@see FROM_LOCAL} or remote names
      *
      * @return BranchInfo|null
      */
-    public function getByName(string $name, string $from = self::FROM_LOCAL): ?BranchInfo
+    public function getBranch(string $name, string|array $from = self::FROM_LOCAL): ?BranchInfo
     {
-        if ($from === self::FROM_LOCAL) {
-            return $this->localBranches[$name] ?? null;
+        if (is_string($from)) {
+            if ($from === self::FROM_LOCAL) {
+                return $this->localBranches[$name] ?? null;
+            }
+
+            if ($from === self::FROM_ALL) {
+                return $this->localBranches[$name] ?? $this->getRemoteBranch($name);
+            }
+
+            if ($from === self::FROM_REMOTE) {
+                return $this->getRemoteBranch($name);
+            }
+
+            $remotes = [$from];
+        } else {
+            $remotes = $from;
         }
 
-        if ($from === self::FROM_REMOTE) {
-            return $this->remoteBranches[$name] ?? null;
-        }
-
-        return $this->localBranches[$name] ?? ($this->remoteBranches[$name] ?? null);
+        return $this->getRemoteBranch($name, $remotes);
     }
 
     /**
-     * @return array
-     */
-    public function getBranchLines(): array
-    {
-        return $this->branchLines;
-    }
-
-    /**
-     * @param array $branchLines
+     * @param string $name name without remote.
+     * @param string|array $remotes
      *
-     * @return BranchInfos
+     * @return ?BranchInfo
      */
-    public function setBranchLines(array $branchLines): self
+    public function getRemoteBranch(string $name, string|array $remotes = ''): ?BranchInfo
     {
-        $this->branchLines = array_map('trim', $branchLines);
-        return $this;
+        if ($remotes && is_string($remotes)) {
+            $remotes = [$remotes];
+        }
+
+        foreach ($this->remoteBranches as $branch) {
+            if (!$remotes || in_array($branch->remote, $remotes, true)) {
+                if ($branch->shortName === $name) {
+                    return $branch;
+                }
+            }
+        }
+        return null;
     }
 
     /**
@@ -205,7 +276,7 @@ class BranchInfos extends AbstractInfo
     }
 
     /**
-     * @return array
+     * @return  array{string: BranchInfo}
      */
     public function getLocalBranches(): array
     {
@@ -213,7 +284,7 @@ class BranchInfos extends AbstractInfo
     }
 
     /**
-     * @return array
+     * @return  array{string: BranchInfo}
      */
     public function getRemoteBranches(): array
     {

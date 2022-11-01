@@ -58,11 +58,6 @@ class Repo
     private array $remoteInfos = [];
 
     /**
-     * @var string[]
-     */
-    private array $branchNames = [];
-
-    /**
      * @var BranchInfos|null
      */
     private BranchInfos|null $branchInfos = null;
@@ -123,6 +118,17 @@ class Repo
     public function __construct(string $repoDir = '')
     {
         $this->repoDir = $repoDir;
+    }
+
+    /**
+     * @param string $cmd
+     * @param mixed ...$args
+     *
+     * @return CmdBuilder
+     */
+    public function gitCmd(string $cmd, string ...$args): CmdBuilder
+    {
+        return $this->ensureGit()->newCmd($cmd, ...$args);
     }
 
     /**
@@ -341,7 +347,7 @@ class Repo
             $name = $remote . '/' . $name;
         }
 
-        return $bis->getByName($name, $from);
+        return $bis->getBranch($name, $from);
     }
 
     /**

@@ -436,4 +436,12 @@ class CmdBuilder
         $this->quietRun = $quietRun;
         return $this;
     }
+
+    /**
+     * @return bool
+     */
+    public function isFail(): bool
+    {
+        return $this->code !== 0;
+    }
 }

@@ -16,6 +16,7 @@ use function explode;
 use function ltrim;
 use function parse_url;
 use function preg_match;
+use function str_contains;
 use function str_starts_with;
 use function substr;
 use function trim;
@@ -185,5 +186,40 @@ class GitUtil
         }
 
         return $branch;
+    }
+    /**
+     * @param string $str
+     * @return boolean
+     */
+    public static function isFullUrl(string $str): bool
+    {
+        if (str_starts_with($str, 'http://')) {
+            return true;
+        }
+
+        if (str_starts_with($str, 'https://')) {
+            return true;
+        }
+
+        if (str_starts_with($str, 'git@')) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param string $path
+     *
+     * @return string[]
+     */
+    public static function splitPath(string $path): array
+    {
+        if (str_contains($path, '/')) {
+            return explode('/', $path, 2);
+        }
+
+        // as repo name.
+        return ['', $path];
     }
 }
