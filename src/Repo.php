@@ -332,7 +332,21 @@ class Repo
     }
 
     /**
-     * @param string $name
+     * @param string $name  name without remote.
+     * @param string $remote
+     *
+     * @return bool
+     */
+    public function hasBranch(string $name, string $remote = ''): bool
+    {
+        $bis = $this->getBranchInfos();
+        $from = $remote ?: BranchInfos::FROM_LOCAL;
+
+        return $bis->hasBranch($name, $from);
+    }
+
+    /**
+     * @param string $name name without remote.
      * @param string $remote
      *
      * @return BranchInfo
@@ -340,12 +354,7 @@ class Repo
     public function getBranchInfo(string $name, string $remote = ''): BranchInfo
     {
         $bis = $this->getBranchInfos();
-
-        $from = BranchInfos::FROM_LOCAL;
-        if ($remote) {
-            $from = BranchInfos::FROM_REMOTE;
-            $name = $remote . '/' . $name;
-        }
+        $from = $remote ?: BranchInfos::FROM_LOCAL;
 
         return $bis->getBranch($name, $from);
     }

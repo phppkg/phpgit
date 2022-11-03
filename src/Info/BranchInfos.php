@@ -217,7 +217,7 @@ class BranchInfos extends AbstractInfo
     }
 
     /**
-     * @param string $name
+     * @param string $name name without remote.
      * @param string|array $from keywords {@see FROM_LOCAL} or remote names
      *
      * @return BranchInfo|null
@@ -229,7 +229,7 @@ class BranchInfos extends AbstractInfo
                 return $this->localBranches[$name] ?? null;
             }
 
-            if ($from === self::FROM_ALL) {
+            if (!$from || $from === self::FROM_ALL) {
                 return $this->localBranches[$name] ?? $this->getRemoteBranch($name);
             }
 
