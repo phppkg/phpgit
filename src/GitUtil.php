@@ -129,7 +129,8 @@ class GitUtil
     /**
      * '/(?<current>\*| ) (?<name>[^\s]+) +((?:->) (?<alias>[^\s]+)|(?<hash>[0-9a-z]{7}) (?<message>.*))/'
      */
-    public const PATTERN_BR_LINE = '/(?<current>\*| ) (?<name>\S+) +((?:->) (?<alias>\S+)|(?<hash>[0-9a-z]{4,41}) (?<message>.*))/';
+    // public const PATTERN_BR_LINE = '/(?<current>\* )(?<name>\S+) +((?:->) (?<alias>\S+)|(?<hash>[0-9a-z]{4,41}) (?<message>.*))/';
+    public const PATTERN_BR_LINE = '/(?<current>\* )?(?<name>\S+) +(?<hash>[0-9a-z]{4,41}) (?<message>.*)/';
 
     /**
      * @param string $line
@@ -167,7 +168,7 @@ class GitUtil
 
         // up from: https://github.com/kzykhys/PHPGit/pull/15/files
         if (isset($matches['current'])) {
-            $branch['current'] = $matches['current'] === '*';
+            $branch['current'] = trim($matches['current']) === '*';
         }
 
         // full name with remote. eg: remotes/origin/NAME

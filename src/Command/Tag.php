@@ -73,7 +73,7 @@ class Tag extends AbstractCommand
         $builder = $this->getCommandBuilder()
             ->addIf("--sort=$sort", $sort);
 
-        $output = $builder->run();
+        $output = $this->run($builder);
         return $this->split($output);
     }
 
@@ -119,10 +119,9 @@ class Tag extends AbstractCommand
             $builder->add($commit);
         }
 
-        // $this->run($builder);
-        $builder->run();
+        $this->run($builder);
 
-        return true;
+        return $builder->isSuccess();
     }
 
     /**
@@ -144,8 +143,7 @@ class Tag extends AbstractCommand
             $builder->add($value);
         }
 
-        // $this->run($builder);
-        $builder->run();
+        $this->run($builder);
         return true;
     }
 

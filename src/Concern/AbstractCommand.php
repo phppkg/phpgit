@@ -33,11 +33,35 @@ abstract class AbstractCommand
     protected Git $git;
 
     /**
+     * @var bool
+     */
+    protected bool $printCmd = false;
+
+    /**
      * @param Git $git
      */
     public function __construct(Git $git)
     {
         $this->git = $git;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPrintCmd(): bool
+    {
+        return $this->printCmd;
+    }
+
+    /**
+     * @param bool $printCmd
+     *
+     * @return static
+     */
+    public function setPrintCmd(bool $printCmd): static
+    {
+        $this->printCmd = $printCmd;
+        return $this;
     }
 
     /**
@@ -120,6 +144,18 @@ abstract class AbstractCommand
     }
 
     /**
+     * build git command for run
+     *
+     * @param mixed ...$args
+     *
+     * @return CmdBuilder
+     */
+    public function builder(string ...$args): CmdBuilder
+    {
+        return $this->getCommandBuilder(...$args);
+    }
+
+    /**
      * Executes a process
      *
      * @param CmdBuilder $builder
@@ -128,7 +164,7 @@ abstract class AbstractCommand
      */
     public function run(CmdBuilder $builder): string
     {
-        return $builder->run();
+        return $builder->setPrintCmd($this->printCmd)->run();
     }
 
     /**

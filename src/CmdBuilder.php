@@ -444,4 +444,12 @@ class CmdBuilder
     {
         return $this->code !== 0;
     }
+
+    /**
+     * @return bool
+     */
+    public function isSuccess(): bool
+    {
+        return $this->code === 0;
+    }
 }

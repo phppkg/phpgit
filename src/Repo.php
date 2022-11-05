@@ -32,10 +32,10 @@ class Repo
      */
     private ?Git $git = null;
 
-    /*
-     * @var Info
+    /**
+     * @var bool
      */
-    // private $info;
+    private bool $debug = false;
 
     /**
      * @var string
@@ -178,6 +178,7 @@ class Repo
 
         $text = $this->ensureGit()
             ->newCmd('status', '-bs', '-u')
+            ->setPrintCmd($this->debug)
             ->run(true);
 
         $this->statusInfo = StatusInfo::fromString($text);
@@ -291,7 +292,7 @@ class Repo
         $git = $this->ensureGit();
         $val = $git->isQuietRun();
 
-        $str = $git->setQuietRun(true)->getLastTagName($refresh);
+        $str = $git->setPrintCmd($this->debug)->getLastTagName($refresh);
         $git->setQuietRun($val);
 
         return $str;
@@ -321,8 +322,8 @@ class Repo
     public function getBranchInfos(bool $refresh = false): BranchInfos
     {
         if ($refresh || !$this->branchInfos) {
-            $str = $this->newCmd('branch', '-v', '--abbrev=7')
-                ->setQuietRun(true)
+            $str = $this->newCmd('branch', '-av', '--abbrev=7')
+                ->setPrintCmd($this->debug)
                 ->run(true);
 
             $this->branchInfos = BranchInfos::fromString($str);
@@ -521,6 +522,17 @@ class Repo
         }
 
         return $this->platform;
+    }
+
+    /**
+     * @param bool $debug
+     *
+     * @return Repo
+     */
+    public function setDebug(bool $debug): self
+    {
+        $this->debug = $debug;
+        return $this;
     }
 
 }

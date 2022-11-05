@@ -56,8 +56,7 @@ class Commit extends AbstractCommand
         $this->addFlags($builder, $options, ['all', 'amend']);
         $this->addValues($builder, $options, ['reuse-message', 'squash', 'author', 'date', 'cleanup']);
 
-        // $this->run($builder);
-        $builder->run();
+        $this->run($builder);
 
         return true;
     }

@@ -41,5 +41,7 @@ TXT
 
         $this->assertNotEmpty($cur = $brInfos->getCurrentBranch());
         $this->assertTrue($cur->current);
+        $this->assertNotEmpty($brInfos->getRemoteBranches());
+        $this->assertNotEmpty($brInfos->getRemoteBranch('my_new_br'));
     }
 }
