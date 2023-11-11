@@ -5,34 +5,34 @@
 [![Unit Tests](https://github.com/phppkg/phpgit/actions/workflows/php.yml/badge.svg)](https://github.com/phppkg/phpgit/actions)
 [![Deploy Pages](https://github.com/phppkg/phpgit/actions/workflows/static.yml/badge.svg)](https://github.com/phppkg/phpgit/actions/workflows/static.yml)
 
-> **[中文说明](README.zh-CN.md)**
+> **[EN README](README.md)**
 
-PhpGit - 💪 Git wrapper and feature extension library written in PHP.
+PhpGit - 💪 PHP 编写的 Git 包装器和功能扩展库。
 
 > The project is forked from https://github.com/kzykhys/PHPGit
 
-**Features**
+**功能特色**
 
-- Quick run git commands, eg: `clone,add,commit,merge`
-- Git repo info fetch: `status` `branch` `remote`
-- Generate changelog by git log
+- 快速运行git命令 eg: `clone,add,commit,merge`
+- Git 存储库信息获取. eg: `status` `branch` `remote`
+- 通过 git log 生成变更日志
 
-## Installation
+## 安装
 
-**Requirements**
+**要求**
 
 * PHP 8.1+
 * Git
 
-**Method 1: directly composer require**
+**方式1：直接使用 composer require**
 
 ```bash
 composer require phppkg/phpgit
 ```
 
-**Method 2: update composer.json**
+**方式2：添加到 composer.json**
 
-Update your composer.json and run `composer update`
+更新你的 `composer.json` 并运行 `composer update`:
 
 ``` json
 {
@@ -42,7 +42,7 @@ Update your composer.json and run `composer update`
 }
 ```
 
-## Basic Usage
+## 基本使用
 
 ```php
 <?php
@@ -72,7 +72,7 @@ foreach ($git->tree('release') as $object) {
 }
 ```
 
-## Git Info
+## 获取仓库信息
 
 ```php
 $repo = PhpGit\Repo::new('/path/to/repo');
@@ -100,7 +100,7 @@ object(PhpGit\Info\RemoteInfo)#35 (8) {
 }
 ```
 
-## Changelog
+## 生成变更日志
 
 Provide quick generate formatted changelog.
 
@@ -185,7 +185,7 @@ Run example `php bin/chlog.php` will see:
 
 ```
 
-## API
+## API 参考
 
 ### Git commands
 
