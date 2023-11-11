@@ -13,6 +13,8 @@ use PhpGit\Concern\AbstractCommand;
 use PhpGit\Exception\GitException;
 use PhpGit\GitUtil;
 use Symfony\Component\OptionsResolver\Options;
+use Toolkit\Stdlib\Str;
+use function strlen;
 
 /**
  * List, create, or delete branches - `git branch`
@@ -59,7 +61,7 @@ class Branch extends AbstractCommand
      *
      * @return array
      */
-    public function getList(array $options = []): array
+    public function getList(array $options = [], string $search = ''): array
     {
         $options = $this->resolve($options);
         $builder = $this->getCommandBuilder('-v', '--abbrev=7');
@@ -81,9 +83,30 @@ class Branch extends AbstractCommand
         //   remotes/origin/master d35f850 up: Add option tags to fetch command
         $lines = preg_split('/\r?\n/', rtrim($output), -1, PREG_SPLIT_NO_EMPTY);
 
+        // search
+        $exclude = $keyword =  '';
+        if (strlen($search) > 1) {
+            if ($search[0] === '^') {
+                $exclude = Str::splitTrimmed(substr($search, 1));
+            } else {
+                $keyword = Str::splitTrimmed($search);
+            }
+        }
+
         $branches = [];
         foreach ($lines as $line) {
             $branch = GitUtil::parseBranchLine($line);
+            $brName = $branch['name'];
+
+            // 排除匹配
+            if ($exclude && Str::has($brName, $exclude)) {
+                continue;
+            }
+
+            // 包含匹配搜索
+            if ($keyword && !Str::has($brName, $keyword)) {
+                continue;
+            }
 
             $branches[$branch['name']] = $branch;
         }

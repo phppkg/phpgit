@@ -9,6 +9,7 @@
 
 namespace PhpGit;
 
+use PhpGit\Info\BranchInfo;
 use Symfony\Component\Process\Process;
 use function array_merge;
 use function defined;
@@ -137,6 +138,7 @@ class GitUtil
      * @param bool $verbose
      *
      * @return array{name: string, current: bool, alias: string, hash: string, message:string}
+     * @see BranchInfo
      */
     public static function parseBranchLine(string $line, bool $verbose = true): array
     {

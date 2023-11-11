@@ -156,6 +156,18 @@ abstract class AbstractCommand
     }
 
     /**
+     * build git command for run
+     *
+     * @param mixed ...$args
+     *
+     * @return CmdBuilder
+     */
+    public function withArgs(string ...$args): CmdBuilder
+    {
+        return $this->getCommandBuilder(...$args);
+    }
+
+    /**
      * Executes a process
      *
      * @param CmdBuilder $builder
@@ -165,6 +177,18 @@ abstract class AbstractCommand
     public function run(CmdBuilder $builder): string
     {
         return $builder->setPrintCmd($this->printCmd)->run();
+    }
+
+    /**
+     * Run with args and print to stdout.
+     *
+     * @param string ...$args
+     *
+     * @return void
+     */
+    public function display(string ...$args): void
+    {
+        $this->getCommandBuilder(...$args)->runAndPrint();
     }
 
     /**

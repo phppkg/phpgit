@@ -292,7 +292,7 @@ class Repo
         $git = $this->ensureGit();
         $val = $git->isQuietRun();
 
-        $str = $git->setPrintCmd($this->debug)->getLastTagName($refresh);
+        $str = $git->setPrintCmd($this->debug)->setQuietRun(true)->getLastTagName($refresh);
         $git->setQuietRun($val);
 
         return $str;
