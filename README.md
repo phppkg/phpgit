@@ -4,7 +4,7 @@
 [![Github Actions Status](https://github.com/phppkg/phpgit/workflows/Unit-tests/badge.svg)](https://github.com/phppkg/phpgit/actions)
 [![Php Version](https://img.shields.io/badge/php-%3E8.0-brightgreen.svg?maxAge=2592000)](https://packagist.org/packages/phppkg/phpgit)
 
-PhpGit - A Git wrapper library for PHP 8.1+
+PhpGit - A Git wrapper and extended library for PHP.
 
 > The project is forked from https://github.com/kzykhys/PHPGit
 

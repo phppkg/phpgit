@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- http://www.phpunit.de/manual/current/en/appendixes.configuration.html -->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" colors="true" processIsolation="false" stopOnFailure="true" bootstrap="test/bootstrap.php" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.4/phpunit.xsd" cacheDirectory=".phpunit.cache" backupStaticProperties="false">
+  <testsuites>
+    <testsuite name="Project Test Suite">
+      <directory>test</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>
