@@ -19,7 +19,7 @@
         "php": ">8.1.0",
         "toolkit/cli-utils":"~2.0",
         "toolkit/stdlib":"~2.0",
-        "symfony/process":"~6.0",
+        "symfony/process":"~6.0 || ~7.0",
         "symfony/options-resolver": "~6.0"
     },
     "require-dev": {
