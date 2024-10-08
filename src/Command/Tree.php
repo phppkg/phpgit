@@ -47,7 +47,7 @@ class Tree extends AbstractCommand
     {
         $objects = [];
         $builder = $this->getCommandBuilder();
-        $builder->add('ls-tree')->add($branch . ':' . $path);
+        $builder->add($branch . ':' . $path);
 
         $output = $this->run($builder);
 
@@ -72,5 +72,10 @@ class Tree extends AbstractCommand
         }
 
         return $objects;
+    }
+
+    public function getCommandName(): string
+    {
+        return 'ls-tree';
     }
 }
