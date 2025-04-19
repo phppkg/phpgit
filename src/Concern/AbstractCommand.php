@@ -222,7 +222,7 @@ abstract class AbstractCommand
      * @param array      $options     An array of options
      * @param array|null $optionNames The names of options to add
      */
-    protected function addValues(CmdBuilder $builder, array $options = [], array $optionNames = null): void
+    protected function addValues(CmdBuilder $builder, array $options = [], ?array $optionNames = null): void
     {
         if ($optionNames) {
             foreach ($optionNames as $name) {

@@ -183,7 +183,7 @@ class Reset extends AbstractCommand
      *
      * @return bool
      */
-    public function mode(string $mode, string $commit = null): bool
+    public function mode(string $mode, ?string $commit = null): bool
     {
         if (!in_array($mode, ['soft', 'mixed', 'hard', 'merge', 'keep'])) {
             throw new InvalidArgumentException('$mode must be one of the following: soft, mixed, hard, merge, keep');

@@ -30,7 +30,7 @@ class GitException extends RuntimeException
      * @param string         $commandLine Command-line string
      * @param Exception|null $previous    The previous exception used for the exception chaining. Since 5.3.0
      */
-    public function __construct(string $message = '', int $code = 0, string $commandLine = '', Exception $previous = null)
+    public function __construct(string $message = '', int $code = 0, string $commandLine = '', ?Exception $previous = null)
     {
         parent::__construct($message, $code, $previous);
 
