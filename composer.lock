@@ -261,21 +261,21 @@
         },
         {
             "name": "toolkit/stdlib",
-            "version": "v2.0.12",
+            "version": "v2.0.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-toolkit/stdlib.git",
-                "reference": "ebcac8bf315e1f05c0db80ac1bd22b457ffcdd81"
+                "reference": "e31d26b36d78fca1df54c1ba710c1e187b4b843f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-toolkit/stdlib/zipball/ebcac8bf315e1f05c0db80ac1bd22b457ffcdd81",
-                "reference": "ebcac8bf315e1f05c0db80ac1bd22b457ffcdd81",
+                "url": "https://api.github.com/repos/php-toolkit/stdlib/zipball/e31d26b36d78fca1df54c1ba710c1e187b4b843f",
+                "reference": "e31d26b36d78fca1df54c1ba710c1e187b4b843f",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
-                "php": ">=8.0"
+                "php": ">=8.1"
             },
             "require-dev": {
                 "psr/container": "^2.0"
@@ -315,9 +315,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-toolkit/stdlib/issues",
-                "source": "https://github.com/php-toolkit/stdlib/tree/v2.0.12"
+                "source": "https://github.com/php-toolkit/stdlib/tree/v2.0.14"
             },
-            "time": "2024-02-08T05:30:58+00:00"
+            "time": "2025-04-19T11:14:59+00:00"
         }
     ],
     "packages-dev": [
